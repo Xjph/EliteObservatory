@@ -15,7 +15,6 @@ namespace EDDisco
         public string CurrentSystem { get; private set; }
         public string CurrentLogPath { get; private set; }
         public string CurrentLogLine { get; private set; }
-        private string PreviousScan;
         private string LogDirectory;
         private string JsonException;
         public bool LastScanValid { get; private set; }
@@ -118,16 +117,16 @@ namespace EDDisco
 
                 case WatcherChangeTypes.Changed:
                     CurrentLogPath = e.FullPath;
-                    bool updateScan = false;
+                   
                     using (StreamReader currentLog = new StreamReader(File.Open(CurrentLogPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)))
                     {
                         while (!currentLog.EndOfStream)
                         {
                             string checkLine = currentLog.ReadLine();
-                            if (checkLine.Contains("\"event\":\"Scan\"") && checkLine != PreviousScan)
+                            if (checkLine.Contains("\"event\":\"Scan\""))
                             {
                                 CurrentLogLine = checkLine;
-                                updateScan = true;
+                                
                             }
                             else if (checkLine.Contains("\"event\":\"Location\"") || checkLine.Contains("\"event\":\"FSDJump\""))
                             {
@@ -135,10 +134,7 @@ namespace EDDisco
                             }
                         }
                     }
-                    if (updateScan)
-                    {
-                        PreviousScan = CurrentLogLine;
-                    }
+                    
                     ProcessLine();
 
                     break;
@@ -163,8 +159,11 @@ namespace EDDisco
                         {
                             case "Scan":
                                 LastScan = lastEvent.ToObject<ScanEvent>();
-                                SystemBody[(CurrentSystem, LastScan.BodyId)] = LastScan;
-                                LastScanValid = true;
+                                if (ReadAllInProgress || !SystemBody.ContainsKey((CurrentSystem, LastScan.BodyId)))
+                                {
+                                    SystemBody[(CurrentSystem, LastScan.BodyId)] = LastScan;
+                                    LastScanValid = true;
+                                }
                                 break;
                             case "FSDJump":
                             case "Location":

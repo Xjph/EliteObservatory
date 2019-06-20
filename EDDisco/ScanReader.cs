@@ -11,6 +11,7 @@ namespace EDDisco
         private readonly ScanEvent scanEvent;
         private readonly Dictionary<(string, long), ScanEvent> scanHistory;
         private readonly string currentSystem;
+        private readonly bool isRing;
         public List<(string,string,string)> Interest { get; private set; }
         
         public ScanReader (ScanEvent scanEvent, Dictionary<(string,long),ScanEvent> scanHistory, string currentSystem)
@@ -18,12 +19,13 @@ namespace EDDisco
             this.scanEvent = scanEvent;
             this.scanHistory = scanHistory;
             this.currentSystem = currentSystem;
+            isRing = scanEvent.BodyName.Contains(" Ring");
             Interest = new List<(string,string,string)>();
         }
 
         public bool IsInteresting()
         {
-            bool interesting = DefaultInterest() | CustomInterest();
+            bool interesting = DefaultInterest() || CustomInterest();
             if (Interest.Count() == 0)
             {
                 Interest.Add((scanEvent.BodyName, "Uninteresting", string.Empty));
@@ -53,8 +55,7 @@ namespace EDDisco
 
             //Parent relative checks
             if ((scanEvent.Parent?[0].Item1 == "Planet" || scanEvent.Parent?[0].Item1 == "Star") &&
-                !scanEvent.BodyName.Contains(" Ring") &&
-                scanHistory.ContainsKey((currentSystem, scanEvent.Parent[0].Item2)))
+                !isRing && scanHistory.ContainsKey((currentSystem, scanEvent.Parent[0].Item2)))
             {
                 ScanEvent parent = scanHistory[(currentSystem, scanEvent.Parent[0].Item2)];
 
@@ -99,19 +100,19 @@ namespace EDDisco
             }
 
             // Tiny object
-            if (scanEvent.StarType == null && scanEvent.Radius < 300000)
+            if (scanEvent.StarType == null && scanEvent.Radius < 300000 && !isRing)
             {
                 Interest.Add((scanEvent.BodyName, "Small Body", $"Radius: {Math.Truncate((double)scanEvent.Radius / 1000)}km"));
             }
 
             // Fast rotation
-            if (scanEvent.RotationPeriod != null && !scanEvent.TidalLock.GetValueOrDefault(true) && Math.Abs((double)scanEvent.RotationPeriod) < 28800)
+            if (scanEvent.RotationPeriod != null && !scanEvent.TidalLock.GetValueOrDefault(true) && Math.Abs((double)scanEvent.RotationPeriod) < 28800 && !isRing)
             {
                 Interest.Add((scanEvent.BodyName, "Non-locked body with fast rotation", $"Rotational period: {Math.Abs(Math.Round((decimal)scanEvent.RotationPeriod / 3600, 1))} hours"));
             }
 
             // Fast orbit
-            if (scanEvent.OrbitalPeriod != null && Math.Abs((double)scanEvent.OrbitalPeriod) < 28800)
+            if (scanEvent.OrbitalPeriod != null && Math.Abs((double)scanEvent.OrbitalPeriod) < 28800 && !isRing)
             {
                 Interest.Add((scanEvent.BodyName, "Fast orbit", $"Orbital Period: {Math.Abs(Math.Round((decimal)scanEvent.OrbitalPeriod / 3600, 1))} hours"));
             }

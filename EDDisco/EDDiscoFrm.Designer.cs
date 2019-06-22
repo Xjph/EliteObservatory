@@ -46,6 +46,7 @@
             this.copyNameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cbxTtsDetail = new System.Windows.Forms.CheckBox();
+            this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.contextCopy.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -190,6 +191,11 @@
             this.cbxTtsDetail.UseVisualStyleBackColor = true;
             this.cbxTtsDetail.Visible = false;
             // 
+            // notifyIcon
+            // 
+            this.notifyIcon.Text = "EDDiscoMon";
+            this.notifyIcon.Visible = true;
+            // 
             // EDDiscoFrm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -228,6 +234,7 @@
         private System.Windows.Forms.ToolStripMenuItem copyNameToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem copyAllToolStripMenuItem;
         private System.Windows.Forms.CheckBox cbxTtsDetail;
+        private System.Windows.Forms.NotifyIcon notifyIcon;
     }
 }
 

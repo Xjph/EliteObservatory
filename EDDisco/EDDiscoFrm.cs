@@ -15,7 +15,6 @@ namespace EDDisco
     public partial class EDDiscoFrm : Form
     {
         private LogMonitor logMonitor;
-        private NotifyIcon notifyIcon;
         private SpeechSynthesizer speech;
 
         public EDDiscoFrm()
@@ -24,11 +23,8 @@ namespace EDDisco
             logMonitor = new LogMonitor("");
             logMonitor.LogEntry += LogEvent;
             Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
-            notifyIcon = new NotifyIcon()
-            {
-                Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath),
-                Visible = false
-            };
+            notifyIcon.Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
+            notifyIcon.Visible = false;
         }
 
         private void BtnToggleMonitor_Click(object sender, EventArgs e)
@@ -202,7 +198,6 @@ namespace EDDisco
         private void EDDiscoFrm_FormClosing(object sender, FormClosingEventArgs e)
         {
             notifyIcon.Icon = null;
-            notifyIcon.Dispose();
             speech?.Dispose();
         }
 
@@ -241,13 +236,21 @@ namespace EDDisco
             StringBuilder copyText = new StringBuilder();
             foreach (ListViewItem item in listEvent.SelectedItems)
             {
-                copyText.AppendLine(
-                    item.SubItems[2].Text + " - " +
-                    item.SubItems[0].Text + " - " +
-                    (item.SubItems[4].Text.Length > 0 ? "Landable - " : string.Empty) +
-                    item.SubItems[1].Text +
-                    (item.SubItems[3].Text.Length > 0 ? " - " + item.SubItems[3].Text : string.Empty)
-                    );
+                if (item.SubItems.Count == 5)
+                {
+                    copyText.AppendLine(
+                        item.SubItems[2].Text + " - " +
+                        item.SubItems[0].Text + " - " +
+                        (item.SubItems[4].Text.Length > 0 ? "Landable - " : string.Empty) +
+                        item.SubItems[1].Text +
+                        (item.SubItems[3].Text.Length > 0 ? " - " + item.SubItems[3].Text : string.Empty)
+                        );
+                }
+                else
+                {
+                    copyText.AppendLine(item.SubItems[0].Text + " - Uninteresting");
+                }
+                    
 
             }
             Clipboard.SetText(copyText.ToString());

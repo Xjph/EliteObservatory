@@ -1,0 +1,8 @@
+﻿TO DO:
+
+- User configurable notification criteria
+- Settings window
+  - Configure format of "copy all"
+  - Enable/disable built in criteria
+  - Configure TTS voice
+- Investigate possibility of notifying via in-game chat

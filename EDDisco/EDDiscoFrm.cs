@@ -15,8 +15,10 @@ namespace EDDisco
     public partial class EDDiscoFrm : Form
     {
         private LogMonitor logMonitor;
-        private SpeechSynthesizer speech;
-
+        public SpeechSynthesizer speech;
+        private SettingsFrm settingsFrm;
+        public bool settingsOpen = false;
+        
         public EDDiscoFrm()
         {
             InitializeComponent();
@@ -24,7 +26,24 @@ namespace EDDisco
             logMonitor.LogEntry += LogEvent;
             Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
             notifyIcon.Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
-            notifyIcon.Visible = false;
+            notifyIcon.Visible = Properties.EDDisco.Default.Notify;
+            if (Properties.EDDisco.Default.TTS)
+            {
+                speech = new SpeechSynthesizer();
+                speech.SetOutputToDefaultAudioDevice();
+            }
+        }
+
+        public bool Notify
+        {
+            get
+            {
+                return notifyIcon.Visible;
+            }
+            set
+            {
+                notifyIcon.Visible = value;
+            }
         }
 
         private void BtnToggleMonitor_Click(object sender, EventArgs e)
@@ -56,11 +75,11 @@ namespace EDDisco
                             listEvent.Items.RemoveAt(listEvent.Items.Count - 1);
                         }
                         bool addItem;
-                        List<(string, string, string)> pendingRemoval = new List<(string, string, string)>();
+                        var pendingRemoval = new List<(string BodyName, string Description, string Detail)>();
                         foreach (var item in scan.Interest)
                         {
                             addItem = true;
-                            if (item.Item2 == "All jumponium materials in system")
+                            if (item.Description == "All jumponium materials in system")
                             {
                                 for (int i = Math.Max(0, listEvent.Items.Count - 10); i < listEvent.Items.Count; i++)
                                 {
@@ -90,7 +109,7 @@ namespace EDDisco
                 else if (!logMonitor.ReadAllInProgress)
                 {
 
-                    ListViewItem newItem = new ListViewItem(new string[] { scan.Interest[0].Item1, "Uninteresting" })
+                    ListViewItem newItem = new ListViewItem(new string[] { scan.Interest[0].BodyName, "Uninteresting" })
                     {
                         UseItemStyleForSubItems = false
                     };
@@ -107,28 +126,28 @@ namespace EDDisco
             }
         }
 
-        private void AnnounceItems(List<(string,string,string)> items)
+        private void AnnounceItems(List<(string BodyName, string Description, string Detail)> items)
         {
-            if (cbxToast.Checked || cbxTts.Checked)
+            if (Properties.EDDisco.Default.Notify || Properties.EDDisco.Default.TTS)
             {
                 notifyIcon.BalloonTipTitle = "Discovery:";
-                string fullSystemName = items[0].Item1;
+                string fullSystemName = items[0].BodyName;
                 StringBuilder announceText = new StringBuilder();
                 
                 foreach (var item in items)
                 {
-                    announceText.Append(item.Item2);
+                    announceText.Append(item.Description);
                     if (!item.Equals(items.Last()))
                     {
                         announceText.AppendLine(", ");
                     }
                 }
-                if (cbxToast.Checked)
+                if (Properties.EDDisco.Default.Notify)
                 {
                     notifyIcon.BalloonTipText = fullSystemName + ": " + announceText.ToString();
                     notifyIcon.ShowBalloonTip(3000);
                 }
-                if (cbxTts.Checked)
+                if (Properties.EDDisco.Default.TTS)
                 {
                     string sector = fullSystemName.Substring(0, fullSystemName.IndexOf('-') - 2);
                     string system = fullSystemName.Remove(0, sector.Length).Replace('-', '–'); //Want it to say "dash", not "hyphen".
@@ -138,17 +157,17 @@ namespace EDDisco
             }
         }
 
-        private void AddListItem((string,string,string) item)
+        private void AddListItem((string BodyName, string Description, string Detail) item)
         {
             ListViewItem newItem = new ListViewItem(
                                         new string[] {
-                                        item.Item1,
-                                        item.Item2,
+                                        item.BodyName,
+                                        item.Description,
                                         logMonitor.LastScan.Timestamp.ToString("yyyy-MM-dd HH:mm:ss"),
-                                        item.Item3,
-                                        (logMonitor.LastScan.Landable.GetValueOrDefault(false) && !(item.Item2 == "All jumponium materials in system")) ? "🌐" : string.Empty
+                                        item.Detail,
+                                        (logMonitor.LastScan.Landable.GetValueOrDefault(false) && !(item.Description == "All jumponium materials in system")) ? "🌐" : string.Empty
                                         });
-            if (item.Item2.Contains("Interesting Object"))
+            if (item.Description.Contains("Interesting Object"))
             {
                 newItem.UseItemStyleForSubItems = false;
                 newItem.SubItems[1].Font = new Font(newItem.Font, FontStyle.Bold);
@@ -173,26 +192,6 @@ namespace EDDisco
                 }
             }
             logMonitor.ReadAll(progressReadAll);
-        }
-
-        private void CbxToast_CheckedChanged(object sender, EventArgs e)
-        {
-            notifyIcon.Visible = cbxToast.Checked;
-        }
-
-        private void CbxTts_CheckedChanged(object sender, EventArgs e)
-        {
-            if (cbxTts.Checked)
-            {
-                speech = new SpeechSynthesizer();
-                speech.SetOutputToDefaultAudioDevice();
-                //cbxTtsDetail.Visible = true;
-            }
-            else
-            {
-                speech.Dispose();
-                //cbxTtsDetail.Visible = false;
-            }
         }
 
         private void EDDiscoFrm_FormClosing(object sender, FormClosingEventArgs e)
@@ -239,12 +238,19 @@ namespace EDDisco
                 if (item.SubItems.Count == 5)
                 {
                     copyText.AppendLine(
-                        item.SubItems[2].Text + " - " +
-                        item.SubItems[0].Text + " - " +
-                        (item.SubItems[4].Text.Length > 0 ? "Landable - " : string.Empty) +
-                        item.SubItems[1].Text +
-                        (item.SubItems[3].Text.Length > 0 ? " - " + item.SubItems[3].Text : string.Empty)
-                        );
+                        Properties.EDDisco.Default.CopyTemplate
+                            .Replace("%body%", item.SubItems[0].Text)
+                            .Replace("%bodyL%", item.SubItems[0].Text + (item.SubItems[4].Text.Length > 0 ? "- Landable" : string.Empty))
+                            .Replace("%info%", item.SubItems[1].Text)
+                            .Replace("%time%", item.SubItems[2].Text)
+                            .Replace("%detail%", item.SubItems[3].Text)
+                            );
+                        //item.SubItems[2].Text + " - " +
+                        //item.SubItems[0].Text + " - " +
+                        //(item.SubItems[4].Text.Length > 0 ? "Landable - " : string.Empty) +
+                        //item.SubItems[1].Text +
+                        //(item.SubItems[3].Text.Length > 0 ? " - " + item.SubItems[3].Text : string.Empty)
+                        //);
                 }
                 else
                 {
@@ -254,6 +260,20 @@ namespace EDDisco
 
             }
             Clipboard.SetText(copyText.ToString());
+        }
+
+        private void BtnSettings_Click(object sender, EventArgs e)
+        {
+            if (!settingsOpen)
+            {
+                settingsFrm = new SettingsFrm(this);
+                settingsFrm.Show();
+                settingsOpen = true;
+            }
+            else
+            {
+                settingsFrm.Activate();
+            }
         }
     }
 }

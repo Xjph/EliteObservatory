@@ -40,13 +40,11 @@
             this.landable = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.btnReadAll = new System.Windows.Forms.Button();
             this.progressReadAll = new System.Windows.Forms.ProgressBar();
-            this.cbxToast = new System.Windows.Forms.CheckBox();
-            this.cbxTts = new System.Windows.Forms.CheckBox();
             this.contextCopy = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.copyNameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.cbxTtsDetail = new System.Windows.Forms.CheckBox();
             this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
+            this.btnSettings = new System.Windows.Forms.Button();
             this.contextCopy.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -73,6 +71,8 @@
             this.detail,
             this.landable});
             this.listEvent.FullRowSelect = true;
+            this.listEvent.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            this.listEvent.HideSelection = false;
             this.listEvent.Location = new System.Drawing.Point(12, 12);
             this.listEvent.Name = "listEvent";
             this.listEvent.Size = new System.Drawing.Size(685, 478);
@@ -129,33 +129,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.progressReadAll.Location = new System.Drawing.Point(14, 496);
             this.progressReadAll.Name = "progressReadAll";
-            this.progressReadAll.Size = new System.Drawing.Size(483, 23);
+            this.progressReadAll.Size = new System.Drawing.Size(683, 23);
             this.progressReadAll.TabIndex = 4;
             this.progressReadAll.Visible = false;
-            // 
-            // cbxToast
-            // 
-            this.cbxToast.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.cbxToast.AutoSize = true;
-            this.cbxToast.Location = new System.Drawing.Point(14, 500);
-            this.cbxToast.Name = "cbxToast";
-            this.cbxToast.Size = new System.Drawing.Size(113, 17);
-            this.cbxToast.TabIndex = 5;
-            this.cbxToast.Text = "Popup Notification";
-            this.cbxToast.UseVisualStyleBackColor = true;
-            this.cbxToast.CheckedChanged += new System.EventHandler(this.CbxToast_CheckedChanged);
-            // 
-            // cbxTts
-            // 
-            this.cbxTts.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.cbxTts.AutoSize = true;
-            this.cbxTts.Location = new System.Drawing.Point(129, 500);
-            this.cbxTts.Name = "cbxTts";
-            this.cbxTts.Size = new System.Drawing.Size(99, 17);
-            this.cbxTts.TabIndex = 6;
-            this.cbxTts.Text = "Text-to-Speech";
-            this.cbxTts.UseVisualStyleBackColor = true;
-            this.cbxTts.CheckedChanged += new System.EventHandler(this.CbxTts_CheckedChanged);
             // 
             // contextCopy
             // 
@@ -179,22 +155,21 @@
             this.copyAllToolStripMenuItem.Text = "Copy All";
             this.copyAllToolStripMenuItem.Click += new System.EventHandler(this.CopyAllToolStripMenuItem_Click);
             // 
-            // cbxTtsDetail
-            // 
-            this.cbxTtsDetail.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.cbxTtsDetail.AutoSize = true;
-            this.cbxTtsDetail.Location = new System.Drawing.Point(235, 500);
-            this.cbxTtsDetail.Name = "cbxTtsDetail";
-            this.cbxTtsDetail.Size = new System.Drawing.Size(115, 17);
-            this.cbxTtsDetail.TabIndex = 7;
-            this.cbxTtsDetail.Text = "TTS Include Detail";
-            this.cbxTtsDetail.UseVisualStyleBackColor = true;
-            this.cbxTtsDetail.Visible = false;
-            // 
             // notifyIcon
             // 
             this.notifyIcon.Text = "EDDiscoMon";
             this.notifyIcon.Visible = true;
+            // 
+            // btnSettings
+            // 
+            this.btnSettings.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSettings.Location = new System.Drawing.Point(422, 496);
+            this.btnSettings.Name = "btnSettings";
+            this.btnSettings.Size = new System.Drawing.Size(75, 23);
+            this.btnSettings.TabIndex = 8;
+            this.btnSettings.Text = "Settings";
+            this.btnSettings.UseVisualStyleBackColor = true;
+            this.btnSettings.Click += new System.EventHandler(this.BtnSettings_Click);
             // 
             // EDDiscoFrm
             // 
@@ -202,19 +177,16 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(710, 530);
             this.Controls.Add(this.progressReadAll);
-            this.Controls.Add(this.cbxTtsDetail);
+            this.Controls.Add(this.btnSettings);
             this.Controls.Add(this.btnReadAll);
             this.Controls.Add(this.listEvent);
             this.Controls.Add(this.btnToggleMonitor);
-            this.Controls.Add(this.cbxTts);
-            this.Controls.Add(this.cbxToast);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "EDDiscoFrm";
             this.Text = "EDDiscoMon";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.EDDiscoFrm_FormClosing);
             this.contextCopy.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -225,16 +197,14 @@
         private System.Windows.Forms.ColumnHeader interest;
         private System.Windows.Forms.Button btnReadAll;
         private System.Windows.Forms.ProgressBar progressReadAll;
-        private System.Windows.Forms.CheckBox cbxToast;
-        private System.Windows.Forms.CheckBox cbxTts;
         private System.Windows.Forms.ColumnHeader timestamp;
         private System.Windows.Forms.ColumnHeader detail;
         private System.Windows.Forms.ColumnHeader landable;
         private System.Windows.Forms.ContextMenuStrip contextCopy;
         private System.Windows.Forms.ToolStripMenuItem copyNameToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem copyAllToolStripMenuItem;
-        private System.Windows.Forms.CheckBox cbxTtsDetail;
         private System.Windows.Forms.NotifyIcon notifyIcon;
+        private System.Windows.Forms.Button btnSettings;
     }
 }
 

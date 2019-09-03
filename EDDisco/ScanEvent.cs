@@ -32,7 +32,7 @@ namespace EDDisco
             set
             {
                 ParentObjects = value;
-                Parent = new (string, long)[value.Length];
+                Parent = new (string ParentType, long Body)[value.Length];
                 for (int i = 0; i < value.Length; i++)
                 {
                     if (value[i].Null != null)
@@ -51,7 +51,7 @@ namespace EDDisco
             }
         }
 
-        public (string,long)[] Parent { get; private set; }
+        public (string ParentType,long Body)[] Parent { get; private set; }
 
         [JsonProperty("DistanceFromArrivalLS")]
         public double DistanceFromArrivalLs { get; set; }

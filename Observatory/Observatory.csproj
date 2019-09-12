@@ -7,8 +7,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{8329020D-9B20-439B-ACD9-3D20BA6CAF10}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>EDDisco</RootNamespace>
-    <AssemblyName>EDDiscoMon</AssemblyName>
+    <RootNamespace>Observatory</RootNamespace>
+    <AssemblyName>Observatory</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -50,10 +50,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>EDDisco.EDDisco</StartupObject>
+    <StartupObject>Observatory.Observatory</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>EDDiscoMon.ico</ApplicationIcon>
+    <ApplicationIcon>Observatory.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -74,19 +74,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="JournalPoker.cs" />
-    <Compile Include="Properties\EDDisco.Designer.cs">
+    <Compile Include="Properties\Observatory.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>EDDisco.settings</DependentUpon>
+      <DependentUpon>Observatory.settings</DependentUpon>
     </Compile>
     <Compile Include="ScanEvent.cs" />
-    <Compile Include="EDDiscoFrm.cs">
+    <Compile Include="ObservatoryFrm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="EDDiscoFrm.Designer.cs">
-      <DependentUpon>EDDiscoFrm.cs</DependentUpon>
+    <Compile Include="ObservatoryFrm.Designer.cs">
+      <DependentUpon>ObservatoryFrm.cs</DependentUpon>
     </Compile>
-    <Compile Include="EDDisco.cs" />
+    <Compile Include="Observatory.cs" />
     <Compile Include="LogMonitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScanReader.cs" />
@@ -96,8 +96,9 @@
     <Compile Include="SettingsFrm.Designer.cs">
       <DependentUpon>SettingsFrm.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="EDDiscoFrm.resx">
-      <DependentUpon>EDDiscoFrm.cs</DependentUpon>
+    <Compile Include="UserInterest.cs" />
+    <EmbeddedResource Include="ObservatoryFrm.resx">
+      <DependentUpon>ObservatoryFrm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -114,9 +115,9 @@
     </EmbeddedResource>
     <None Include="ILMergeConfig.json" />
     <None Include="packages.config" />
-    <None Include="Properties\EDDisco.settings">
+    <None Include="Properties\Observatory.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>EDDisco.Designer.cs</LastGenOutput>
+      <LastGenOutput>Observatory.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -130,7 +131,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="EDDiscoMon.ico" />
+    <Content Include="Observatory.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

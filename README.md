@@ -1,4 +1,4 @@
-# Elite Observatory
+# EDDiscoMon
 Tool for reading/monitoring Elite Dangerous journals for interesting objects.
 
 ## How To Use

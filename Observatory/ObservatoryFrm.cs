@@ -10,24 +10,24 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Speech.Synthesis;
 
-namespace EDDisco
+namespace Observatory
 {
-    public partial class EDDiscoFrm : Form
+    public partial class ObservatoryFrm : Form
     {
         private LogMonitor logMonitor;
         public SpeechSynthesizer speech;
         private SettingsFrm settingsFrm;
         public bool settingsOpen = false;
         
-        public EDDiscoFrm()
+        public ObservatoryFrm()
         {
             InitializeComponent();
             logMonitor = new LogMonitor("");
             logMonitor.LogEntry += LogEvent;
             Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
             notifyIcon.Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
-            notifyIcon.Visible = Properties.EDDisco.Default.Notify;
-            if (Properties.EDDisco.Default.TTS)
+            notifyIcon.Visible = Properties.Observatory.Default.Notify;
+            if (Properties.Observatory.Default.TTS)
             {
                 speech = new SpeechSynthesizer();
                 speech.SetOutputToDefaultAudioDevice();
@@ -64,7 +64,7 @@ namespace EDDisco
         {
             if (logMonitor.LastScanValid)
             {
-                ScanReader scan = new ScanReader(logMonitor.LastScan, logMonitor.SystemBody, logMonitor.CurrentSystem);
+                ScanReader scan = new ScanReader(logMonitor);
 
                 if (scan.IsInteresting())
                 {
@@ -128,7 +128,7 @@ namespace EDDisco
 
         private void AnnounceItems(List<(string BodyName, string Description, string Detail)> items)
         {
-            if (Properties.EDDisco.Default.Notify || Properties.EDDisco.Default.TTS)
+            if (Properties.Observatory.Default.Notify || Properties.Observatory.Default.TTS)
             {
                 notifyIcon.BalloonTipTitle = "Discovery:";
                 string fullSystemName = items[0].BodyName;
@@ -142,12 +142,12 @@ namespace EDDisco
                         announceText.AppendLine(", ");
                     }
                 }
-                if (Properties.EDDisco.Default.Notify)
+                if (Properties.Observatory.Default.Notify)
                 {
                     notifyIcon.BalloonTipText = fullSystemName + ": " + announceText.ToString();
                     notifyIcon.ShowBalloonTip(3000);
                 }
-                if (Properties.EDDisco.Default.TTS)
+                if (Properties.Observatory.Default.TTS)
                 {
                     string sector = fullSystemName.Substring(0, fullSystemName.IndexOf('-') - 2);
                     string system = fullSystemName.Remove(0, sector.Length).Replace('-', '–'); //Want it to say "dash", not "hyphen".
@@ -191,10 +191,12 @@ namespace EDDisco
                     return;
                 }
             }
+            listEvent.BeginUpdate();
             logMonitor.ReadAll(progressReadAll);
+            listEvent.EndUpdate();
         }
 
-        private void EDDiscoFrm_FormClosing(object sender, FormClosingEventArgs e)
+        private void ObservatoryFrm_FormClosing(object sender, FormClosingEventArgs e)
         {
             notifyIcon.Icon = null;
             speech?.Dispose();
@@ -238,7 +240,7 @@ namespace EDDisco
                 if (item.SubItems.Count == 5)
                 {
                     copyText.AppendLine(
-                        Properties.EDDisco.Default.CopyTemplate
+                        Properties.Observatory.Default.CopyTemplate
                             .Replace("%body%", item.SubItems[0].Text)
                             .Replace("%bodyL%", item.SubItems[0].Text + (item.SubItems[4].Text.Length > 0 ? "- Landable" : string.Empty))
                             .Replace("%info%", item.SubItems[1].Text)

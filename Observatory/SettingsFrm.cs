@@ -2,18 +2,18 @@
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace EDDisco
+namespace Observatory
 {
     public partial class SettingsFrm : Form
     {
-        private Properties.EDDisco settings;
-        private EDDiscoFrm mainForm;
+        private Properties.Observatory settings;
+        private ObservatoryFrm mainForm;
 
-        public SettingsFrm(EDDiscoFrm mainForm)
+        public SettingsFrm(ObservatoryFrm mainForm)
         {
             InitializeComponent();
             Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
-            settings = Properties.EDDisco.Default;
+            settings = Properties.Observatory.Default;
             this.mainForm = mainForm;
         }
 
@@ -43,6 +43,7 @@ namespace EDDisco
             cbxToast.Checked = settings.Notify;
             cbxTts.Checked = settings.TTS;
             txtCopy.Text = settings.CopyTemplate;
+            cbx_custom.Checked = settings.CustomRules;
         }
 
         private void Cbx_LandWithTerra_CheckedChanged(object sender, EventArgs e)
@@ -173,6 +174,12 @@ namespace EDDisco
         private void TxtCopy_TextChanged(object sender, EventArgs e)
         {
             settings.CopyTemplate = txtCopy.Text;
+            settings.Save();
+        }
+
+        private void Cbx_custom_CheckedChanged(object sender, EventArgs e)
+        {
+            settings.CustomRules = ((CheckBox)sender).Checked;
             settings.Save();
         }
     }

@@ -1,6 +1,6 @@
-﻿namespace EDDisco
+﻿namespace Observatory
 {
-    partial class EDDiscoFrm
+    partial class ObservatoryFrm
     {
         /// <summary>
         /// Required designer variable.
@@ -30,7 +30,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EDDiscoFrm));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ObservatoryFrm));
             this.btnToggleMonitor = new System.Windows.Forms.Button();
             this.listEvent = new System.Windows.Forms.ListView();
             this.body = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -157,7 +157,7 @@
             // 
             // notifyIcon
             // 
-            this.notifyIcon.Text = "EDDiscoMon";
+            this.notifyIcon.Text = "ObservatoryMon";
             this.notifyIcon.Visible = true;
             // 
             // btnSettings
@@ -171,7 +171,7 @@
             this.btnSettings.UseVisualStyleBackColor = true;
             this.btnSettings.Click += new System.EventHandler(this.BtnSettings_Click);
             // 
-            // EDDiscoFrm
+            // ObservatoryFrm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -182,9 +182,9 @@
             this.Controls.Add(this.listEvent);
             this.Controls.Add(this.btnToggleMonitor);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "EDDiscoFrm";
-            this.Text = "EDDiscoMon";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.EDDiscoFrm_FormClosing);
+            this.Name = "ObservatoryFrm";
+            this.Text = "Elite Observatory";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ObservatoryFrm_FormClosing);
             this.contextCopy.ResumeLayout(false);
             this.ResumeLayout(false);
 

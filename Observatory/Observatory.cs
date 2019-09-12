@@ -1,20 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using Newtonsoft.Json.Linq;
 
-namespace EDDisco
+namespace Observatory
 {
-    static class EDDisco
+    static class Observatory
     {
         [STAThread]
         static void Main()
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new EDDiscoFrm());
+            Application.Run(new ObservatoryFrm());
         }
     }
 }

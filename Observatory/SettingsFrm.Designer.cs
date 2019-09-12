@@ -1,4 +1,4 @@
-﻿namespace EDDisco
+﻿namespace Observatory
 {
     partial class SettingsFrm
     {
@@ -50,10 +50,10 @@
             this.btnCopyReset = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.txtCopy = new System.Windows.Forms.TextBox();
-            this.cbxTtsDetail = new System.Windows.Forms.CheckBox();
             this.cbxTts = new System.Windows.Forms.CheckBox();
             this.cbxToast = new System.Windows.Forms.CheckBox();
             this.tipCopy = new System.Windows.Forms.ToolTip(this.components);
+            this.cbx_custom = new System.Windows.Forms.CheckBox();
             this.groupBox_Interest.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -261,10 +261,10 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.cbx_custom);
             this.groupBox1.Controls.Add(this.btnCopyReset);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.txtCopy);
-            this.groupBox1.Controls.Add(this.cbxTtsDetail);
             this.groupBox1.Controls.Add(this.cbxTts);
             this.groupBox1.Controls.Add(this.cbxToast);
             this.groupBox1.Location = new System.Drawing.Point(13, 228);
@@ -303,18 +303,6 @@
         "\n%info% - Interest criteria\r\n%detail% - Detailed information");
             this.txtCopy.TextChanged += new System.EventHandler(this.TxtCopy_TextChanged);
             // 
-            // cbxTtsDetail
-            // 
-            this.cbxTtsDetail.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.cbxTtsDetail.AutoSize = true;
-            this.cbxTtsDetail.Location = new System.Drawing.Point(225, 48);
-            this.cbxTtsDetail.Name = "cbxTtsDetail";
-            this.cbxTtsDetail.Size = new System.Drawing.Size(115, 17);
-            this.cbxTtsDetail.TabIndex = 10;
-            this.cbxTtsDetail.Text = "TTS Include Detail";
-            this.cbxTtsDetail.UseVisualStyleBackColor = true;
-            this.cbxTtsDetail.Visible = false;
-            // 
             // cbxTts
             // 
             this.cbxTts.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -343,6 +331,17 @@
             // 
             this.tipCopy.ShowAlways = true;
             // 
+            // cbx_custom
+            // 
+            this.cbx_custom.AutoSize = true;
+            this.cbx_custom.Location = new System.Drawing.Point(224, 48);
+            this.cbx_custom.Name = "cbx_custom";
+            this.cbx_custom.Size = new System.Drawing.Size(96, 17);
+            this.cbx_custom.TabIndex = 14;
+            this.cbx_custom.Text = "Custom Criteria";
+            this.cbx_custom.UseVisualStyleBackColor = true;
+            this.cbx_custom.CheckedChanged += new System.EventHandler(this.Cbx_custom_CheckedChanged);
+            // 
             // SettingsFrm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -354,7 +353,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "SettingsFrm";
-            this.Text = "EDDiscoMon Settings";
+            this.Text = "ObservatoryMon Settings";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.SettingsFrm_FormClosed);
             this.Load += new System.EventHandler(this.SettingsFrm_Load);
             this.groupBox_Interest.ResumeLayout(false);
@@ -385,12 +384,12 @@
         private System.Windows.Forms.CheckBox cbx_LandHighG;
         private System.Windows.Forms.CheckBox cbx_LandWithAtmo;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.CheckBox cbxTtsDetail;
         private System.Windows.Forms.CheckBox cbxTts;
         private System.Windows.Forms.CheckBox cbxToast;
         private System.Windows.Forms.Button btnCopyReset;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtCopy;
         private System.Windows.Forms.ToolTip tipCopy;
+        private System.Windows.Forms.CheckBox cbx_custom;
     }
 }

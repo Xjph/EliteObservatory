@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace EDDisco
+namespace Observatory
 {
 
     public partial class ScanEvent

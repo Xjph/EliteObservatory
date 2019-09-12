@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace EDDisco
+namespace Observatory
 {
     class ScanReader
     {
@@ -12,20 +10,22 @@ namespace EDDisco
         private readonly Dictionary<(string System, long Body), ScanEvent> scanHistory;
         private readonly string currentSystem;
         private readonly bool isRing;
+        private readonly UserInterest userInterest;
         public List<(string BodyName, string Description, string Detail)> Interest { get; private set; }
         
-        public ScanReader (ScanEvent scanEvent, Dictionary<(string System, long Body),ScanEvent> scanHistory, string currentSystem)
+        public ScanReader(LogMonitor logMonitor)
         {
-            this.scanEvent = scanEvent;
-            this.scanHistory = scanHistory;
-            this.currentSystem = currentSystem;
+            userInterest = logMonitor.UserInterest;
+            scanEvent = logMonitor.LastScan;
+            scanHistory = logMonitor.SystemBody;
+            currentSystem = logMonitor.CurrentSystem;
             isRing = scanEvent.BodyName.Contains(" Ring");
             Interest = new List<(string BodyName, string Description, string Detail)>();
         }
 
         public bool IsInteresting()
         {
-            bool interesting = DefaultInterest() || CustomInterest();
+            bool interesting = DefaultInterest() | CustomInterest();
             if (Interest.Count() == 0)
             {
                 Interest.Add((scanEvent.BodyName, "Uninteresting", string.Empty));
@@ -35,7 +35,7 @@ namespace EDDisco
 
         private bool DefaultInterest()
         {
-            Properties.EDDisco settings = Properties.EDDisco.Default;
+            Properties.Observatory settings = Properties.Observatory.Default;
 
             // Landable and has a terraform state
             if (settings.LandWithTerra && scanEvent.Landable.GetValueOrDefault(false) && scanEvent.TerraformState.Length > 0)
@@ -72,7 +72,6 @@ namespace EDDisco
                 {
                     Interest.Add((scanEvent.BodyName, "Shepherd moon", $"Orbit: {Math.Truncate((double)scanEvent.SemiMajorAxis / 1000):N0}km, Ring radius: {Math.Truncate((double)parent.Rings.Last().OuterRad / 1000):N0}km"));
                 }
-
             }
 
             // Close binary pair
@@ -197,7 +196,7 @@ namespace EDDisco
 
         private bool CustomInterest()
         {
-            return false;
+            return userInterest.CheckCriteria(scanEvent, Interest);
         }
     }
 }

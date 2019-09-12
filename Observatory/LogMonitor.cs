@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using System.IO;
 
-namespace EDDisco
+namespace Observatory
 {
     class LogMonitor
     {
@@ -22,6 +22,7 @@ namespace EDDisco
         public bool ReadAllComplete { get; private set; }
         public ScanEvent LastScan { get; private set; }
         public Dictionary<(string, long), ScanEvent> SystemBody { get; private set; }
+        public UserInterest UserInterest { get; private set; }
         private JournalPoker Poker;
         
         public LogMonitor(string logPath)
@@ -38,6 +39,7 @@ namespace EDDisco
             SystemBody = new Dictionary<(string, long), ScanEvent>();
             ReadAllInProgress = false;
             ReadAllComplete = false;
+            UserInterest = new UserInterest();
         }
 
         public void MonitorStart()

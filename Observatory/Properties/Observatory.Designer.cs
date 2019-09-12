@@ -8,16 +8,16 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EDDisco.Properties {
+namespace Observatory.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.9.0.0")]
-    internal sealed partial class EDDisco : global::System.Configuration.ApplicationSettingsBase {
+    internal sealed partial class Observatory : global::System.Configuration.ApplicationSettingsBase {
         
-        private static EDDisco defaultInstance = ((EDDisco)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new EDDisco())));
+        private static Observatory defaultInstance = ((Observatory)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Observatory())));
         
-        public static EDDisco Default {
+        public static Observatory Default {
             get {
                 return defaultInstance;
             }
@@ -248,6 +248,18 @@ namespace EDDisco.Properties {
             }
             set {
                 this["CopyTemplate"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool CustomRules {
+            get {
+                return ((bool)(this["CustomRules"]));
+            }
+            set {
+                this["CustomRules"] = value;
             }
         }
     }

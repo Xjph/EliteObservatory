@@ -1,5 +1,5 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="EDDisco.Properties" GeneratedClassName="EDDisco">
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Observatory.Properties" GeneratedClassName="Observatory">
   <Profiles />
   <Settings>
     <Setting Name="LandWithTerra" Type="System.Boolean" Scope="User">
@@ -58,6 +58,9 @@
     </Setting>
     <Setting Name="CopyTemplate" Type="System.String" Scope="User">
       <Value Profile="(Default)">%time% - %bodyL% - %info% - %detail%</Value>
+    </Setting>
+    <Setting Name="CustomRules" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
     </Setting>
   </Settings>
 </SettingsFile>

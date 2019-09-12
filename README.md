@@ -27,26 +27,26 @@ The following is a sample criteria triggered by objects with high axial tilt (>1
 
 ```xml
 <ObservatoryCriteria>
-  <Criteria Comparator="Greater" Value="1">
-    <Operation Operator="Add">
-	  <FirstValue Type="EventData">AxialTilt</FirstValue>
-	  <SecondValue Type="Number">0</SecondValue>
-	</Operation>
-	<Description>High Axial Tilt</Description>
-	<Detail>
-	  <Item>AxialTilt</Item>
-	</Detail>
-  </Criteria>
-  <Criteria Comparator="Less" Value="-1">
-    <Operation Operator="Add">
-	  <FirstValue Type="EventData">AxialTilt</FirstValue>
-	  <SecondValue Type="Number">0</SecondValue>
-	</Operation>
-	<Description>High Axial Tilt</Description>
-	<Detail>
-	  <Item>AxialTilt</Item>
-	</Detail>
-  </Criteria>
+	<Criteria Comparator="Greater" Value="1">
+		<Operation Operator="Add">
+			<FirstValue Type="EventData">AxialTilt</FirstValue>
+			<SecondValue Type="Number">0</SecondValue>
+		</Operation>
+		<Description>High Axial Tilt</Description>
+		<Detail>
+			<Item>AxialTilt</Item>
+		</Detail>
+	</Criteria>
+	<Criteria Comparator="Less" Value="-1">
+		<Operation Operator="Add">
+			<FirstValue Type="EventData">AxialTilt</FirstValue>
+			<SecondValue Type="Number">0</SecondValue>
+		</Operation>
+		<Description>High Axial Tilt</Description>
+		<Detail>
+			<Item>AxialTilt</Item>
+		</Detail>
+	</Criteria>
 </ObservatoryCriteria>
 ```
 

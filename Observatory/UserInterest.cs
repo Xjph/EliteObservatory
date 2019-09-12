@@ -10,22 +10,17 @@ namespace Observatory
     {
         public XmlNodeList AllCriteria { get; private set; }
         private ScanEvent scanEvent;
+        const string criteriaFile = "ObservatoryCriteria.xml";
 
         public UserInterest()
         {
             bool criteriaEnabled = Properties.Observatory.Default.CustomRules;
-            const string criteriaFile = "ObservatoryCriteria.xml";
-
+           
             if (criteriaEnabled && File.Exists(criteriaFile))
             {
                 try
                 {
-                    XmlDocument criteriaXml = new XmlDocument();
-                    criteriaXml.Load(criteriaFile);
-                    if (criteriaXml.DocumentElement.Name == "ObservatoryCriteria")
-                    {
-                        AllCriteria = criteriaXml.SelectNodes("ObservatoryCriteria/Criteria");
-                    }
+                    LoadCriteria();
                 }
                 catch (Exception ex)
                 {
@@ -44,12 +39,23 @@ namespace Observatory
                 if (createFile == DialogResult.Yes)
                 {
                     CreateTemplate(criteriaFile);
+                    LoadCriteria();
                 }
                 else
                 {
                     Properties.Observatory.Default.CustomRules = false;
                     Properties.Observatory.Default.Save();
                 }
+            }
+        }
+
+        private void LoadCriteria()
+        {
+            XmlDocument criteriaXml = new XmlDocument();
+            criteriaXml.Load(criteriaFile);
+            if (criteriaXml.DocumentElement.Name == "ObservatoryCriteria")
+            {
+                AllCriteria = criteriaXml.SelectNodes("ObservatoryCriteria/Criteria");
             }
         }
 

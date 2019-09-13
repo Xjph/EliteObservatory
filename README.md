@@ -52,6 +52,35 @@ The following is a sample criteria triggered by objects with high axial tilt (>1
 
 A sample criteria file including comments about its use can be created automatically by Elite Observatory if you choose. The single criteria it contains is probably impossible, unless the Stellar Forge does something really crazy, but it can give you an idea of how to construct criteria of your own.
 
+### Valid EventData and Item values
+```
+DistanceFromArrivalLs
+TidalLock
+TerraformState
+Atmosphere
+Volcanism
+MassEM
+Radius
+SurfaceGravity
+SurfaceTemperature
+SurfacePressure
+Landable
+SemiMajorAxis
+Eccentricity
+OrbitalInclination
+Periapsis
+OrbitalPeriod
+RotationPeriod
+AxialTilt
+StellarMass
+AbsoluteMagnitude
+Age_MY
+WasDiscovered
+WasMapped
+```
+
+Atmosphere, Volcanism, Landable, WasDiscovered, and WasMapped return simple 1 or 0 values when used as EventData.
+
 ## Prerequisites for use
 .NET 4.5, and by extension Windows Vista or later.
 

@@ -23,7 +23,7 @@ The `<Description>` element is simple text which appears in the Description colu
 
 The `<Detail>` element contains any number of `<Item>` elements, each of which contains a key from the Elite Dangerous journal, much like the EventData value type, but in this case serves as a list of values to add to the detail column of the main window.
 
-The following is a sample criteria triggered by objects with high axial tilt (>1 radian). Note that the values used for criteria use the units of measurement of the journal file itself, not the friendlier values normally displayed to end users. In this case the tilt is given in radians. Also note that since axial tile can be both positive or negative, there are two check, one for above 1, another for below -1.
+The following is a sample criteria triggered by objects with high axial tilt (>1 radian). Note that the values used for criteria use the units of measurement of the journal file itself, not the friendlier values normally displayed to end users. In this case the tilt is given in radians. Also note that since axial tilt can be both positive or negative, there are two checks, one for above 1, another for below -1.
 
 ```xml
 <ObservatoryCriteria>

@@ -17,7 +17,7 @@ A `<Criteria>` element must have `Comparator` and `Value` attributes. The result
 
 An `<Operation>` element requires an `Operator` attribute, and `<FirstValue>` and `<SecondValue>` elements. The operator is applied to the first and second values, in that order in cases where it matters, such as division. Allowed `Operator`s are "Add", "Subtract", "Multiply", and "Divide".
 
-The `<FirstValue>` and `<SecondValue>` elements must have a `Type` attribute. This can be one of "Number", "EventData", or "Operation". Number values are simply that, numbers places inside the element. Operations allow you to next another `<Operation>` element inside the previous operation. EventData is a text descriptor matching a key from the Elite Dangerous journal. Not all keys work yet, a list is provided below.
+The `<FirstValue>` and `<SecondValue>` elements must have a `Type` attribute. This can be one of "Number", "EventData", or "Operation". Number values are simply that, numbers placed inside the element. Operations allow you to nest another `<Operation>` element inside the previous operation. EventData is a text descriptor matching a key from the Elite Dangerous journal. Not all keys work yet, a list is provided below.
 
 The `<Description>` element is simple text which appears in the Description column of the main window when your criteria is found.
 

@@ -100,79 +100,82 @@ namespace Observatory
         private string BuildDetailString(XmlNode detail)
         {
             var detailBuilder = new System.Text.StringBuilder();
-            foreach (XmlElement item in detail.SelectNodes("Item"))
+            if (detail != null)
             {
-                switch (item.InnerText.ToLower())
+                foreach (XmlElement item in detail.SelectNodes("Item"))
                 {
-                    case "distancefromarrivalls":
-                        detailBuilder.Append($"Distance (LS): {scanEvent.DistanceFromArrivalLs.ToString():N0} ");
-                        break;
-                    case "tidallock":
-                        detailBuilder.Append("Tidal lock: " + (scanEvent.TidalLock.GetValueOrDefault(false) ? "Yes " : "No "));
-                        break;
-                    case "terraformstate":
-                        detailBuilder.Append(scanEvent.TerraformState.ToLower() == "terraformable" ? "Terraformable " : "");
-                        break;
-                    case "atmosphere":
-                        detailBuilder.Append(scanEvent.Atmosphere.Length > 0 ? scanEvent.Atmosphere + " " : "No Atmosphere ");
-                        break;
-                    case "volcanism":
-                        detailBuilder.Append(scanEvent.Volcanism.Length > 0 ? scanEvent.Volcanism + " " : "No Volcanism ");
-                        break;
-                    case "massem":
-                        detailBuilder.Append($"Mass: {scanEvent.MassEm.GetValueOrDefault(0):N2}EM ");
-                        break;
-                    case "radius":
-                        detailBuilder.Append($"Radius: {scanEvent.Radius.GetValueOrDefault(0) / 1000:N0}km ");
-                        break;
-                    case "surfacegravity":
-                        detailBuilder.Append($"Gravity: {scanEvent.Radius.GetValueOrDefault(0) / 9.81:N2}g ");
-                        break;
-                    case "surfacetemperature":
-                        detailBuilder.Append($"Temperature: {scanEvent.SurfaceTemperature.GetValueOrDefault(0):N0}K ");
-                        break;
-                    case "surfacepressure":
-                        detailBuilder.Append($"Pressure: {scanEvent.SurfacePressure.GetValueOrDefault(0) / 101325:N2}atm ");
-                        break;
-                    case "landable":
-                        detailBuilder.Append(scanEvent.Landable.GetValueOrDefault(false) ? "Landable " : "");
-                        break;
-                    case "semimajoraxis":
-                        detailBuilder.Append($"Semi-Major Axis: {scanEvent.SemiMajorAxis.GetValueOrDefault(0) / 1000:N0}km ");
-                        break;
-                    case "eccentricity":
-                        detailBuilder.Append($"Eccentricity: {scanEvent.Eccentricity.GetValueOrDefault(0):N2} ");
-                        break;
-                    case "orbitalinclination":
-                        detailBuilder.Append($"Inclination: {scanEvent.OrbitalInclination.GetValueOrDefault(0):N2}° ");
-                        break;
-                    case "periapsis":
-                        detailBuilder.Append($"Arg. of Periapsis: {scanEvent.Periapsis.GetValueOrDefault(0):N2}° ");
-                        break;
-                    case "orbitalperiod":
-                        detailBuilder.Append($"Orbital Period: {scanEvent.OrbitalPeriod.GetValueOrDefault(0) / 86400:N1} days ");
-                        break;
-                    case "rotationperiod":
-                        detailBuilder.Append($"Rotation Period: {scanEvent.RotationPeriod.GetValueOrDefault(0) / 86400:N1} days ");
-                        break;
-                    case "axialtilt":
-                        detailBuilder.Append($"Axial Tilt: {scanEvent.AxialTilt.GetValueOrDefault(0) * 57.2958:N1}° ");
-                        break;
-                    case "stellarmass":
-                        detailBuilder.Append($"Stellar Mass: {scanEvent.StellarMass.GetValueOrDefault(0):N2}SM ");
-                        break;
-                    case "absolutemagnitude":
-                        detailBuilder.Append($"Abs. Magnitude: {scanEvent.AbsoluteMagnitude.GetValueOrDefault(0):N2} ");
-                        break;
-                    case "age_my":
-                        detailBuilder.Append($"Age: {scanEvent.Age_MY.GetValueOrDefault(0):N2}MY ");
-                        break;
-                    case "wasdiscovered":
-                        detailBuilder.Append(scanEvent.WasDiscovered ? "Discovered " : "Undiscovered ");
-                        break;
-                    case "wasmapped":
-                        detailBuilder.Append(scanEvent.WasMapped ? "Mapped " : "Unmapped ");
-                        break;
+                    switch (item.InnerText.ToLower())
+                    {
+                        case "distancefromarrivalls":
+                            detailBuilder.Append($"Distance (LS): {scanEvent.DistanceFromArrivalLs.ToString():N0} ");
+                            break;
+                        case "tidallock":
+                            detailBuilder.Append("Tidal lock: " + (scanEvent.TidalLock.GetValueOrDefault(false) ? "Yes " : "No "));
+                            break;
+                        case "terraformstate":
+                            detailBuilder.Append(scanEvent.TerraformState?.ToLower() == "terraformable" ? "Terraformable " : "");
+                            break;
+                        case "atmosphere":
+                            detailBuilder.Append(scanEvent.Atmosphere?.Length > 0 ? scanEvent.Atmosphere + " " : "No Atmosphere ");
+                            break;
+                        case "volcanism":
+                            detailBuilder.Append(scanEvent.Volcanism?.Length > 0 ? scanEvent.Volcanism + " " : "No Volcanism ");
+                            break;
+                        case "massem":
+                            detailBuilder.Append($"Mass: {scanEvent.MassEm.GetValueOrDefault(0):N2}EM ");
+                            break;
+                        case "radius":
+                            detailBuilder.Append($"Radius: {scanEvent.Radius.GetValueOrDefault(0) / 1000:N0}km ");
+                            break;
+                        case "surfacegravity":
+                            detailBuilder.Append($"Gravity: {scanEvent.Radius.GetValueOrDefault(0) / 9.81:N2}g ");
+                            break;
+                        case "surfacetemperature":
+                            detailBuilder.Append($"Temperature: {scanEvent.SurfaceTemperature.GetValueOrDefault(0):N0}K ");
+                            break;
+                        case "surfacepressure":
+                            detailBuilder.Append($"Pressure: {scanEvent.SurfacePressure.GetValueOrDefault(0) / 101325:N2}atm ");
+                            break;
+                        case "landable":
+                            detailBuilder.Append(scanEvent.Landable.GetValueOrDefault(false) ? "Landable " : "");
+                            break;
+                        case "semimajoraxis":
+                            detailBuilder.Append($"Semi-Major Axis: {scanEvent.SemiMajorAxis.GetValueOrDefault(0) / 1000:N0}km ");
+                            break;
+                        case "eccentricity":
+                            detailBuilder.Append($"Eccentricity: {scanEvent.Eccentricity.GetValueOrDefault(0):N2} ");
+                            break;
+                        case "orbitalinclination":
+                            detailBuilder.Append($"Inclination: {scanEvent.OrbitalInclination.GetValueOrDefault(0):N2}° ");
+                            break;
+                        case "periapsis":
+                            detailBuilder.Append($"Arg. of Periapsis: {scanEvent.Periapsis.GetValueOrDefault(0):N2}° ");
+                            break;
+                        case "orbitalperiod":
+                            detailBuilder.Append($"Orbital Period: {scanEvent.OrbitalPeriod.GetValueOrDefault(0) / 86400:N1} days ");
+                            break;
+                        case "rotationperiod":
+                            detailBuilder.Append($"Rotation Period: {scanEvent.RotationPeriod.GetValueOrDefault(0) / 86400:N1} days ");
+                            break;
+                        case "axialtilt":
+                            detailBuilder.Append($"Axial Tilt: {scanEvent.AxialTilt.GetValueOrDefault(0) * 57.2958:N1}° ");
+                            break;
+                        case "stellarmass":
+                            detailBuilder.Append($"Stellar Mass: {scanEvent.StellarMass.GetValueOrDefault(0):N2}SM ");
+                            break;
+                        case "absolutemagnitude":
+                            detailBuilder.Append($"Abs. Magnitude: {scanEvent.AbsoluteMagnitude.GetValueOrDefault(0):N2} ");
+                            break;
+                        case "age_my":
+                            detailBuilder.Append($"Age: {scanEvent.Age_MY.GetValueOrDefault(0):N2}MY ");
+                            break;
+                        case "wasdiscovered":
+                            detailBuilder.Append(scanEvent.WasDiscovered ? "Discovered " : "Undiscovered ");
+                            break;
+                        case "wasmapped":
+                            detailBuilder.Append(scanEvent.WasMapped ? "Mapped " : "Unmapped ");
+                            break;
+                    }
                 }
             }
             return detailBuilder.ToString();
@@ -235,13 +238,13 @@ namespace Observatory
                     result = scanEvent.TidalLock.GetValueOrDefault(false) ? 1 : 0;
                     break;
                 case "terraformstate":
-                    result = scanEvent.TerraformState.ToLower() == "terraformable" ? 1 : 0;
+                    result = scanEvent.TerraformState?.ToLower() == "terraformable" ? 1 : 0;
                     break;
                 case "atmosphere":
-                    result = scanEvent.Atmosphere.Length > 0 ? 1 : 0;
+                    result = scanEvent.Atmosphere?.Length > 0 ? 1 : 0;
                     break;
                 case "volcanism":
-                    result = scanEvent.Volcanism.Length > 0 ? 1 : 0;
+                    result = scanEvent.Volcanism?.Length > 0 ? 1 : 0;
                     break;
                 case "massem":
                     result = scanEvent.MassEm.GetValueOrDefault(0);

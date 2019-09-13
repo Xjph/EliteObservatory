@@ -246,7 +246,7 @@ namespace Observatory
                 case "massem":
                     result = scanEvent.MassEm.GetValueOrDefault(0);
                     break;
-                case "redius":
+                case "radius":
                     result = scanEvent.Radius.GetValueOrDefault(0);
                     break;
                 case "surfacegravity":

@@ -262,5 +262,41 @@ namespace Observatory.Properties {
                 this["CustomRules"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("jumponium")]
+        public string FSDBoostSynthName {
+            get {
+                return ((string)(this["FSDBoostSynthName"]));
+            }
+            set {
+                this["FSDBoostSynthName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool LandLarge {
+            get {
+                return ((bool)(this["LandLarge"]));
+            }
+            set {
+                this["LandLarge"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool WideRing {
+            get {
+                return ((bool)(this["WideRing"]));
+            }
+            set {
+                this["WideRing"] = value;
+            }
+        }
     }
 }

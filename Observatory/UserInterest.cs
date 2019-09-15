@@ -229,7 +229,7 @@ namespace Observatory
         {
             double result = 0;
 
-            switch (eventName.ToLower())
+            switch (eventName.Split(':')[0].ToLower())
             {
                 case "distancefromarrivalls":
                     result = scanEvent.DistanceFromArrivalLs;
@@ -299,6 +299,9 @@ namespace Observatory
                     break;
                 case "wasmapped":
                     result = scanEvent.WasMapped ? 1 : 0;
+                    break;
+                case "planetclass":
+                    result = eventName.Split(':')[1].ToLower() == scanEvent.PlanetClass?.ToLower() ? 1 : 0;
                     break;
             }
 

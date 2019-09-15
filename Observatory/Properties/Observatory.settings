@@ -62,5 +62,14 @@
     <Setting Name="CustomRules" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
+    <Setting Name="FSDBoostSynthName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">jumponium</Value>
+    </Setting>
+    <Setting Name="LandLarge" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="WideRing" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

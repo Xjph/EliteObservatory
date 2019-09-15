@@ -79,11 +79,11 @@ namespace Observatory
                         foreach (var item in scan.Interest)
                         {
                             addItem = true;
-                            if (item.Description == "All jumponium materials in system")
+                            if (item.Description == $"All {Properties.Observatory.Default.FSDBoostSynthName} materials in system")
                             {
                                 for (int i = Math.Max(0, listEvent.Items.Count - 10); i < listEvent.Items.Count; i++)
                                 {
-                                    if (listEvent.Items[i].SubItems[0].Text.Contains(logMonitor.CurrentSystem) && listEvent.Items[i].SubItems[1].Text == "All jumponium materials in system")
+                                    if (listEvent.Items[i].SubItems[0].Text.Contains(logMonitor.CurrentSystem) && listEvent.Items[i].SubItems[1].Text == $"All {Properties.Observatory.Default.FSDBoostSynthName} materials in system")
                                     {
                                         addItem = false;
                                     }
@@ -165,9 +165,9 @@ namespace Observatory
                                         item.Description,
                                         logMonitor.LastScan.Timestamp.ToString("yyyy-MM-dd HH:mm:ss"),
                                         item.Detail,
-                                        (logMonitor.LastScan.Landable.GetValueOrDefault(false) && !(item.Description == "All jumponium materials in system")) ? "🌐" : string.Empty
+                                        (logMonitor.LastScan.Landable.GetValueOrDefault(false) && !(item.Description == $"All {Properties.Observatory.Default.FSDBoostSynthName} materials in system")) ? "🌐" : string.Empty
                                         });
-            if (item.Description.Contains("Interesting Object"))
+            if (item.Description.Contains("Multiple criteria"))
             {
                 newItem.UseItemStyleForSubItems = false;
                 newItem.SubItems[1].Font = new Font(newItem.Font, FontStyle.Bold);
@@ -247,12 +247,6 @@ namespace Observatory
                             .Replace("%time%", item.SubItems[2].Text)
                             .Replace("%detail%", item.SubItems[3].Text)
                             );
-                        //item.SubItems[2].Text + " - " +
-                        //item.SubItems[0].Text + " - " +
-                        //(item.SubItems[4].Text.Length > 0 ? "Landable - " : string.Empty) +
-                        //item.SubItems[1].Text +
-                        //(item.SubItems[3].Text.Length > 0 ? " - " + item.SubItems[3].Text : string.Empty)
-                        //);
                 }
                 else
                 {

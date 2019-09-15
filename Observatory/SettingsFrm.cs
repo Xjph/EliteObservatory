@@ -44,6 +44,8 @@ namespace Observatory
             cbxTts.Checked = settings.TTS;
             txtCopy.Text = settings.CopyTemplate;
             cbx_custom.Checked = settings.CustomRules;
+            cbx_LandLarge.Checked = settings.LandLarge;
+            cbx_WideRing.Checked = settings.WideRing;
         }
 
         private void Cbx_LandWithTerra_CheckedChanged(object sender, EventArgs e)
@@ -180,6 +182,18 @@ namespace Observatory
         private void Cbx_custom_CheckedChanged(object sender, EventArgs e)
         {
             settings.CustomRules = ((CheckBox)sender).Checked;
+            settings.Save();
+        }
+
+        private void Cbx_LandLarge_CheckedChanged(object sender, EventArgs e)
+        {
+            settings.LandLarge = ((CheckBox)sender).Checked;
+            settings.Save();
+        }
+
+        private void Cbx_WideRing_CheckedChanged(object sender, EventArgs e)
+        {
+            settings.WideRing = ((CheckBox)sender).Checked;
             settings.Save();
         }
     }

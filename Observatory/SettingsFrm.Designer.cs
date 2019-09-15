@@ -30,6 +30,8 @@
         {
             this.components = new System.ComponentModel.Container();
             this.groupBox_Interest = new System.Windows.Forms.GroupBox();
+            this.cbx_WideRing = new System.Windows.Forms.CheckBox();
+            this.cbx_LandLarge = new System.Windows.Forms.CheckBox();
             this.cbx_VeryInteresting = new System.Windows.Forms.CheckBox();
             this.cbx_AllJumpSystem = new System.Windows.Forms.CheckBox();
             this.cbx_AllJumpBody = new System.Windows.Forms.CheckBox();
@@ -47,19 +49,21 @@
             this.cbx_LandWithAtmo = new System.Windows.Forms.CheckBox();
             this.cbx_LandWithTerra = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.cbx_custom = new System.Windows.Forms.CheckBox();
             this.btnCopyReset = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.txtCopy = new System.Windows.Forms.TextBox();
             this.cbxTts = new System.Windows.Forms.CheckBox();
             this.cbxToast = new System.Windows.Forms.CheckBox();
             this.tipCopy = new System.Windows.Forms.ToolTip(this.components);
-            this.cbx_custom = new System.Windows.Forms.CheckBox();
             this.groupBox_Interest.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox_Interest
             // 
+            this.groupBox_Interest.Controls.Add(this.cbx_WideRing);
+            this.groupBox_Interest.Controls.Add(this.cbx_LandLarge);
             this.groupBox_Interest.Controls.Add(this.cbx_VeryInteresting);
             this.groupBox_Interest.Controls.Add(this.cbx_AllJumpSystem);
             this.groupBox_Interest.Controls.Add(this.cbx_AllJumpBody);
@@ -78,26 +82,48 @@
             this.groupBox_Interest.Controls.Add(this.cbx_LandWithTerra);
             this.groupBox_Interest.Location = new System.Drawing.Point(13, 13);
             this.groupBox_Interest.Name = "groupBox_Interest";
-            this.groupBox_Interest.Size = new System.Drawing.Size(340, 208);
+            this.groupBox_Interest.Size = new System.Drawing.Size(340, 225);
             this.groupBox_Interest.TabIndex = 0;
             this.groupBox_Interest.TabStop = false;
             this.groupBox_Interest.Text = "Interest Criteria";
             // 
+            // cbx_WideRing
+            // 
+            this.cbx_WideRing.AutoSize = true;
+            this.cbx_WideRing.Location = new System.Drawing.Point(6, 157);
+            this.cbx_WideRing.Name = "cbx_WideRing";
+            this.cbx_WideRing.Size = new System.Drawing.Size(76, 17);
+            this.cbx_WideRing.TabIndex = 17;
+            this.cbx_WideRing.Text = "Wide Ring";
+            this.cbx_WideRing.UseVisualStyleBackColor = true;
+            this.cbx_WideRing.CheckedChanged += new System.EventHandler(this.Cbx_WideRing_CheckedChanged);
+            // 
+            // cbx_LandLarge
+            // 
+            this.cbx_LandLarge.AutoSize = true;
+            this.cbx_LandLarge.Location = new System.Drawing.Point(6, 88);
+            this.cbx_LandLarge.Name = "cbx_LandLarge";
+            this.cbx_LandLarge.Size = new System.Drawing.Size(100, 17);
+            this.cbx_LandLarge.TabIndex = 16;
+            this.cbx_LandLarge.Text = "Landable Large";
+            this.cbx_LandLarge.UseVisualStyleBackColor = true;
+            this.cbx_LandLarge.CheckedChanged += new System.EventHandler(this.Cbx_LandLarge_CheckedChanged);
+            // 
             // cbx_VeryInteresting
             // 
             this.cbx_VeryInteresting.AutoSize = true;
-            this.cbx_VeryInteresting.Location = new System.Drawing.Point(160, 180);
+            this.cbx_VeryInteresting.Location = new System.Drawing.Point(160, 203);
             this.cbx_VeryInteresting.Name = "cbx_VeryInteresting";
-            this.cbx_VeryInteresting.Size = new System.Drawing.Size(99, 17);
+            this.cbx_VeryInteresting.Size = new System.Drawing.Size(153, 17);
             this.cbx_VeryInteresting.TabIndex = 15;
-            this.cbx_VeryInteresting.Text = "Very Interesting";
+            this.cbx_VeryInteresting.Text = "Multiple Criteria Notification";
             this.cbx_VeryInteresting.UseVisualStyleBackColor = true;
             this.cbx_VeryInteresting.CheckedChanged += new System.EventHandler(this.Cbx_VeryInteresting_CheckedChanged);
             // 
             // cbx_AllJumpSystem
             // 
             this.cbx_AllJumpSystem.AutoSize = true;
-            this.cbx_AllJumpSystem.Location = new System.Drawing.Point(160, 157);
+            this.cbx_AllJumpSystem.Location = new System.Drawing.Point(160, 180);
             this.cbx_AllJumpSystem.Name = "cbx_AllJumpSystem";
             this.cbx_AllJumpSystem.Size = new System.Drawing.Size(165, 17);
             this.cbx_AllJumpSystem.TabIndex = 14;
@@ -108,7 +134,7 @@
             // cbx_AllJumpBody
             // 
             this.cbx_AllJumpBody.AutoSize = true;
-            this.cbx_AllJumpBody.Location = new System.Drawing.Point(160, 134);
+            this.cbx_AllJumpBody.Location = new System.Drawing.Point(160, 157);
             this.cbx_AllJumpBody.Name = "cbx_AllJumpBody";
             this.cbx_AllJumpBody.Size = new System.Drawing.Size(155, 17);
             this.cbx_AllJumpBody.TabIndex = 13;
@@ -119,7 +145,7 @@
             // cbx_GoodJump
             // 
             this.cbx_GoodJump.AutoSize = true;
-            this.cbx_GoodJump.Location = new System.Drawing.Point(160, 111);
+            this.cbx_GoodJump.Location = new System.Drawing.Point(160, 134);
             this.cbx_GoodJump.Name = "cbx_GoodJump";
             this.cbx_GoodJump.Size = new System.Drawing.Size(137, 17);
             this.cbx_GoodJump.TabIndex = 12;
@@ -130,7 +156,7 @@
             // cbx_HighEccentric
             // 
             this.cbx_HighEccentric.AutoSize = true;
-            this.cbx_HighEccentric.Location = new System.Drawing.Point(160, 88);
+            this.cbx_HighEccentric.Location = new System.Drawing.Point(160, 111);
             this.cbx_HighEccentric.Name = "cbx_HighEccentric";
             this.cbx_HighEccentric.Size = new System.Drawing.Size(106, 17);
             this.cbx_HighEccentric.TabIndex = 11;
@@ -141,7 +167,7 @@
             // cbx_FastOrbit
             // 
             this.cbx_FastOrbit.AutoSize = true;
-            this.cbx_FastOrbit.Location = new System.Drawing.Point(160, 65);
+            this.cbx_FastOrbit.Location = new System.Drawing.Point(160, 88);
             this.cbx_FastOrbit.Name = "cbx_FastOrbit";
             this.cbx_FastOrbit.Size = new System.Drawing.Size(71, 17);
             this.cbx_FastOrbit.TabIndex = 10;
@@ -152,7 +178,7 @@
             // cbx_FastRotate
             // 
             this.cbx_FastRotate.AutoSize = true;
-            this.cbx_FastRotate.Location = new System.Drawing.Point(160, 42);
+            this.cbx_FastRotate.Location = new System.Drawing.Point(160, 65);
             this.cbx_FastRotate.Name = "cbx_FastRotate";
             this.cbx_FastRotate.Size = new System.Drawing.Size(89, 17);
             this.cbx_FastRotate.TabIndex = 9;
@@ -163,7 +189,7 @@
             // cbx_TinyObject
             // 
             this.cbx_TinyObject.AutoSize = true;
-            this.cbx_TinyObject.Location = new System.Drawing.Point(160, 20);
+            this.cbx_TinyObject.Location = new System.Drawing.Point(160, 43);
             this.cbx_TinyObject.Name = "cbx_TinyObject";
             this.cbx_TinyObject.Size = new System.Drawing.Size(80, 17);
             this.cbx_TinyObject.TabIndex = 8;
@@ -174,7 +200,7 @@
             // cbx_NestedMoon
             // 
             this.cbx_NestedMoon.AutoSize = true;
-            this.cbx_NestedMoon.Location = new System.Drawing.Point(6, 180);
+            this.cbx_NestedMoon.Location = new System.Drawing.Point(160, 20);
             this.cbx_NestedMoon.Name = "cbx_NestedMoon";
             this.cbx_NestedMoon.Size = new System.Drawing.Size(90, 17);
             this.cbx_NestedMoon.TabIndex = 7;
@@ -185,7 +211,7 @@
             // cbx_CollidingBinary
             // 
             this.cbx_CollidingBinary.AutoSize = true;
-            this.cbx_CollidingBinary.Location = new System.Drawing.Point(6, 157);
+            this.cbx_CollidingBinary.Location = new System.Drawing.Point(6, 203);
             this.cbx_CollidingBinary.Name = "cbx_CollidingBinary";
             this.cbx_CollidingBinary.Size = new System.Drawing.Size(97, 17);
             this.cbx_CollidingBinary.TabIndex = 6;
@@ -196,7 +222,7 @@
             // cbx_CloseBinary
             // 
             this.cbx_CloseBinary.AutoSize = true;
-            this.cbx_CloseBinary.Location = new System.Drawing.Point(6, 134);
+            this.cbx_CloseBinary.Location = new System.Drawing.Point(6, 180);
             this.cbx_CloseBinary.Name = "cbx_CloseBinary";
             this.cbx_CloseBinary.Size = new System.Drawing.Size(84, 17);
             this.cbx_CloseBinary.TabIndex = 5;
@@ -207,7 +233,7 @@
             // cbx_ShepherdMoon
             // 
             this.cbx_ShepherdMoon.AutoSize = true;
-            this.cbx_ShepherdMoon.Location = new System.Drawing.Point(6, 111);
+            this.cbx_ShepherdMoon.Location = new System.Drawing.Point(6, 134);
             this.cbx_ShepherdMoon.Name = "cbx_ShepherdMoon";
             this.cbx_ShepherdMoon.Size = new System.Drawing.Size(102, 17);
             this.cbx_ShepherdMoon.TabIndex = 4;
@@ -218,7 +244,7 @@
             // cbx_CloseOrbit
             // 
             this.cbx_CloseOrbit.AutoSize = true;
-            this.cbx_CloseOrbit.Location = new System.Drawing.Point(6, 88);
+            this.cbx_CloseOrbit.Location = new System.Drawing.Point(6, 111);
             this.cbx_CloseOrbit.Name = "cbx_CloseOrbit";
             this.cbx_CloseOrbit.Size = new System.Drawing.Size(77, 17);
             this.cbx_CloseOrbit.TabIndex = 3;
@@ -267,12 +293,23 @@
             this.groupBox1.Controls.Add(this.txtCopy);
             this.groupBox1.Controls.Add(this.cbxTts);
             this.groupBox1.Controls.Add(this.cbxToast);
-            this.groupBox1.Location = new System.Drawing.Point(13, 228);
+            this.groupBox1.Location = new System.Drawing.Point(13, 244);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(340, 71);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Misc.";
+            // 
+            // cbx_custom
+            // 
+            this.cbx_custom.AutoSize = true;
+            this.cbx_custom.Location = new System.Drawing.Point(224, 48);
+            this.cbx_custom.Name = "cbx_custom";
+            this.cbx_custom.Size = new System.Drawing.Size(96, 17);
+            this.cbx_custom.TabIndex = 14;
+            this.cbx_custom.Text = "Custom Criteria";
+            this.cbx_custom.UseVisualStyleBackColor = true;
+            this.cbx_custom.CheckedChanged += new System.EventHandler(this.Cbx_custom_CheckedChanged);
             // 
             // btnCopyReset
             // 
@@ -331,22 +368,11 @@
             // 
             this.tipCopy.ShowAlways = true;
             // 
-            // cbx_custom
-            // 
-            this.cbx_custom.AutoSize = true;
-            this.cbx_custom.Location = new System.Drawing.Point(224, 48);
-            this.cbx_custom.Name = "cbx_custom";
-            this.cbx_custom.Size = new System.Drawing.Size(96, 17);
-            this.cbx_custom.TabIndex = 14;
-            this.cbx_custom.Text = "Custom Criteria";
-            this.cbx_custom.UseVisualStyleBackColor = true;
-            this.cbx_custom.CheckedChanged += new System.EventHandler(this.Cbx_custom_CheckedChanged);
-            // 
             // SettingsFrm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(369, 309);
+            this.ClientSize = new System.Drawing.Size(369, 327);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox_Interest);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
@@ -391,5 +417,7 @@
         private System.Windows.Forms.TextBox txtCopy;
         private System.Windows.Forms.ToolTip tipCopy;
         private System.Windows.Forms.CheckBox cbx_custom;
+        private System.Windows.Forms.CheckBox cbx_WideRing;
+        private System.Windows.Forms.CheckBox cbx_LandLarge;
     }
 }

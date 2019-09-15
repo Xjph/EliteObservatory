@@ -12,7 +12,9 @@ namespace Observatory
         private readonly bool isRing;
         private readonly UserInterest userInterest;
         public List<(string BodyName, string Description, string Detail)> Interest { get; private set; }
-        
+        private readonly Properties.Observatory settings;
+
+
         public ScanReader(LogMonitor logMonitor)
         {
             userInterest = logMonitor.UserInterest;
@@ -21,11 +23,50 @@ namespace Observatory
             currentSystem = logMonitor.CurrentSystem;
             isRing = scanEvent.BodyName.Contains(" Ring");
             Interest = new List<(string BodyName, string Description, string Detail)>();
+            settings = Properties.Observatory.Default;
         }
 
         public bool IsInteresting()
         {
             bool interesting = DefaultInterest() | CustomInterest();
+            
+            // Moved these outside the "DefaultInterest" method so the multiple criteria check would include user criteria, and so the "all jumponium" check would not be counted
+
+            // Add note if multiple checks triggered
+            if (settings.VeryInteresting && Interest.Count() > 1)
+            {
+                Interest.Add((scanEvent.BodyName, "Multiple criteria met", $"{Interest.Count()} Criteria Satisfied"));
+            }
+
+            // Check history to determine if all jumponium materials available in system
+            if (settings.AllJumpSystem && scanEvent.Landable.GetValueOrDefault(false))
+            {
+                string matsNotFound = "carbongermaniumarsenicniobiumyttriumpolonium";
+                foreach (var scan in scanHistory.Where(scan => scan.Key.System == currentSystem && scan.Value.Landable.GetValueOrDefault(false)))
+                {
+                    foreach (MaterialComposition material in scan.Value.Materials)
+                    {
+                        switch (material.Name.ToLower())
+                        {
+                            case "carbon":
+                            case "germanium":
+                            case "arsenic":
+                            case "niobium":
+                            case "yttrium":
+                            case "polonium":
+                                matsNotFound = matsNotFound.Replace(material.Name.ToLower(), string.Empty);
+                                break;
+                        }
+                        if (matsNotFound.Length == 0)
+                        {
+                            interesting = true;
+                            Interest.Add((currentSystem, $"All {settings.FSDBoostSynthName} materials in system", string.Empty));
+                            break;
+                        }
+                    }
+                }
+            }
+
             if (Interest.Count() == 0)
             {
                 Interest.Add((scanEvent.BodyName, "Uninteresting", string.Empty));
@@ -35,8 +76,6 @@ namespace Observatory
 
         private bool DefaultInterest()
         {
-            Properties.Observatory settings = Properties.Observatory.Default;
-
             // Landable and has a terraform state
             if (settings.LandWithTerra && scanEvent.Landable.GetValueOrDefault(false) && scanEvent.TerraformState.Length > 0)
             {
@@ -53,6 +92,25 @@ namespace Observatory
             if (settings.LandHighG && scanEvent.Landable.GetValueOrDefault(false) && scanEvent.SurfaceGravity > 29.4)
             {
                 Interest.Add((scanEvent.BodyName, "Landable with High Gravity", $"Surface gravity: {((double)scanEvent.SurfaceGravity / 9.81).ToString("0.00")}g"));
+            }
+
+            // Landable large planet
+            if (settings.LandLarge && scanEvent.Landable.GetValueOrDefault(false) && scanEvent.Radius > 18000000)
+            {
+                Interest.Add((scanEvent.BodyName, "Landable Large Planet", $"Radius: {((double)scanEvent.Radius / 1000).ToString("0")}km"));
+            }
+
+            // Rings wider than 1 light-second
+            if (settings.WideRing && scanEvent.Rings?.Count<Ring>() > 0)
+            {
+                foreach(Ring ring in scanEvent.Rings.Where<Ring>(ring => !ring.Name.Contains("Belt")))
+                {
+                    long ringWidth = (ring.OuterRad.GetValueOrDefault(0) - ring.InnerRad.GetValueOrDefault(0));
+                    if (ringWidth > 299792458)
+                    {
+                        Interest.Add((ring.Name, "Wide Ring", $"Width: {(double)ringWidth / 299792458:N2}Ls"));
+                    }
+                }
             }
 
             //Parent relative checks
@@ -146,51 +204,14 @@ namespace Observatory
                 }
                 if (settings.AllJumpBody && jumpMats == 6)
                 {
-                    Interest.Add((scanEvent.BodyName, "One stop jumponium shop", string.Empty));
+                    Interest.Add((scanEvent.BodyName, $"One stop {settings.FSDBoostSynthName} shop", string.Empty));
                 }
                 else if (settings.GoodJump && jumpMats == 5)
                 {
-                    Interest.Add((scanEvent.BodyName, "5 out of 6 jumponium materials", $"Missing material: {matsNotFound}"));
+                    Interest.Add((scanEvent.BodyName, $"5 out of 6 {settings.FSDBoostSynthName} materials", $"Missing material: {matsNotFound}"));
                 }
             }
-
-            // Add note if multiple checks triggered
-            if (settings.VeryInteresting && Interest.Count() > 1)
-            {
-                Interest.Add((scanEvent.BodyName, $"{(Interest.Count() > 2 ? "Very":"More")} Interesting Object", string.Empty));
-            }
-
-            // Check history to determine if all jumponium materials available in system
-            if (settings.AllJumpSystem && scanEvent.Landable.GetValueOrDefault(false))
-            {
-                string matsNotFound = "carbongermaniumarsenicniobiumyttriumpolonium";
-                foreach (var scan in scanHistory)
-                {
-                    if (scan.Key.System == currentSystem && scan.Value.Landable.GetValueOrDefault(false))
-                    {
-                        foreach (MaterialComposition material in scan.Value.Materials)
-                        {
-                            switch (material.Name.ToLower())
-                            {
-                                case "carbon":
-                                case "germanium":
-                                case "arsenic":
-                                case "niobium":
-                                case "yttrium":
-                                case "polonium":
-                                    matsNotFound = matsNotFound.Replace(material.Name.ToLower(), string.Empty);
-                                    break;
-                            }
-                            if (matsNotFound.Length == 0)
-                            {
-                                Interest.Add((currentSystem, "All jumponium materials in system", string.Empty));
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-
+            
             return Interest.Count > 0;
         }
 

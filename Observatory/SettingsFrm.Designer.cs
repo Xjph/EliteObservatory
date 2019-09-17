@@ -48,7 +48,7 @@
             this.cbx_LandHighG = new System.Windows.Forms.CheckBox();
             this.cbx_LandWithAtmo = new System.Windows.Forms.CheckBox();
             this.cbx_LandWithTerra = new System.Windows.Forms.CheckBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.groupBox_misc = new System.Windows.Forms.GroupBox();
             this.cbx_custom = new System.Windows.Forms.CheckBox();
             this.btnCopyReset = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
@@ -56,8 +56,13 @@
             this.cbxTts = new System.Windows.Forms.CheckBox();
             this.cbxToast = new System.Windows.Forms.CheckBox();
             this.tipCopy = new System.Windows.Forms.ToolTip(this.components);
+            this.groupBox_TTS = new System.Windows.Forms.GroupBox();
+            this.trackBar_Volume = new System.Windows.Forms.TrackBar();
+            this.btn_TestVol = new System.Windows.Forms.Button();
             this.groupBox_Interest.SuspendLayout();
-            this.groupBox1.SuspendLayout();
+            this.groupBox_misc.SuspendLayout();
+            this.groupBox_TTS.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar_Volume)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox_Interest
@@ -285,20 +290,20 @@
             this.cbx_LandWithTerra.UseVisualStyleBackColor = true;
             this.cbx_LandWithTerra.CheckedChanged += new System.EventHandler(this.Cbx_LandWithTerra_CheckedChanged);
             // 
-            // groupBox1
+            // groupBox_misc
             // 
-            this.groupBox1.Controls.Add(this.cbx_custom);
-            this.groupBox1.Controls.Add(this.btnCopyReset);
-            this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.txtCopy);
-            this.groupBox1.Controls.Add(this.cbxTts);
-            this.groupBox1.Controls.Add(this.cbxToast);
-            this.groupBox1.Location = new System.Drawing.Point(13, 244);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(340, 71);
-            this.groupBox1.TabIndex = 1;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Misc.";
+            this.groupBox_misc.Controls.Add(this.cbx_custom);
+            this.groupBox_misc.Controls.Add(this.btnCopyReset);
+            this.groupBox_misc.Controls.Add(this.label1);
+            this.groupBox_misc.Controls.Add(this.txtCopy);
+            this.groupBox_misc.Controls.Add(this.cbxTts);
+            this.groupBox_misc.Controls.Add(this.cbxToast);
+            this.groupBox_misc.Location = new System.Drawing.Point(13, 244);
+            this.groupBox_misc.Name = "groupBox_misc";
+            this.groupBox_misc.Size = new System.Drawing.Size(340, 74);
+            this.groupBox_misc.TabIndex = 1;
+            this.groupBox_misc.TabStop = false;
+            this.groupBox_misc.Text = "Misc.";
             // 
             // cbx_custom
             // 
@@ -342,7 +347,6 @@
             // 
             // cbxTts
             // 
-            this.cbxTts.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.cbxTts.AutoSize = true;
             this.cbxTts.Location = new System.Drawing.Point(119, 48);
             this.cbxTts.Name = "cbxTts";
@@ -354,7 +358,6 @@
             // 
             // cbxToast
             // 
-            this.cbxToast.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.cbxToast.AutoSize = true;
             this.cbxToast.Location = new System.Drawing.Point(4, 48);
             this.cbxToast.Name = "cbxToast";
@@ -368,24 +371,62 @@
             // 
             this.tipCopy.ShowAlways = true;
             // 
+            // groupBox_TTS
+            // 
+            this.groupBox_TTS.Controls.Add(this.btn_TestVol);
+            this.groupBox_TTS.Controls.Add(this.trackBar_Volume);
+            this.groupBox_TTS.Location = new System.Drawing.Point(359, 13);
+            this.groupBox_TTS.Name = "groupBox_TTS";
+            this.groupBox_TTS.Size = new System.Drawing.Size(58, 305);
+            this.groupBox_TTS.TabIndex = 2;
+            this.groupBox_TTS.TabStop = false;
+            this.groupBox_TTS.Text = "Volume";
+            // 
+            // trackBar_Volume
+            // 
+            this.trackBar_Volume.LargeChange = 20;
+            this.trackBar_Volume.Location = new System.Drawing.Point(7, 19);
+            this.trackBar_Volume.Maximum = 100;
+            this.trackBar_Volume.Name = "trackBar_Volume";
+            this.trackBar_Volume.Orientation = System.Windows.Forms.Orientation.Vertical;
+            this.trackBar_Volume.Size = new System.Drawing.Size(45, 254);
+            this.trackBar_Volume.TabIndex = 0;
+            this.trackBar_Volume.TickFrequency = 10;
+            this.trackBar_Volume.TickStyle = System.Windows.Forms.TickStyle.Both;
+            this.trackBar_Volume.Scroll += new System.EventHandler(this.TrackBar_Volume_Scroll);
+            // 
+            // btn_TestVol
+            // 
+            this.btn_TestVol.Location = new System.Drawing.Point(6, 270);
+            this.btn_TestVol.Name = "btn_TestVol";
+            this.btn_TestVol.Size = new System.Drawing.Size(45, 23);
+            this.btn_TestVol.TabIndex = 1;
+            this.btn_TestVol.Text = "Test";
+            this.btn_TestVol.UseVisualStyleBackColor = true;
+            this.btn_TestVol.Click += new System.EventHandler(this.Btn_TestVol_Click);
+            // 
             // SettingsFrm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(369, 327);
-            this.Controls.Add(this.groupBox1);
+            this.ClientSize = new System.Drawing.Size(429, 330);
+            this.Controls.Add(this.groupBox_TTS);
+            this.Controls.Add(this.groupBox_misc);
             this.Controls.Add(this.groupBox_Interest);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "SettingsFrm";
-            this.Text = "ObservatoryMon Settings";
+            this.Text = "Observatory Settings";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.SettingsFrm_FormClosed);
             this.Load += new System.EventHandler(this.SettingsFrm_Load);
             this.groupBox_Interest.ResumeLayout(false);
             this.groupBox_Interest.PerformLayout();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.groupBox_misc.ResumeLayout(false);
+            this.groupBox_misc.PerformLayout();
+            this.groupBox_TTS.ResumeLayout(false);
+            this.groupBox_TTS.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar_Volume)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -409,7 +450,7 @@
         private System.Windows.Forms.CheckBox cbx_CloseOrbit;
         private System.Windows.Forms.CheckBox cbx_LandHighG;
         private System.Windows.Forms.CheckBox cbx_LandWithAtmo;
-        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox groupBox_misc;
         private System.Windows.Forms.CheckBox cbxTts;
         private System.Windows.Forms.CheckBox cbxToast;
         private System.Windows.Forms.Button btnCopyReset;
@@ -419,5 +460,8 @@
         private System.Windows.Forms.CheckBox cbx_custom;
         private System.Windows.Forms.CheckBox cbx_WideRing;
         private System.Windows.Forms.CheckBox cbx_LandLarge;
+        private System.Windows.Forms.GroupBox groupBox_TTS;
+        private System.Windows.Forms.Button btn_TestVol;
+        private System.Windows.Forms.TrackBar trackBar_Volume;
     }
 }

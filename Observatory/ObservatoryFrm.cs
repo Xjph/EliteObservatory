@@ -151,7 +151,7 @@ namespace Observatory
                 {
                     string sector = fullSystemName.Substring(0, fullSystemName.IndexOf('-') - 2);
                     string system = fullSystemName.Remove(0, sector.Length).Replace('-', '–'); //Want it to say "dash", not "hyphen".
-
+                    speech.Volume = Properties.Observatory.Default.TTSVolume;
                     speech.SpeakSsmlAsync($"<speak version=\"1.0\" xmlns=\"http://www.w3.org/2001/10/synthesis\" xml:lang=\"en-US\">{sector}<say-as interpret-as=\"spell-out\">{system}</say-as><break strength=\"weak\"/>{announceText}</speak>");
                 }
             }

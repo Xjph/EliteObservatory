@@ -46,6 +46,8 @@ namespace Observatory
             cbx_custom.Checked = settings.CustomRules;
             cbx_LandLarge.Checked = settings.LandLarge;
             cbx_WideRing.Checked = settings.WideRing;
+            trackBar_Volume.Value = settings.TTSVolume;
+            btn_TestVol.Enabled = settings.TTS;
         }
 
         private void Cbx_LandWithTerra_CheckedChanged(object sender, EventArgs e)
@@ -164,6 +166,7 @@ namespace Observatory
                 mainForm.speech.Dispose();
                 //cbxTtsDetail.Visible = false;
             }
+            btn_TestVol.Enabled = cbxTts.Checked;
             settings.TTS = cbxTts.Checked;
             settings.Save();
         }
@@ -195,6 +198,18 @@ namespace Observatory
         {
             settings.WideRing = ((CheckBox)sender).Checked;
             settings.Save();
+        }
+
+        private void TrackBar_Volume_Scroll(object sender, EventArgs e)
+        {
+            settings.TTSVolume = ((TrackBar)sender).Value;
+            settings.Save();
+        }
+
+        private void Btn_TestVol_Click(object sender, EventArgs e)
+        {
+            mainForm.speech.Volume = settings.TTSVolume;
+            mainForm.speech.SpeakAsync("This is your current text-to-speech volume.");
         }
     }
 }

@@ -71,8 +71,10 @@ namespace Observatory
                         while (!currentLog.EndOfStream)
                         {
                             CurrentLogLine = currentLog.ReadLine();
-
-                            ProcessLine();
+                            if (CurrentLogLine.Trim().StartsWith("{") && CurrentLogLine.Trim().EndsWith("}") && CurrentLogLine.Contains("\"event\":\"Scan\"") || CurrentLogLine.Contains("\"event\":\"Location\"") || CurrentLogLine.Contains("\"event\":\"FSDJump\""))
+                            {
+                                ProcessLine();
+                            }
                         }
                     }
                     progressBar.Value = (progress++ * 100) / allJournals.Count();
@@ -81,7 +83,11 @@ namespace Observatory
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error Reading Logs", MessageBoxButtons.OK);
+                DialogResult response = MessageBox.Show("An error has occured while reading the log files. Would you like to see additional error detail?", "Error Reading Logs", MessageBoxButtons.YesNo);
+                if (response == DialogResult.Yes)
+                {
+                    MessageBox.Show($"Journal Line: {CurrentLogLine}\r\nException message: {ex.Message}\r\nStack trace: {ex.StackTrace}", "Error Detail", MessageBoxButtons.OK);
+                }
             }
             progressBar.Visible = false;
             ReadAllInProgress = false;
@@ -134,7 +140,6 @@ namespace Observatory
                             if (checkLine.Contains("\"event\":\"Scan\""))
                             {
                                 CurrentLogLine = checkLine;
-                                
                             }
                             else if (checkLine.Contains("\"event\":\"Location\"") || checkLine.Contains("\"event\":\"FSDJump\""))
                             {
@@ -154,55 +159,48 @@ namespace Observatory
 
         private void ProcessLine()
         {
-            try
+   
+            if (CurrentLogLine != null)
             {
-                if (CurrentLogLine != null)
+                JObject lastEvent = (JObject)JsonConvert.DeserializeObject(CurrentLogLine, new JsonSerializerSettings() { DateParseHandling = DateParseHandling.None });
+                LastScanValid = false;
+                //Journals prior to Elite Dangerous 2.3 "The Commanders" had differently formatted scan events which I can't be bothered to support.
+                if (DateTime.TryParseExact(lastEvent["timestamp"].ToString(), "yyyy-MM-ddTHH:mm:ssZ", null, System.Globalization.DateTimeStyles.RoundtripKind, out DateTime eventTime))
                 {
-                    JObject lastEvent = (JObject)JsonConvert.DeserializeObject(CurrentLogLine, new JsonSerializerSettings() { DateParseHandling = DateParseHandling.None });
-                    LastScanValid = false;
-                    //Journals prior to Elite Dangerous 2.3 "The Commanders" had differently formatted scan events which I can't be bothered to support.
-                    if (DateTime.TryParseExact(lastEvent["timestamp"].ToString(), "yyyy-MM-ddTHH:mm:ssZ", null, System.Globalization.DateTimeStyles.RoundtripKind, out DateTime eventTime))
+                    if (eventTime > new DateTime(2017, 04, 12))
                     {
-                        if (eventTime > new DateTime(2017, 04, 12))
+                        switch (lastEvent["event"].ToString())
                         {
-                            switch (lastEvent["event"].ToString())
-                            {
-                                case "Scan":
-                                    LastScan = lastEvent.ToObject<ScanEvent>();
-                                    if (ReadAllInProgress || !SystemBody.ContainsKey((CurrentSystem, LastScan.BodyId)))
-                                    {
-                                        SystemBody[(CurrentSystem, LastScan.BodyId)] = LastScan;
-                                        LastScanValid = true;
-                                    }
-                                    break;
-                                case "FSDJump":
-                                case "Location":
-                                    CurrentSystem = lastEvent["StarSystem"].ToString();
-                                    break;
-                                case "FSSDiscoveryScan":
-                                case "FSSAllBodiesFound":
-                                    if (lastEvent["SystemName"] != null)
-                                    {
-                                        CurrentSystem = lastEvent["SystemName"].ToString();
-                                    }
-                                    break;
-                                default:
-                                    break;
-                            }
+                            case "Scan":
+                                LastScan = lastEvent.ToObject<ScanEvent>();
+                                if (ReadAllInProgress || !SystemBody.ContainsKey((CurrentSystem, LastScan.BodyId)))
+                                {
+                                    SystemBody[(CurrentSystem, LastScan.BodyId)] = LastScan;
+                                    LastScanValid = true;
+                                }
+                                break;
+                            case "FSDJump":
+                            case "Location":
+                                CurrentSystem = lastEvent["StarSystem"].ToString();
+                                break;
+                            case "FSSDiscoveryScan":
+                            case "FSSAllBodiesFound":
+                                if (lastEvent["SystemName"] != null)
+                                {
+                                    CurrentSystem = lastEvent["SystemName"].ToString();
+                                }
+                                break;
+                            default:
+                                break;
                         }
                     }
-                    else
-                    {
-                        throw new Exception($"Error parsing journal date on line: {CurrentLogLine}. Process aborted.");
-                    }
+                }
+                else
+                {
+                    throw new Exception($"Error parsing journal date on line: {CurrentLogLine}. Process aborted.");
                 }
             }
-            //Garbage data from unexpected games crashes during journal writes can happen, ignore it.
-            catch (Newtonsoft.Json.JsonReaderException ex)
-            {
-                JsonException = ex.Message;
-                return;
-            }
+
 
             EventHandler entry = LogEntry;
             entry?.Invoke(this, EventArgs.Empty);

@@ -298,5 +298,17 @@ namespace Observatory.Properties {
                 this["WideRing"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
+        public int TTSVolume {
+            get {
+                return ((int)(this["TTSVolume"]));
+            }
+            set {
+                this["TTSVolume"] = value;
+            }
+        }
     }
 }

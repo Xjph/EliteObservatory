@@ -133,12 +133,12 @@ namespace Observatory
             }
 
             // Close binary pair
-            if ((settings.CloseBinary || settings.CollidingBinary) && scanEvent.Parent?[0].ParentType == "Null" && scanEvent.Radius / scanEvent.SemiMajorAxis > 0.5)
+            if ((settings.CloseBinary || settings.CollidingBinary) && scanEvent.Parent?[0].ParentType == "Null" && scanEvent.Radius / scanEvent.SemiMajorAxis > 0.4)
             {
                 var binaryPartner = scanHistory.Where(system => system.Key.System == currentSystem && scanEvent.Parent?[0].Body == system.Value.Parent?[0].Body && scanEvent.BodyId != system.Value.BodyId);
                 if (binaryPartner.Count() == 1)
                 {
-                    if (binaryPartner.First().Value.Radius / binaryPartner.First().Value.SemiMajorAxis > 0.5)
+                    if (binaryPartner.First().Value.Radius / binaryPartner.First().Value.SemiMajorAxis > 0.4)
                     {
                         if (settings.CollidingBinary && binaryPartner.First().Value.Radius + scanEvent.Radius >= binaryPartner.First().Value.SemiMajorAxis * (1 - binaryPartner.First().Value.Eccentricity) + scanEvent.SemiMajorAxis * (1 - scanEvent.Eccentricity))
                         {

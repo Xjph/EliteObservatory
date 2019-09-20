@@ -128,7 +128,7 @@ namespace Observatory
                             detailBuilder.Append($"Radius: {scanEvent.Radius.GetValueOrDefault(0) / 1000:N0}km ");
                             break;
                         case "surfacegravity":
-q                            detailBuilder.Append($"Gravity: {scanEvent.SurfaceGravity.GetValueOrDefault(0) / 9.81:N2}g ");
+                            detailBuilder.Append($"Gravity: {scanEvent.SurfaceGravity.GetValueOrDefault(0) / 9.81:N2}g ");
                             break;
                         case "surfacetemperature":
                             detailBuilder.Append($"Temperature: {scanEvent.SurfaceTemperature.GetValueOrDefault(0):N0}K ");

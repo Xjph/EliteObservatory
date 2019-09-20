@@ -172,11 +172,14 @@ namespace Observatory
                         switch (lastEvent["event"].ToString())
                         {
                             case "Scan":
-                                LastScan = lastEvent.ToObject<ScanEvent>();
-                                if (ReadAllInProgress || !SystemBody.ContainsKey((CurrentSystem, LastScan.BodyId)))
+                                if (!lastEvent["BodyName"].ToString().Contains("Belt Cluster"))
                                 {
-                                    SystemBody[(CurrentSystem, LastScan.BodyId)] = LastScan;
-                                    LastScanValid = true;
+                                    LastScan = lastEvent.ToObject<ScanEvent>();
+                                    if (ReadAllInProgress || !SystemBody.ContainsKey((CurrentSystem, LastScan.BodyId)))
+                                    {
+                                        SystemBody[(CurrentSystem, LastScan.BodyId)] = LastScan;
+                                        LastScanValid = true;
+                                    }
                                 }
                                 break;
                             case "FSDJump":

@@ -8,6 +8,7 @@ namespace Observatory
     {
         private Properties.Observatory settings;
         private ObservatoryFrm mainForm;
+        private bool Loading;
 
         public SettingsFrm(ObservatoryFrm mainForm)
         {
@@ -24,6 +25,7 @@ namespace Observatory
 
         private void SettingsFrm_Load(object sender, EventArgs e)
         {
+            Loading = true;
             cbx_LandWithTerra.Checked = settings.LandWithTerra;
             cbx_LandWithAtmo.Checked = settings.LandWithAtmo;
             cbx_LandHighG.Checked = settings.LandHighG;
@@ -48,6 +50,8 @@ namespace Observatory
             cbx_WideRing.Checked = settings.WideRing;
             trackBar_Volume.Value = settings.TTSVolume;
             btn_TestVol.Enabled = settings.TTS;
+            Loading = false;
+
         }
 
         private void Cbx_LandWithTerra_CheckedChanged(object sender, EventArgs e)
@@ -151,6 +155,11 @@ namespace Observatory
             mainForm.Notify = ((CheckBox)sender).Checked;
             settings.Notify = ((CheckBox)sender).Checked;
             settings.Save();
+            if (!Loading && settings.Notify)
+            {
+                NotifyFrm notifyFrm = new NotifyFrm("Notification Popups Enabled");
+                notifyFrm.Show(5000);
+            }
         }
 
         private void CbxTts_CheckedChanged(object sender, EventArgs e)

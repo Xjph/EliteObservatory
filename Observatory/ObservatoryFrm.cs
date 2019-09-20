@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.IO;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Speech.Synthesis;
 
@@ -25,8 +21,8 @@ namespace Observatory
             logMonitor = new LogMonitor("");
             logMonitor.LogEntry += LogEvent;
             Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
-            notifyIcon.Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
-            notifyIcon.Visible = Properties.Observatory.Default.Notify;
+            //notifyIcon.Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
+            //notifyIcon.Visible = Properties.Observatory.Default.Notify;
             if (Properties.Observatory.Default.TTS)
             {
                 speech = new SpeechSynthesizer();
@@ -34,17 +30,17 @@ namespace Observatory
             }
         }
 
-        public bool Notify
-        {
-            get
-            {
-                return notifyIcon.Visible;
-            }
-            set
-            {
-                notifyIcon.Visible = value;
-            }
-        }
+        public bool Notify = false;
+        //{
+        //    get
+        //    {
+        //        return notifyIcon.Visible;
+        //    }
+        //    set
+        //    {
+        //        notifyIcon.Visible = value;
+        //    }
+        //}
 
         private void BtnToggleMonitor_Click(object sender, EventArgs e)
         {
@@ -70,7 +66,7 @@ namespace Observatory
                 {
                     Invoke((MethodInvoker)delegate ()
                     {
-                        if (!logMonitor.ReadAllInProgress && listEvent.Items[listEvent.Items.Count - 1].SubItems[1].Text == "Uninteresting")
+                        if (!logMonitor.ReadAllInProgress && listEvent.Items.Count > 0 && listEvent.Items[listEvent.Items.Count - 1].SubItems[1].Text == "Uninteresting")
                         {
                             listEvent.Items.RemoveAt(listEvent.Items.Count - 1);
                         }
@@ -130,7 +126,7 @@ namespace Observatory
         {
             if (Properties.Observatory.Default.Notify || Properties.Observatory.Default.TTS)
             {
-                notifyIcon.BalloonTipTitle = "Discovery:";
+                //notifyIcon.BalloonTipTitle = "Discovery:";
                 string fullSystemName = items[0].BodyName;
                 StringBuilder announceText = new StringBuilder();
                 
@@ -144,8 +140,10 @@ namespace Observatory
                 }
                 if (Properties.Observatory.Default.Notify)
                 {
-                    notifyIcon.BalloonTipText = fullSystemName + ": " + announceText.ToString();
-                    notifyIcon.ShowBalloonTip(3000);
+                    //notifyIcon.BalloonTipText = fullSystemName + ": " + announceText.ToString();
+                    //notifyIcon.ShowBalloonTip(3000);
+                    NotifyFrm notifyFrm = new NotifyFrm(fullSystemName + "\r\n" + announceText.ToString());
+                    notifyFrm.Show(5000);
                 }
                 if (Properties.Observatory.Default.TTS)
                 {
@@ -198,7 +196,7 @@ namespace Observatory
 
         private void ObservatoryFrm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            notifyIcon.Icon = null;
+            //notifyIcon.Icon = null;
             speech?.Dispose();
         }
 
@@ -242,10 +240,11 @@ namespace Observatory
                     copyText.AppendLine(
                         Properties.Observatory.Default.CopyTemplate
                             .Replace("%body%", item.SubItems[0].Text)
-                            .Replace("%bodyL%", item.SubItems[0].Text + (item.SubItems[4].Text.Length > 0 ? "- Landable" : string.Empty))
+                            .Replace("%bodyL%", item.SubItems[0].Text + (item.SubItems[4].Text.Length > 0 ? " - Landable" : string.Empty))
                             .Replace("%info%", item.SubItems[1].Text)
                             .Replace("%time%", item.SubItems[2].Text)
                             .Replace("%detail%", item.SubItems[3].Text)
+                            .TrimEnd("- ".ToCharArray())
                             );
                 }
                 else

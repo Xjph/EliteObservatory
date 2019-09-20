@@ -100,15 +100,15 @@ namespace Observatory
                 Interest.Add((scanEvent.BodyName, "Landable Large Planet", $"Radius: {((double)scanEvent.Radius / 1000).ToString("0")}km"));
             }
 
-            // Rings wider than 1 light-second
+            // Rings wider than 5x body radius
             if (settings.WideRing && scanEvent.Rings?.Count<Ring>() > 0)
             {
                 foreach(Ring ring in scanEvent.Rings.Where<Ring>(ring => !ring.Name.Contains("Belt")))
                 {
                     long ringWidth = (ring.OuterRad.GetValueOrDefault(0) - ring.InnerRad.GetValueOrDefault(0));
-                    if (ringWidth > 299792458)
+                    if (ringWidth > scanEvent.Radius * 5)
                     {
-                        Interest.Add((ring.Name, "Wide Ring", $"Width: {(double)ringWidth / 299792458:N2}Ls"));
+                        Interest.Add((ring.Name, "Wide Ring", $"Width: {(double)ringWidth / 299792458:N2}Ls / {(double)ringWidth / 1000:N0}km, Parent Radius: {Math.Truncate((double)scanEvent.Radius / 1000):N0}km"));
                     }
                 }
             }
@@ -211,7 +211,14 @@ namespace Observatory
                     Interest.Add((scanEvent.BodyName, $"5 out of 6 {settings.FSDBoostSynthName} materials", $"Missing material: {matsNotFound}"));
                 }
             }
-            
+
+#if DEBUG
+            if (scanEvent.BodyName.Length > 0)
+            {
+                Interest.Add((scanEvent.BodyName, "Debug Notification!", "More debug detail!"));
+            }
+#endif
+
             return Interest.Count > 0;
         }
 

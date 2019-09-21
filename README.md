@@ -77,9 +77,10 @@ AbsoluteMagnitude
 Age_MY
 WasDiscovered
 WasMapped
+PlanetClass:{class name}
 ```
 
-Atmosphere, Volcanism, Landable, WasDiscovered, and WasMapped return simple 1 or 0 values when used as EventData.
+Atmosphere, Volcanism, Landable, WasDiscovered, WasMapped, TerraformState, and PlanetClass return simple 1 or 0 values when used as EventData. PlanetClass must supply the class name to match as seen in the journal files, e.g. `PlanetClass:Sudarsky class V gas giant`.
 
 ## Prerequisites for use
 .NET 4.5, and by extension Windows Vista or later.

@@ -45,6 +45,7 @@
             this.copyAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.btnSettings = new System.Windows.Forms.Button();
+            this.linkUpdate = new System.Windows.Forms.LinkLabel();
             this.contextCopy.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -125,8 +126,7 @@
             // 
             // progressReadAll
             // 
-            this.progressReadAll.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.progressReadAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.progressReadAll.Location = new System.Drawing.Point(14, 496);
             this.progressReadAll.Name = "progressReadAll";
             this.progressReadAll.Size = new System.Drawing.Size(683, 23);
@@ -171,12 +171,26 @@
             this.btnSettings.UseVisualStyleBackColor = true;
             this.btnSettings.Click += new System.EventHandler(this.BtnSettings_Click);
             // 
+            // linkUpdate
+            // 
+            this.linkUpdate.AutoSize = true;
+            this.linkUpdate.Enabled = false;
+            this.linkUpdate.Location = new System.Drawing.Point(12, 501);
+            this.linkUpdate.Name = "linkUpdate";
+            this.linkUpdate.Size = new System.Drawing.Size(88, 13);
+            this.linkUpdate.TabIndex = 9;
+            this.linkUpdate.TabStop = true;
+            this.linkUpdate.Text = "Update Available";
+            this.linkUpdate.Visible = false;
+            this.linkUpdate.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkUpdate_LinkClicked);
+            // 
             // ObservatoryFrm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(710, 530);
             this.Controls.Add(this.progressReadAll);
+            this.Controls.Add(this.linkUpdate);
             this.Controls.Add(this.btnSettings);
             this.Controls.Add(this.btnReadAll);
             this.Controls.Add(this.listEvent);
@@ -187,6 +201,7 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ObservatoryFrm_FormClosing);
             this.contextCopy.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -205,6 +220,7 @@
         private System.Windows.Forms.ToolStripMenuItem copyAllToolStripMenuItem;
         private System.Windows.Forms.NotifyIcon notifyIcon;
         private System.Windows.Forms.Button btnSettings;
+        private System.Windows.Forms.LinkLabel linkUpdate;
     }
 }
 

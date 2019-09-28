@@ -15,7 +15,6 @@ namespace Observatory
         public string CurrentLogPath { get; private set; }
         public string CurrentLogLine { get; private set; }
         private string LogDirectory;
-        private string JsonException;
         public bool LastScanValid { get; private set; }
         public bool ReadAllInProgress { get; private set; }
         public bool ReadAllComplete { get; private set; }
@@ -38,11 +37,11 @@ namespace Observatory
             SystemBody = new Dictionary<(string, long), ScanEvent>();
             ReadAllInProgress = false;
             ReadAllComplete = false;
-            UserInterest = new UserInterest();
         }
 
         public void MonitorStart()
         {
+            UserInterest = new UserInterest();
             logWatcher.EnableRaisingEvents = true;
             Poker = new JournalPoker(LogDirectory);
             Poker.Start();
@@ -50,6 +49,7 @@ namespace Observatory
 
         public void MonitorStop()
         {
+            UserInterest = null;
             logWatcher.EnableRaisingEvents = false;
             Poker.Stop();
             Poker = null;
@@ -57,6 +57,7 @@ namespace Observatory
 
         public void ReadAll(ProgressBar progressBar)
         {
+            UserInterest = new UserInterest();
             ReadAllInProgress = true;
             progressBar.Visible = true;
             DirectoryInfo logDir = new DirectoryInfo(CheckLogPath());
@@ -175,7 +176,7 @@ namespace Observatory
                                 if (!lastEvent["BodyName"].ToString().Contains("Belt Cluster"))
                                 {
                                     LastScan = lastEvent.ToObject<ScanEvent>();
-                                    if (ReadAllInProgress || !SystemBody.ContainsKey((CurrentSystem, LastScan.BodyId)))
+                                    if (!SystemBody.ContainsKey((CurrentSystem, LastScan.BodyId)))
                                     {
                                         SystemBody[(CurrentSystem, LastScan.BodyId)] = LastScan;
                                         LastScanValid = true;

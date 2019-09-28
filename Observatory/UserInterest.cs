@@ -332,7 +332,32 @@ namespace Observatory
             outerOperation.AppendChild(template.CreateComment("Valid types are \"EventData\", \"Number\", and \"Operation\""));
             outerOperation.AppendChild(template.CreateComment("EventData values pull numbers from scan events, Number values are simple numeric data, and Operation values contain another Operation element."));
             outerOperation.AppendChild(template.CreateComment("Operation elements can be nested indefinitely following the same pattern of an operation inside a value inside an operation."));
-            
+            outerOperation.AppendChild(template.CreateComment(@"The following are valid EventData values:
+DistanceFromArrivalLs
+TidalLock
+TerraformState
+Atmosphere
+Volcanism
+MassEM
+Radius
+SurfaceGravity
+SurfaceTemperature
+SurfacePressure
+Landable
+SemiMajorAxis
+Eccentricity
+OrbitalInclination
+Periapsis
+OrbitalPeriod
+RotationPeriod
+AxialTilt
+StellarMass
+AbsoluteMagnitude
+Age_MY
+WasDiscovered
+WasMapped
+PlanetClass:{class name}
+"));
             outerOperation.Attributes.Append(template.CreateAttribute("Operator"));
             outerOperation.Attributes["Operator"].Value = "Multiply";
 

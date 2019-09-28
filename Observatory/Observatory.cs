@@ -10,6 +10,12 @@ namespace Observatory
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            if (Properties.Observatory.Default.SettingsImport)
+            {
+                Properties.Observatory.Default.Upgrade();
+                Properties.Observatory.Default.SettingsImport = false;
+                Properties.Observatory.Default.Save();
+            }
             Application.Run(new ObservatoryFrm());
         }
     }

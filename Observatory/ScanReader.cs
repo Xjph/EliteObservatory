@@ -114,7 +114,7 @@ namespace Observatory
             }
 
             //Parent relative checks
-            if ((settings.CloseOrbit || settings.ShepherdMoon) && (scanEvent.Parent?[0].ParentType == "Planet" || scanEvent.Parent?[0].ParentType == "Star") &&
+            if ((settings.CloseOrbit || settings.ShepherdMoon || settings.RingHugger) && (scanEvent.Parent?[0].ParentType == "Planet" || scanEvent.Parent?[0].ParentType == "Star") &&
                 !isRing && scanHistory.ContainsKey((currentSystem, scanEvent.Parent[0].Body)))
             {
                 ScanEvent parent = scanHistory[(currentSystem, scanEvent.Parent[0].Body)];
@@ -129,6 +129,20 @@ namespace Observatory
                 if (settings.ShepherdMoon && parent.Rings?.Last().OuterRad > scanEvent.SemiMajorAxis && !parent.Rings.Last().Name.Contains(" Belt"))
                 {
                     Interest.Add((scanEvent.BodyName, "Shepherd moon", $"Orbit: {Math.Truncate((double)scanEvent.SemiMajorAxis / 1000):N0}km, Ring radius: {Math.Truncate((double)parent.Rings.Last().OuterRad / 1000):N0}km"));
+                }
+
+                // Moon close to ring
+                if (settings.RingHugger && parent.Rings?.Count() > 0)
+                {
+                    foreach (var ring in parent.Rings)
+                    {
+                        double separation = Math.Min(Math.Abs(scanEvent.SemiMajorAxis.GetValueOrDefault(0) - ring.OuterRad.GetValueOrDefault(0)), Math.Abs(ring.InnerRad.GetValueOrDefault(0) - scanEvent.SemiMajorAxis.GetValueOrDefault(0)));
+                        if (separation < scanEvent.Radius * 10)
+                        {
+                            Interest.Add((scanEvent.BodyName, "Close ring proximity", $"Orbit: {Math.Truncate((double)scanEvent.SemiMajorAxis / 1000):N0}km, Radius: {((double)scanEvent.Radius / 1000).ToString("0")}km, Distance from ring: {separation / 1000:N0}km"));
+                        }
+                        
+                    }
                 }
             }
 
@@ -182,6 +196,12 @@ namespace Observatory
                 Interest.Add((scanEvent.BodyName, "Highly eccentric orbit", $"Eccentricity: {Math.Round((decimal)scanEvent.Eccentricity, 2)}"));
             }
 
+            // Ringed Landable
+            if (settings.RingLandable && scanEvent.Landable.GetValueOrDefault(false) && scanEvent.Rings?.Count() > 0)
+            {
+                Interest.Add((scanEvent.BodyName, "Ringed landable body", string.Empty));
+            }
+
             // Good jumponium material availability
             if ((settings.AllJumpBody || settings.GoodJump) && scanEvent.Landable.GetValueOrDefault(false))
             {
@@ -211,13 +231,6 @@ namespace Observatory
                     Interest.Add((scanEvent.BodyName, $"5 out of 6 {settings.FSDBoostSynthName} materials", $"Missing material: {matsNotFound}"));
                 }
             }
-
-#if DEBUG
-            if (scanEvent.BodyName.Length > 0)
-            {
-                Interest.Add((scanEvent.BodyName, "Debug Notification!", "More debug detail!"));
-            }
-#endif
 
             return Interest.Count > 0;
         }

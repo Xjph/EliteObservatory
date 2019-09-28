@@ -30,6 +30,8 @@
         {
             this.components = new System.ComponentModel.Container();
             this.groupBox_Interest = new System.Windows.Forms.GroupBox();
+q            this.cbxLandRing = new System.Windows.Forms.CheckBox();
+            this.cbxRinghugger = new System.Windows.Forms.CheckBox();
             this.cbx_WideRing = new System.Windows.Forms.CheckBox();
             this.cbx_LandLarge = new System.Windows.Forms.CheckBox();
             this.cbx_VeryInteresting = new System.Windows.Forms.CheckBox();
@@ -57,8 +59,9 @@
             this.cbxToast = new System.Windows.Forms.CheckBox();
             this.tipCopy = new System.Windows.Forms.ToolTip(this.components);
             this.groupBox_TTS = new System.Windows.Forms.GroupBox();
-            this.trackBar_Volume = new System.Windows.Forms.TrackBar();
             this.btn_TestVol = new System.Windows.Forms.Button();
+            this.trackBar_Volume = new System.Windows.Forms.TrackBar();
+            this.linkGit = new System.Windows.Forms.LinkLabel();
             this.groupBox_Interest.SuspendLayout();
             this.groupBox_misc.SuspendLayout();
             this.groupBox_TTS.SuspendLayout();
@@ -67,6 +70,8 @@
             // 
             // groupBox_Interest
             // 
+            this.groupBox_Interest.Controls.Add(this.cbxLandRing);
+            this.groupBox_Interest.Controls.Add(this.cbxRinghugger);
             this.groupBox_Interest.Controls.Add(this.cbx_WideRing);
             this.groupBox_Interest.Controls.Add(this.cbx_LandLarge);
             this.groupBox_Interest.Controls.Add(this.cbx_VeryInteresting);
@@ -87,10 +92,32 @@
             this.groupBox_Interest.Controls.Add(this.cbx_LandWithTerra);
             this.groupBox_Interest.Location = new System.Drawing.Point(13, 13);
             this.groupBox_Interest.Name = "groupBox_Interest";
-            this.groupBox_Interest.Size = new System.Drawing.Size(340, 225);
+            this.groupBox_Interest.Size = new System.Drawing.Size(340, 250);
             this.groupBox_Interest.TabIndex = 0;
             this.groupBox_Interest.TabStop = false;
             this.groupBox_Interest.Text = "Interest Criteria";
+            // 
+            // cbxLandRing
+            // 
+            this.cbxLandRing.AutoSize = true;
+            this.cbxLandRing.Location = new System.Drawing.Point(165, 20);
+            this.cbxLandRing.Name = "cbxLandRing";
+            this.cbxLandRing.Size = new System.Drawing.Size(111, 17);
+            this.cbxLandRing.TabIndex = 19;
+            this.cbxLandRing.Text = "Landable w/ Ring";
+            this.cbxLandRing.UseVisualStyleBackColor = true;
+            this.cbxLandRing.CheckedChanged += new System.EventHandler(this.CbxLandRing_CheckedChanged);
+            // 
+            // cbxRinghugger
+            // 
+            this.cbxRinghugger.AutoSize = true;
+            this.cbxRinghugger.Location = new System.Drawing.Point(6, 226);
+            this.cbxRinghugger.Name = "cbxRinghugger";
+            this.cbxRinghugger.Size = new System.Drawing.Size(121, 17);
+            this.cbxRinghugger.TabIndex = 18;
+            this.cbxRinghugger.Text = "Close Ring Proximity";
+            this.cbxRinghugger.UseVisualStyleBackColor = true;
+            this.cbxRinghugger.CheckedChanged += new System.EventHandler(this.CbxRinghugger_CheckedChanged);
             // 
             // cbx_WideRing
             // 
@@ -117,7 +144,7 @@
             // cbx_VeryInteresting
             // 
             this.cbx_VeryInteresting.AutoSize = true;
-            this.cbx_VeryInteresting.Location = new System.Drawing.Point(160, 203);
+            this.cbx_VeryInteresting.Location = new System.Drawing.Point(165, 226);
             this.cbx_VeryInteresting.Name = "cbx_VeryInteresting";
             this.cbx_VeryInteresting.Size = new System.Drawing.Size(153, 17);
             this.cbx_VeryInteresting.TabIndex = 15;
@@ -128,7 +155,7 @@
             // cbx_AllJumpSystem
             // 
             this.cbx_AllJumpSystem.AutoSize = true;
-            this.cbx_AllJumpSystem.Location = new System.Drawing.Point(160, 180);
+            this.cbx_AllJumpSystem.Location = new System.Drawing.Point(165, 203);
             this.cbx_AllJumpSystem.Name = "cbx_AllJumpSystem";
             this.cbx_AllJumpSystem.Size = new System.Drawing.Size(165, 17);
             this.cbx_AllJumpSystem.TabIndex = 14;
@@ -139,7 +166,7 @@
             // cbx_AllJumpBody
             // 
             this.cbx_AllJumpBody.AutoSize = true;
-            this.cbx_AllJumpBody.Location = new System.Drawing.Point(160, 157);
+            this.cbx_AllJumpBody.Location = new System.Drawing.Point(165, 180);
             this.cbx_AllJumpBody.Name = "cbx_AllJumpBody";
             this.cbx_AllJumpBody.Size = new System.Drawing.Size(155, 17);
             this.cbx_AllJumpBody.TabIndex = 13;
@@ -150,7 +177,7 @@
             // cbx_GoodJump
             // 
             this.cbx_GoodJump.AutoSize = true;
-            this.cbx_GoodJump.Location = new System.Drawing.Point(160, 134);
+            this.cbx_GoodJump.Location = new System.Drawing.Point(165, 157);
             this.cbx_GoodJump.Name = "cbx_GoodJump";
             this.cbx_GoodJump.Size = new System.Drawing.Size(137, 17);
             this.cbx_GoodJump.TabIndex = 12;
@@ -161,7 +188,7 @@
             // cbx_HighEccentric
             // 
             this.cbx_HighEccentric.AutoSize = true;
-            this.cbx_HighEccentric.Location = new System.Drawing.Point(160, 111);
+            this.cbx_HighEccentric.Location = new System.Drawing.Point(165, 134);
             this.cbx_HighEccentric.Name = "cbx_HighEccentric";
             this.cbx_HighEccentric.Size = new System.Drawing.Size(106, 17);
             this.cbx_HighEccentric.TabIndex = 11;
@@ -172,7 +199,7 @@
             // cbx_FastOrbit
             // 
             this.cbx_FastOrbit.AutoSize = true;
-            this.cbx_FastOrbit.Location = new System.Drawing.Point(160, 88);
+            this.cbx_FastOrbit.Location = new System.Drawing.Point(165, 111);
             this.cbx_FastOrbit.Name = "cbx_FastOrbit";
             this.cbx_FastOrbit.Size = new System.Drawing.Size(71, 17);
             this.cbx_FastOrbit.TabIndex = 10;
@@ -183,7 +210,7 @@
             // cbx_FastRotate
             // 
             this.cbx_FastRotate.AutoSize = true;
-            this.cbx_FastRotate.Location = new System.Drawing.Point(160, 65);
+            this.cbx_FastRotate.Location = new System.Drawing.Point(165, 88);
             this.cbx_FastRotate.Name = "cbx_FastRotate";
             this.cbx_FastRotate.Size = new System.Drawing.Size(89, 17);
             this.cbx_FastRotate.TabIndex = 9;
@@ -194,7 +221,7 @@
             // cbx_TinyObject
             // 
             this.cbx_TinyObject.AutoSize = true;
-            this.cbx_TinyObject.Location = new System.Drawing.Point(160, 43);
+            this.cbx_TinyObject.Location = new System.Drawing.Point(165, 66);
             this.cbx_TinyObject.Name = "cbx_TinyObject";
             this.cbx_TinyObject.Size = new System.Drawing.Size(80, 17);
             this.cbx_TinyObject.TabIndex = 8;
@@ -205,7 +232,7 @@
             // cbx_NestedMoon
             // 
             this.cbx_NestedMoon.AutoSize = true;
-            this.cbx_NestedMoon.Location = new System.Drawing.Point(160, 20);
+            this.cbx_NestedMoon.Location = new System.Drawing.Point(165, 43);
             this.cbx_NestedMoon.Name = "cbx_NestedMoon";
             this.cbx_NestedMoon.Size = new System.Drawing.Size(90, 17);
             this.cbx_NestedMoon.TabIndex = 7;
@@ -298,7 +325,7 @@
             this.groupBox_misc.Controls.Add(this.txtCopy);
             this.groupBox_misc.Controls.Add(this.cbxTts);
             this.groupBox_misc.Controls.Add(this.cbxToast);
-            this.groupBox_misc.Location = new System.Drawing.Point(13, 244);
+            this.groupBox_misc.Location = new System.Drawing.Point(13, 269);
             this.groupBox_misc.Name = "groupBox_misc";
             this.groupBox_misc.Size = new System.Drawing.Size(340, 74);
             this.groupBox_misc.TabIndex = 1;
@@ -382,6 +409,16 @@
             this.groupBox_TTS.TabStop = false;
             this.groupBox_TTS.Text = "Volume";
             // 
+            // btn_TestVol
+            // 
+            this.btn_TestVol.Location = new System.Drawing.Point(6, 270);
+            this.btn_TestVol.Name = "btn_TestVol";
+            this.btn_TestVol.Size = new System.Drawing.Size(45, 23);
+            this.btn_TestVol.TabIndex = 1;
+            this.btn_TestVol.Text = "Test";
+            this.btn_TestVol.UseVisualStyleBackColor = true;
+            this.btn_TestVol.Click += new System.EventHandler(this.Btn_TestVol_Click);
+            // 
             // trackBar_Volume
             // 
             this.trackBar_Volume.LargeChange = 20;
@@ -395,21 +432,24 @@
             this.trackBar_Volume.TickStyle = System.Windows.Forms.TickStyle.Both;
             this.trackBar_Volume.Scroll += new System.EventHandler(this.TrackBar_Volume_Scroll);
             // 
-            // btn_TestVol
+            // linkGit
             // 
-            this.btn_TestVol.Location = new System.Drawing.Point(6, 270);
-            this.btn_TestVol.Name = "btn_TestVol";
-            this.btn_TestVol.Size = new System.Drawing.Size(45, 23);
-            this.btn_TestVol.TabIndex = 1;
-            this.btn_TestVol.Text = "Test";
-            this.btn_TestVol.UseVisualStyleBackColor = true;
-            this.btn_TestVol.Click += new System.EventHandler(this.Btn_TestVol_Click);
+            this.linkGit.AutoSize = true;
+            this.linkGit.Location = new System.Drawing.Point(370, 321);
+            this.linkGit.Name = "linkGit";
+            this.linkGit.Size = new System.Drawing.Size(36, 13);
+            this.linkGit.TabIndex = 3;
+            this.linkGit.TabStop = true;
+            this.linkGit.Text = "github";
+            this.linkGit.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.linkGit.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkGit_LinkClicked);
             // 
             // SettingsFrm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(429, 330);
+            this.ClientSize = new System.Drawing.Size(429, 350);
+            this.Controls.Add(this.linkGit);
             this.Controls.Add(this.groupBox_TTS);
             this.Controls.Add(this.groupBox_misc);
             this.Controls.Add(this.groupBox_Interest);
@@ -428,6 +468,7 @@
             this.groupBox_TTS.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_Volume)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -463,5 +504,8 @@
         private System.Windows.Forms.GroupBox groupBox_TTS;
         private System.Windows.Forms.Button btn_TestVol;
         private System.Windows.Forms.TrackBar trackBar_Volume;
+        private System.Windows.Forms.CheckBox cbxLandRing;
+        private System.Windows.Forms.CheckBox cbxRinghugger;
+        private System.Windows.Forms.LinkLabel linkGit;
     }
 }

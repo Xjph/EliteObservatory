@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Speech.Synthesis;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Observatory
 {
@@ -21,26 +23,41 @@ namespace Observatory
             logMonitor = new LogMonitor("");
             logMonitor.LogEntry += LogEvent;
             Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
-            //notifyIcon.Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
-            //notifyIcon.Visible = Properties.Observatory.Default.Notify;
             if (Properties.Observatory.Default.TTS)
             {
                 speech = new SpeechSynthesizer();
                 speech.SetOutputToDefaultAudioDevice();
             }
-        }
 
-        public bool Notify = false;
-        //{
-        //    get
-        //    {
-        //        return notifyIcon.Visible;
-        //    }
-        //    set
-        //    {
-        //        notifyIcon.Visible = value;
-        //    }
-        //}
+            try
+            {
+                string releasesResponse;
+                using (System.Net.WebClient client = new System.Net.WebClient())
+                {
+                    System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
+                    client.Headers["user-agent"] = "Xjph/EliteObservatory";
+                    releasesResponse = client.DownloadString("https://api.github.com/repos/xjph/EliteObservatory/releases");
+                }
+
+                if (!string.IsNullOrEmpty(releasesResponse))
+                {
+                    JArray releases = (JArray)JsonConvert.DeserializeObject(releasesResponse, new JsonSerializerSettings() { DateParseHandling = DateParseHandling.None });
+                    foreach (JObject release in releases)//v0.3.19.271
+                    {
+                        if (release["tag_name"].ToString().CompareTo($"v{Application.ProductVersion}") > 0)
+                        {
+                            linkUpdate.Enabled = true;
+                            linkUpdate.Visible = true;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error checking for update: {ex.Message}");
+            }
+
+        }
 
         private void BtnToggleMonitor_Click(object sender, EventArgs e)
         {
@@ -269,6 +286,11 @@ namespace Observatory
             {
                 settingsFrm.Activate();
             }
+        }
+
+        private void LinkUpdate_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://github.com/Xjph/EliteObservatory/releases");
         }
     }
 }

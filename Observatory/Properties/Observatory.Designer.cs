@@ -310,5 +310,41 @@ namespace Observatory.Properties {
                 this["TTSVolume"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool SettingsImport {
+            get {
+                return ((bool)(this["SettingsImport"]));
+            }
+            set {
+                this["SettingsImport"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool RingHugger {
+            get {
+                return ((bool)(this["RingHugger"]));
+            }
+            set {
+                this["RingHugger"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool RingLandable {
+            get {
+                return ((bool)(this["RingLandable"]));
+            }
+            set {
+                this["RingLandable"] = value;
+            }
+        }
     }
 }

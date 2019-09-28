@@ -51,7 +51,8 @@ namespace Observatory
             trackBar_Volume.Value = settings.TTSVolume;
             btn_TestVol.Enabled = settings.TTS;
             Loading = false;
-
+            cbxRinghugger.Checked = settings.RingHugger;
+            cbxLandRing.Checked = settings.RingLandable;
         }
 
         private void Cbx_LandWithTerra_CheckedChanged(object sender, EventArgs e)
@@ -152,7 +153,6 @@ namespace Observatory
 
         private void CbxToast_CheckedChanged(object sender, EventArgs e)
         {
-            mainForm.Notify = ((CheckBox)sender).Checked;
             settings.Notify = ((CheckBox)sender).Checked;
             settings.Save();
             if (!Loading && settings.Notify)
@@ -219,6 +219,23 @@ namespace Observatory
         {
             mainForm.speech.Volume = settings.TTSVolume;
             mainForm.speech.SpeakAsync("This is your current text-to-speech volume.");
+        }
+
+        private void LinkGit_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://github.com/Xjph/EliteObservatory");
+        }
+
+        private void CbxLandRing_CheckedChanged(object sender, EventArgs e)
+        {
+            settings.RingLandable = ((CheckBox)sender).Checked;
+            settings.Save();
+        }
+
+        private void CbxRinghugger_CheckedChanged(object sender, EventArgs e)
+        {
+            settings.RingHugger = ((CheckBox)sender).Checked;
+            settings.Save();
         }
     }
 }

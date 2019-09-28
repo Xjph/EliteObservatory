@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             this.groupBox_Interest = new System.Windows.Forms.GroupBox();
-q            this.cbxLandRing = new System.Windows.Forms.CheckBox();
+            this.cbxLandRing = new System.Windows.Forms.CheckBox();
             this.cbxRinghugger = new System.Windows.Forms.CheckBox();
             this.cbx_WideRing = new System.Windows.Forms.CheckBox();
             this.cbx_LandLarge = new System.Windows.Forms.CheckBox();

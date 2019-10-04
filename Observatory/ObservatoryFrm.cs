@@ -126,12 +126,14 @@ namespace Observatory
                     {
                         UseItemStyleForSubItems = false
                     };
+
                     Invoke((MethodInvoker)delegate () {
+#if !DEBUG
                     if (listEvent.Items.Count > 0 && listEvent.Items[listEvent.Items.Count - 1].SubItems[1].Text == "Uninteresting")
                     {
                         listEvent.Items.RemoveAt(listEvent.Items.Count - 1); 
                     }
-
+#endif
                     newItem.SubItems[0].ForeColor = Color.DarkGray;
                     newItem.SubItems[1].ForeColor = Color.DarkGray;
                     listEvent.Items.Add(newItem).EnsureVisible(); });
@@ -200,6 +202,7 @@ namespace Observatory
                 if (confirmResult == DialogResult.OK)
                 {
                     listEvent.Items.Clear();
+                    logMonitor.SystemBody.Clear();
                 }
                 else
                 {

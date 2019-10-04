@@ -166,9 +166,17 @@ namespace Observatory
         {
             if (cbxTts.Checked)
             {
-                mainForm.speech = new System.Speech.Synthesis.SpeechSynthesizer();
-                mainForm.speech.SetOutputToDefaultAudioDevice();
-                //cbxTtsDetail.Visible = true;
+                try
+                {
+                    mainForm.speech = new System.Speech.Synthesis.SpeechSynthesizer();
+                    mainForm.speech.SetOutputToDefaultAudioDevice();
+                    //cbxTtsDetail.Visible = true;
+                }
+                catch
+                {
+                    MessageBox.Show("There was an error while initializing Text-To-Speech. Windows Text-To-Speech services may not be available on this system.");
+                    cbxTts.Checked = false;
+                }
             }
             else
             {

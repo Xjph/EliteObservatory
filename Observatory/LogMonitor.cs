@@ -14,6 +14,7 @@ namespace Observatory
         public string CurrentSystem { get; private set; }
         public string CurrentLogPath { get; private set; }
         public string CurrentLogLine { get; private set; }
+        private List<string> LinesToProcess;
         private string LogDirectory;
         public bool LastScanValid { get; private set; }
         public bool ReadAllInProgress { get; private set; }
@@ -37,6 +38,7 @@ namespace Observatory
             SystemBody = new Dictionary<(string, long), ScanEvent>();
             ReadAllInProgress = false;
             ReadAllComplete = false;
+            CurrentSystem = string.Empty;
         }
 
         public void MonitorStart()
@@ -74,7 +76,7 @@ namespace Observatory
                             CurrentLogLine = currentLog.ReadLine();
                             if (CurrentLogLine.Trim().StartsWith("{") && CurrentLogLine.Trim().EndsWith("}") && CurrentLogLine.Contains("\"event\":\"Scan\"") || CurrentLogLine.Contains("\"event\":\"Location\"") || CurrentLogLine.Contains("\"event\":\"FSDJump\""))
                             {
-                                ProcessLine();
+                                ProcessLine(CurrentLogLine);
                             }
                         }
                     }
@@ -135,10 +137,15 @@ namespace Observatory
                    
                     using (StreamReader currentLog = new StreamReader(File.Open(CurrentLogPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)))
                     {
+                        LinesToProcess = new List<string>();
                         while (!currentLog.EndOfStream)
                         {
                             string checkLine = currentLog.ReadLine();
-                            if (checkLine.Contains("\"event\":\"Scan\""))
+                            if (checkLine.Contains("\"ScanType\":\"AutoScan\"") && checkLine.Contains(CurrentSystem) || CurrentSystem == string.Empty)
+                            {
+                                LinesToProcess.Add(checkLine);
+                            }
+                            else if (checkLine.Contains("\"event\":\"Scan\""))
                             {
                                 CurrentLogLine = checkLine;
                             }
@@ -147,9 +154,14 @@ namespace Observatory
                                 CurrentLogLine = checkLine;
                             }
                         }
+
+                        LinesToProcess.Add(CurrentLogLine);
                     }
-                    
-                    ProcessLine();
+
+                    foreach (string line in LinesToProcess)
+                    {
+                        ProcessLine(line);
+                    }
 
                     break;
 
@@ -158,12 +170,12 @@ namespace Observatory
             }
         }
 
-        private void ProcessLine()
+        private void ProcessLine(string logLine)
         {
    
-            if (CurrentLogLine != null)
+            if (logLine != null)
             {
-                JObject lastEvent = (JObject)JsonConvert.DeserializeObject(CurrentLogLine, new JsonSerializerSettings() { DateParseHandling = DateParseHandling.None });
+                JObject lastEvent = (JObject)JsonConvert.DeserializeObject(logLine, new JsonSerializerSettings() { DateParseHandling = DateParseHandling.None });
                 LastScanValid = false;
                 //Journals prior to Elite Dangerous 2.3 "The Commanders" had differently formatted scan events which I can't be bothered to support.
                 if (DateTime.TryParseExact(lastEvent["timestamp"].ToString(), "yyyy-MM-ddTHH:mm:ssZ", null, System.Globalization.DateTimeStyles.RoundtripKind, out DateTime eventTime))
@@ -201,7 +213,7 @@ namespace Observatory
                 }
                 else
                 {
-                    throw new Exception($"Error parsing journal date on line: {CurrentLogLine}. Process aborted.");
+                    throw new Exception($"Error parsing journal date on line: {logLine}. Process aborted.");
                 }
             }
 

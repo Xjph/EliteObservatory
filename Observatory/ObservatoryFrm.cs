@@ -15,6 +15,7 @@ namespace Observatory
         private LogMonitor logMonitor;
         public SpeechSynthesizer speech;
         private SettingsFrm settingsFrm;
+        private ListViewColumnSorter columnSorter;
         public bool settingsOpen = false;
         
         public ObservatoryFrm()
@@ -23,6 +24,8 @@ namespace Observatory
             logMonitor = new LogMonitor("");
             logMonitor.LogEntry += LogEvent;
             Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
+            columnSorter = new ListViewColumnSorter();
+            listEvent.ListViewItemSorter = columnSorter;
             if (Properties.Observatory.Default.TTS)
             {
                 speech = new SpeechSynthesizer();
@@ -42,7 +45,7 @@ namespace Observatory
                 if (!string.IsNullOrEmpty(releasesResponse))
                 {
                     JArray releases = (JArray)JsonConvert.DeserializeObject(releasesResponse, new JsonSerializerSettings() { DateParseHandling = DateParseHandling.None });
-                    foreach (JObject release in releases)//v0.3.19.271
+                    foreach (JObject release in releases)
                     {
                         if (release["tag_name"].ToString().CompareTo($"v{Application.ProductVersion}") > 0)
                         {
@@ -116,7 +119,7 @@ namespace Observatory
                         {
                             scan.Interest.Remove(item);
                         }
-                        if (!logMonitor.ReadAllInProgress && scan.Interest.Count > 0) { AnnounceItems(scan.Interest); }
+                        if (!logMonitor.ReadAllInProgress && scan.Interest.Count > 0) { AnnounceItems(logMonitor.CurrentSystem, scan.Interest); }
                     });
                 }
                 else if (!logMonitor.ReadAllInProgress)
@@ -141,12 +144,11 @@ namespace Observatory
             }
         }
 
-        private void AnnounceItems(List<(string BodyName, string Description, string Detail)> items)
+        private void AnnounceItems(string currentSystem, List<(string BodyName, string Description, string Detail)> items)
         {
             if (Properties.Observatory.Default.Notify || Properties.Observatory.Default.TTS)
             {
-                //notifyIcon.BalloonTipTitle = "Discovery:";
-                string fullSystemName = items[0].BodyName;
+                string fullBodyName = items[0].BodyName;
                 StringBuilder announceText = new StringBuilder();
                 
                 foreach (var item in items)
@@ -159,17 +161,15 @@ namespace Observatory
                 }
                 if (Properties.Observatory.Default.Notify)
                 {
-                    //notifyIcon.BalloonTipText = fullSystemName + ": " + announceText.ToString();
-                    //notifyIcon.ShowBalloonTip(3000);
-                    NotifyFrm notifyFrm = new NotifyFrm(fullSystemName + "\r\n" + announceText.ToString());
+                    NotifyFrm notifyFrm = new NotifyFrm(fullBodyName + "\r\n" + announceText.ToString());
                     notifyFrm.Show(5000);
                 }
                 if (Properties.Observatory.Default.TTS)
                 {
-                    string sector = fullSystemName.Substring(0, fullSystemName.IndexOf('-') - 2);
-                    string system = fullSystemName.Remove(0, sector.Length).Replace('-', '–'); //Want it to say "dash", not "hyphen".
+                    string spokenName;
+                    spokenName = fullBodyName.Replace(currentSystem, string.Empty);
                     speech.Volume = Properties.Observatory.Default.TTSVolume;
-                    speech.SpeakSsmlAsync($"<speak version=\"1.0\" xmlns=\"http://www.w3.org/2001/10/synthesis\" xml:lang=\"en-US\">{sector}<say-as interpret-as=\"spell-out\">{system}</say-as><break strength=\"weak\"/>{announceText}</speak>");
+                    speech.SpeakSsmlAsync($"<speak version=\"1.0\" xmlns=\"http://www.w3.org/2001/10/synthesis\" xml:lang=\"en-US\">Body {spokenName}:<break strength=\"weak\"/>{announceText}</speak>");
                 }
             }
         }
@@ -212,12 +212,6 @@ namespace Observatory
             listEvent.BeginUpdate();
             logMonitor.ReadAll(progressReadAll);
             listEvent.EndUpdate();
-        }
-
-        private void ObservatoryFrm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            //notifyIcon.Icon = null;
-            speech?.Dispose();
         }
 
         private void ListEvent_MouseClick(object sender, MouseEventArgs e)
@@ -294,6 +288,53 @@ namespace Observatory
         private void LinkUpdate_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             System.Diagnostics.Process.Start("https://github.com/Xjph/EliteObservatory/releases");
+        }
+
+        private void ObservatoryFrm_Load(object sender, EventArgs e)
+        {
+            if (Properties.Observatory.Default.WindowSize.Height != 0)
+            {
+                Location = Properties.Observatory.Default.WindowLocation;
+                Size = Properties.Observatory.Default.WindowSize;
+            }
+        }
+
+        private void ObservatoryFrm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Properties.Observatory.Default.WindowSize = Size;
+            Properties.Observatory.Default.WindowLocation = Location;
+            Properties.Observatory.Default.Save();
+            speech?.Dispose();
+        }
+
+        private void ListEvent_ColumnClick(object sender, ColumnClickEventArgs e)
+        {
+            if (e.Column == columnSorter.SortColumn)
+            {
+                // Reverse the current sort direction for this column.
+                if (columnSorter.Order == SortOrder.Ascending)
+                {
+                    columnSorter.Order = SortOrder.Descending;
+                }
+                else
+                {
+                    columnSorter.Order = SortOrder.Ascending;
+                }
+            }
+            else
+            {
+                // Set the column number that is to be sorted; default to ascending.
+                columnSorter.SortColumn = e.Column;
+                columnSorter.Order = SortOrder.Ascending;
+            }
+            listEvent.Sort();
+        }
+
+        private void BtnClear_Click(object sender, EventArgs e)
+        {
+            listEvent.Items.Clear();
+            logMonitor = new LogMonitor("");
+            logMonitor.LogEntry += LogEvent;
         }
     }
 }

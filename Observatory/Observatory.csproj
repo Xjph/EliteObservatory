@@ -74,6 +74,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ColumnSorter.cs" />
     <Compile Include="JournalPoker.cs" />
     <Compile Include="NotifyFrm.cs">
       <SubType>Form</SubType>

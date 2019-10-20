@@ -46,6 +46,7 @@
             this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.btnSettings = new System.Windows.Forms.Button();
             this.linkUpdate = new System.Windows.Forms.LinkLabel();
+            this.btnClear = new System.Windows.Forms.Button();
             this.contextCopy.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -72,7 +73,6 @@
             this.detail,
             this.landable});
             this.listEvent.FullRowSelect = true;
-            this.listEvent.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.listEvent.HideSelection = false;
             this.listEvent.Location = new System.Drawing.Point(12, 12);
             this.listEvent.Name = "listEvent";
@@ -80,6 +80,7 @@
             this.listEvent.TabIndex = 2;
             this.listEvent.UseCompatibleStateImageBehavior = false;
             this.listEvent.View = System.Windows.Forms.View.Details;
+            this.listEvent.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.ListEvent_ColumnClick);
             this.listEvent.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ListEvent_KeyDown);
             this.listEvent.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ListEvent_MouseClick);
             // 
@@ -126,7 +127,8 @@
             // 
             // progressReadAll
             // 
-            this.progressReadAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.progressReadAll.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.progressReadAll.Location = new System.Drawing.Point(14, 496);
             this.progressReadAll.Name = "progressReadAll";
             this.progressReadAll.Size = new System.Drawing.Size(683, 23);
@@ -163,7 +165,7 @@
             // btnSettings
             // 
             this.btnSettings.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSettings.Location = new System.Drawing.Point(422, 496);
+            this.btnSettings.Location = new System.Drawing.Point(341, 496);
             this.btnSettings.Name = "btnSettings";
             this.btnSettings.Size = new System.Drawing.Size(75, 23);
             this.btnSettings.TabIndex = 8;
@@ -184,12 +186,24 @@
             this.linkUpdate.Visible = false;
             this.linkUpdate.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkUpdate_LinkClicked);
             // 
+            // btnClear
+            // 
+            this.btnClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnClear.Location = new System.Drawing.Point(422, 496);
+            this.btnClear.Name = "btnClear";
+            this.btnClear.Size = new System.Drawing.Size(75, 23);
+            this.btnClear.TabIndex = 10;
+            this.btnClear.Text = "Clear List";
+            this.btnClear.UseVisualStyleBackColor = true;
+            this.btnClear.Click += new System.EventHandler(this.BtnClear_Click);
+            // 
             // ObservatoryFrm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(710, 530);
             this.Controls.Add(this.progressReadAll);
+            this.Controls.Add(this.btnClear);
             this.Controls.Add(this.linkUpdate);
             this.Controls.Add(this.btnSettings);
             this.Controls.Add(this.btnReadAll);
@@ -199,6 +213,7 @@
             this.Name = "ObservatoryFrm";
             this.Text = "Elite Observatory";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ObservatoryFrm_FormClosing);
+            this.Load += new System.EventHandler(this.ObservatoryFrm_Load);
             this.contextCopy.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -221,6 +236,7 @@
         private System.Windows.Forms.NotifyIcon notifyIcon;
         private System.Windows.Forms.Button btnSettings;
         private System.Windows.Forms.LinkLabel linkUpdate;
+        private System.Windows.Forms.Button btnClear;
     }
 }
 

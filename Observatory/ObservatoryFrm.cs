@@ -125,7 +125,7 @@ namespace Observatory
                 else if (!logMonitor.ReadAllInProgress)
                 {
 
-                    ListViewItem newItem = new ListViewItem(new string[] { scan.Interest[0].BodyName, "Uninteresting" })
+                    ListViewItem newItem = new ListViewItem(new string[] { scan.Interest[0].BodyName, "Uninteresting", string.Empty, string.Empty, string.Empty })
                     {
                         UseItemStyleForSubItems = false
                     };

@@ -190,7 +190,12 @@ namespace Observatory
                 newItem.SubItems[1].Font = new Font(newItem.Font, FontStyle.Bold);
             }
 
-            listEvent.Items.Add(newItem).EnsureVisible();
+            listEvent.Items.Add(newItem);
+            if (!logMonitor.ReadAllInProgress)
+            {
+                listEvent.Sort();
+                newItem.EnsureVisible();
+            }
         }
 
         private void BtnReadAll_Click(object sender, EventArgs e)
@@ -210,7 +215,10 @@ namespace Observatory
                 }
             }
             listEvent.BeginUpdate();
+            listEvent.ListViewItemSorter = null;
             logMonitor.ReadAll(progressReadAll);
+            listEvent.ListViewItemSorter = columnSorter;
+            listEvent.Sort();
             listEvent.EndUpdate();
         }
 

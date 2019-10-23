@@ -370,5 +370,35 @@ namespace Observatory.Properties {
                 this["WindowLocation"] = value;
             }
         }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool AutoRead
+        {
+            get
+            {
+                return ((bool)(this["AutoRead"]));
+            }
+            set
+            {
+                this["AutoRead"] = value;
+            }
+        }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool AutoMonitor
+        {
+            get
+            {
+                return ((bool)(this["AutoMonitor"]));
+            }
+            set
+            {
+                this["AutoMonitor"] = value;
+            }
+        }
     }
 }

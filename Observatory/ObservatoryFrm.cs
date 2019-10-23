@@ -62,7 +62,10 @@ namespace Observatory
 
         }
 
-        private void BtnToggleMonitor_Click(object sender, EventArgs e)
+        private void BtnToggleMonitor_Click(object sender, EventArgs e) =>
+            toggleMonitoring();
+
+        void toggleMonitoring()
         {
             if (logMonitor.IsMonitoring())
             {
@@ -214,6 +217,11 @@ namespace Observatory
                     return;
                 }
             }
+            readAllJournals();
+        }
+
+        void readAllJournals()
+        {
             listEvent.BeginUpdate();
             listEvent.ListViewItemSorter = null;
             logMonitor.ReadAll(progressReadAll);
@@ -343,6 +351,15 @@ namespace Observatory
             listEvent.Items.Clear();
             logMonitor = new LogMonitor("");
             logMonitor.LogEntry += LogEvent;
+        }
+
+        private void ObservatoryFrm_Shown(object sender, EventArgs e)
+        {
+            if (Properties.Observatory.Default.AutoRead)
+                readAllJournals();
+
+            if (Properties.Observatory.Default.AutoMonitor)
+                toggleMonitoring();
         }
     }
 }

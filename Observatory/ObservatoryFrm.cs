@@ -63,12 +63,7 @@ namespace Observatory
         }
 
         private void BtnToggleMonitor_Click(object sender, EventArgs e) =>
-            toggleMonitoring();
-
-        void toggleMonitoring()
-        {
             ToggleMonitor();
-        }
 
         private void LogEvent(object source, EventArgs e)
         {
@@ -360,7 +355,7 @@ namespace Observatory
                 readAllJournals();
 
             if (Properties.Observatory.Default.AutoMonitor)
-                toggleMonitoring();
+                ToggleMonitor();
         }
     }
 }

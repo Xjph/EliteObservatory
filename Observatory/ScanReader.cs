@@ -6,22 +6,16 @@ namespace Observatory
 {
     class ScanReader
     {
-        private readonly ScanEvent scanEvent;
-        private readonly Dictionary<(string System, long Body), ScanEvent> scanHistory;
-        private readonly string currentSystem;
         private readonly bool isRing;
-        private readonly UserInterest userInterest;
         public List<(string BodyName, string Description, string Detail)> Interest { get; private set; }
         private readonly Properties.Observatory settings;
+        private LogMonitor logMonitor;
 
 
         public ScanReader(LogMonitor logMonitor)
         {
-            userInterest = logMonitor.UserInterest;
-            scanEvent = logMonitor.LastScan;
-            scanHistory = logMonitor.SystemBody;
-            currentSystem = logMonitor.CurrentSystem;
-            isRing = scanEvent.BodyName.Contains(" Ring");
+            this.logMonitor = logMonitor;
+            isRing = logMonitor.LastScan.BodyName.Contains(" Ring");
             Interest = new List<(string BodyName, string Description, string Detail)>();
             settings = Properties.Observatory.Default;
         }
@@ -35,14 +29,14 @@ namespace Observatory
             // Add note if multiple checks triggered
             if (settings.VeryInteresting && Interest.Count() > 1)
             {
-                Interest.Add((scanEvent.BodyName, "Multiple criteria met", $"{Interest.Count()} Criteria Satisfied"));
+                Interest.Add((logMonitor.LastScan.BodyName, "Multiple criteria met", $"{Interest.Count()} Criteria Satisfied"));
             }
 
             // Check history to determine if all jumponium materials available in system
-            if (settings.AllJumpSystem && scanEvent.Landable.GetValueOrDefault(false))
+            if (!logMonitor.JumponiumReported && settings.AllJumpSystem && logMonitor.LastScan.Landable.GetValueOrDefault(false))
             {
                 string matsNotFound = "carbongermaniumarsenicniobiumyttriumpolonium";
-                foreach (var scan in scanHistory.Where(scan => scan.Key.System == currentSystem && scan.Value.Landable.GetValueOrDefault(false)))
+                foreach (var scan in logMonitor.SystemBody.Where(scan => scan.Key.System == logMonitor.CurrentSystem && scan.Value.Landable.GetValueOrDefault(false)))
                 {
                     foreach (MaterialComposition material in scan.Value.Materials)
                     {
@@ -60,7 +54,8 @@ namespace Observatory
                         if (matsNotFound.Length == 0)
                         {
                             interesting = true;
-                            Interest.Add((currentSystem, $"All {settings.FSDBoostSynthName} materials in system", string.Empty));
+                            logMonitor.JumponiumReported = true;
+                            Interest.Add((logMonitor.CurrentSystem, $"All {settings.FSDBoostSynthName} materials in system", string.Empty));
                             break;
                         }
                     }
@@ -69,13 +64,15 @@ namespace Observatory
 
             if (Interest.Count() == 0)
             {
-                Interest.Add((scanEvent.BodyName, "Uninteresting", string.Empty));
+                Interest.Add((logMonitor.LastScan.BodyName, "Uninteresting", string.Empty));
             }
             return interesting;
         }
 
         private bool DefaultInterest()
         {
+            ScanEvent scanEvent = logMonitor.LastScan;
+
             // Landable and has a terraform state
             if (settings.LandWithTerra && scanEvent.Landable.GetValueOrDefault(false) && scanEvent.TerraformState.Length > 0)
             {
@@ -115,9 +112,9 @@ namespace Observatory
 
             //Parent relative checks
             if ((settings.CloseOrbit || settings.ShepherdMoon || settings.RingHugger) && (scanEvent.Parent?[0].ParentType == "Planet" || scanEvent.Parent?[0].ParentType == "Star") &&
-                !isRing && scanHistory.ContainsKey((currentSystem, scanEvent.Parent[0].Body)))
+                !isRing && logMonitor.SystemBody.ContainsKey((logMonitor.CurrentSystem, scanEvent.Parent[0].Body)))
             {
-                ScanEvent parent = scanHistory[(currentSystem, scanEvent.Parent[0].Body)];
+                ScanEvent parent = logMonitor.SystemBody[(logMonitor.CurrentSystem, scanEvent.Parent[0].Body)];
 
                 //Close orbit
                 if (settings.CloseOrbit && parent.Radius * 3 > scanEvent.SemiMajorAxis)
@@ -149,7 +146,7 @@ namespace Observatory
             // Close binary pair
             if ((settings.CloseBinary || settings.CollidingBinary) && scanEvent.Parent?[0].ParentType == "Null" && scanEvent.Radius / scanEvent.SemiMajorAxis > 0.4)
             {
-                var binaryPartner = scanHistory.Where(system => system.Key.System == currentSystem && scanEvent.Parent?[0].Body == system.Value.Parent?[0].Body && scanEvent.BodyId != system.Value.BodyId);
+                var binaryPartner = logMonitor.SystemBody.Where(system => system.Key.System == logMonitor.CurrentSystem && scanEvent.Parent?[0].Body == system.Value.Parent?[0].Body && scanEvent.BodyId != system.Value.BodyId);
                 if (binaryPartner.Count() == 1)
                 {
                     if (binaryPartner.First().Value.Radius / binaryPartner.First().Value.SemiMajorAxis > 0.4)
@@ -237,7 +234,7 @@ namespace Observatory
 
         private bool CustomInterest()
         {
-            return userInterest.CheckCriteria(scanEvent, Interest);
+            return logMonitor.UserInterest.CheckCriteria(logMonitor.LastScan, Interest);
         }
     }
 }

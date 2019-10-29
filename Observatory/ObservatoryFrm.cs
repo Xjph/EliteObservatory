@@ -64,16 +64,7 @@ namespace Observatory
 
         private void BtnToggleMonitor_Click(object sender, EventArgs e)
         {
-            if (logMonitor.IsMonitoring())
-            {
-                logMonitor.MonitorStop();
-                btnToggleMonitor.Text = "Start Monitoring";
-            }
-            else
-            {
-                logMonitor.MonitorStart();
-                btnToggleMonitor.Text = "Stop Monitoring";
-            }
+            ToggleMonitor();
         }
 
         private void LogEvent(object source, EventArgs e)
@@ -86,60 +77,50 @@ namespace Observatory
                 {
                     Invoke((MethodInvoker)delegate ()
                     {
-                        if (!logMonitor.ReadAllInProgress && listEvent.Items.Count > 0 && listEvent.Items[listEvent.Items.Count - 1].SubItems[1].Text == "Uninteresting")
+                        listEvent.BeginUpdate();
+                        if (!logMonitor.ReadAllInProgress)
                         {
-                            listEvent.Items.RemoveAt(listEvent.Items.Count - 1);
+                            RemoveUninteresting();
                         }
-                        bool addItem;
-                        var pendingRemoval = new List<(string BodyName, string Description, string Detail)>();
+
                         foreach (var item in scan.Interest)
                         {
-                            addItem = true;
-                            if (item.Description == $"All {Properties.Observatory.Default.FSDBoostSynthName} materials in system")
-                            {
-                                for (int i = Math.Max(0, listEvent.Items.Count - 10); i < listEvent.Items.Count; i++)
-                                {
-                                    if (listEvent.Items[i].SubItems[0].Text.Contains(logMonitor.CurrentSystem) && listEvent.Items[i].SubItems[1].Text == $"All {Properties.Observatory.Default.FSDBoostSynthName} materials in system")
-                                    {
-                                        addItem = false;
-                                    }
-                                }
-                            }
+                            AddListItem(item);
+                        }
 
-                            if (addItem)
-                            {
-                                AddListItem(item);
-                            }
-                            else
-                            {
-                                pendingRemoval.Add(item);
-                            }
-                        }
-                        foreach (var item in pendingRemoval)
-                        {
-                            scan.Interest.Remove(item);
-                        }
                         if (!logMonitor.ReadAllInProgress && scan.Interest.Count > 0) { AnnounceItems(logMonitor.CurrentSystem, scan.Interest); }
+                        listEvent.EndUpdate();
                     });
                 }
                 else if (!logMonitor.ReadAllInProgress)
                 {
 
-                    ListViewItem newItem = new ListViewItem(new string[] { scan.Interest[0].BodyName, "Uninteresting", string.Empty, string.Empty, string.Empty })
+                    ListViewItem newItem = new ListViewItem(new string[] { scan.Interest[0].BodyName, "Uninteresting", logMonitor.LastScan.Timestamp.ToString("yyyy-MM-dd HH:mm:ss"), string.Empty, string.Empty })
                     {
                         UseItemStyleForSubItems = false
                     };
 
-                    Invoke((MethodInvoker)delegate () {
-#if !DEBUG
-                    if (listEvent.Items.Count > 0 && listEvent.Items[listEvent.Items.Count - 1].SubItems[1].Text == "Uninteresting")
+                    Invoke((MethodInvoker)delegate () 
                     {
-                        listEvent.Items.RemoveAt(listEvent.Items.Count - 1); 
-                    }
-#endif
-                    newItem.SubItems[0].ForeColor = Color.DarkGray;
-                    newItem.SubItems[1].ForeColor = Color.DarkGray;
-                    listEvent.Items.Add(newItem).EnsureVisible(); });
+                        listEvent.BeginUpdate();
+                        RemoveUninteresting();
+                        newItem.SubItems[0].ForeColor = Color.DarkGray;
+                        newItem.SubItems[1].ForeColor = Color.DarkGray;
+                        newItem.SubItems[2].ForeColor = Color.DarkGray;
+                        listEvent.Items.Add(newItem).EnsureVisible();
+                        listEvent.EndUpdate();
+                    });
+                }
+            }
+        }
+
+        private void RemoveUninteresting()
+        {
+            foreach (ListViewItem listItem in listEvent.Items)
+            {
+                if (listItem.SubItems[1].Text == "Uninteresting")
+                {
+                    listEvent.Items.Remove(listItem);
                 }
             }
         }
@@ -168,8 +149,12 @@ namespace Observatory
                 {
                     string spokenName;
                     spokenName = fullBodyName.Replace(currentSystem, string.Empty);
+                    if (spokenName.Trim().Length > 0)
+                    {
+                        spokenName = "Body " + spokenName;
+                    }
                     speech.Volume = Properties.Observatory.Default.TTSVolume;
-                    speech.SpeakSsmlAsync($"<speak version=\"1.0\" xmlns=\"http://www.w3.org/2001/10/synthesis\" xml:lang=\"en-US\">Body {spokenName}:<break strength=\"weak\"/>{announceText}</speak>");
+                    speech.SpeakSsmlAsync($"<speak version=\"1.0\" xmlns=\"http://www.w3.org/2001/10/synthesis\" xml:lang=\"en-US\">{spokenName}:<break strength=\"weak\"/>{announceText}</speak>");
                 }
             }
         }
@@ -204,17 +189,14 @@ namespace Observatory
             {
                 DialogResult confirmResult;
                 confirmResult = MessageBox.Show("This will clear the current list and re-read all journal logs. Contine?", "Confirm Refresh", MessageBoxButtons.OKCancel);
-                if (confirmResult == DialogResult.OK)
-                {
-                    listEvent.Items.Clear();
-                    logMonitor.SystemBody.Clear();
-                }
-                else
+                if (confirmResult == DialogResult.Cancel)
                 {
                     return;
                 }
             }
             listEvent.BeginUpdate();
+            listEvent.Items.Clear();
+            logMonitor.SystemBody.Clear();
             listEvent.ListViewItemSorter = null;
             logMonitor.ReadAll(progressReadAll);
             listEvent.ListViewItemSorter = columnSorter;
@@ -340,9 +322,28 @@ namespace Observatory
 
         private void BtnClear_Click(object sender, EventArgs e)
         {
+            bool resumeMonitor = logMonitor.IsMonitoring();
             listEvent.Items.Clear();
             logMonitor = new LogMonitor("");
             logMonitor.LogEntry += LogEvent;
+            if (resumeMonitor)
+            {
+                ToggleMonitor();
+            }
+        }
+
+        private void ToggleMonitor()
+        {
+            if (logMonitor.IsMonitoring())
+            {
+                logMonitor.MonitorStop();
+                btnToggleMonitor.Text = "Start Monitoring";
+            }
+            else
+            {
+                logMonitor.MonitorStart();
+                btnToggleMonitor.Text = "Stop Monitoring";
+            }
         }
     }
 }

@@ -53,6 +53,8 @@ namespace Observatory
             Loading = false;
             cbxRinghugger.Checked = settings.RingHugger;
             cbxLandRing.Checked = settings.RingLandable;
+            cbxAutoMonitor.Checked = settings.AutoMonitor;
+            cbxAutoRead.Checked = settings.AutoRead;
         }
 
         private void Cbx_LandWithTerra_CheckedChanged(object sender, EventArgs e)
@@ -243,6 +245,18 @@ namespace Observatory
         private void CbxRinghugger_CheckedChanged(object sender, EventArgs e)
         {
             settings.RingHugger = ((CheckBox)sender).Checked;
+            settings.Save();
+        }
+
+        private void cbxAutoRead_CheckedChanged(object sender, EventArgs e)
+        {
+            settings.AutoRead = ((CheckBox)sender).Checked;
+            settings.Save();
+        }
+
+        private void cbxAutoMonitor_CheckedChanged(object sender, EventArgs e)
+        {
+            settings.AutoMonitor = ((CheckBox)sender).Checked;
             settings.Save();
         }
     }

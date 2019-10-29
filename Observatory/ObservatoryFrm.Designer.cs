@@ -214,6 +214,7 @@
             this.Text = "Elite Observatory";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ObservatoryFrm_FormClosing);
             this.Load += new System.EventHandler(this.ObservatoryFrm_Load);
+            this.Shown += new System.EventHandler(this.ObservatoryFrm_Shown);
             this.contextCopy.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();

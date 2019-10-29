@@ -62,7 +62,10 @@ namespace Observatory
 
         }
 
-        private void BtnToggleMonitor_Click(object sender, EventArgs e)
+        private void BtnToggleMonitor_Click(object sender, EventArgs e) =>
+            toggleMonitoring();
+
+        void toggleMonitoring()
         {
             ToggleMonitor();
         }
@@ -194,6 +197,11 @@ namespace Observatory
                     return;
                 }
             }
+            readAllJournals();
+        }
+
+        void readAllJournals()
+        {
             listEvent.BeginUpdate();
             listEvent.Items.Clear();
             logMonitor.SystemBody.Clear();
@@ -344,6 +352,15 @@ namespace Observatory
                 logMonitor.MonitorStart();
                 btnToggleMonitor.Text = "Stop Monitoring";
             }
+        }
+
+        private void ObservatoryFrm_Shown(object sender, EventArgs e)
+        {
+            if (Properties.Observatory.Default.AutoRead)
+                readAllJournals();
+
+            if (Properties.Observatory.Default.AutoMonitor)
+                toggleMonitoring();
         }
     }
 }

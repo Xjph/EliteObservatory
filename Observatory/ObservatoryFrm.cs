@@ -357,5 +357,17 @@ namespace Observatory
             if (Properties.Observatory.Default.AutoMonitor)
                 ToggleMonitor();
         }
+
+        private void CopyJournalToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            StringBuilder copyText = new StringBuilder();
+            foreach (ListViewItem item in listEvent.SelectedItems)
+            {
+                var bodyData = logMonitor.SystemBody.Where(body => body.Value.BodyName == item.SubItems[0].Text);
+                if (bodyData.Count() > 0)
+                    copyText.AppendLine(logMonitor.SystemBody.Where(body => body.Value.BodyName == item.SubItems[0].Text).First().Value.JournalEntry);
+            }
+            Clipboard.SetText(copyText.ToString());
+        }
     }
 }

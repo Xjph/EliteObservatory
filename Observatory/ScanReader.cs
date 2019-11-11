@@ -22,7 +22,7 @@ namespace Observatory
 
         public bool IsInteresting()
         {
-            bool interesting = DefaultInterest() | CustomInterest();
+            bool interesting = !isRing && (DefaultInterest() | CustomInterest());
             
             // Moved these outside the "DefaultInterest" method so the multiple criteria check would include user criteria, and so the "all jumponium" check would not be counted
 
@@ -98,9 +98,9 @@ namespace Observatory
             }
 
             // Rings wider than 5x body radius
-            if (settings.WideRing && scanEvent.Rings?.Count<Ring>() > 0)
+            if (settings.WideRing && scanEvent.Rings?.Count() > 0)
             {
-                foreach(Ring ring in scanEvent.Rings.Where<Ring>(ring => !ring.Name.Contains("Belt")))
+                foreach(Ring ring in scanEvent.Rings.Where(ring => !ring.Name.Contains("Belt")))
                 {
                     long ringWidth = (ring.OuterRad.GetValueOrDefault(0) - ring.InnerRad.GetValueOrDefault(0));
                     if (ringWidth > scanEvent.Radius * 5)
@@ -112,7 +112,7 @@ namespace Observatory
 
             //Parent relative checks
             if ((settings.CloseOrbit || settings.ShepherdMoon || settings.RingHugger) && (scanEvent.Parent?[0].ParentType == "Planet" || scanEvent.Parent?[0].ParentType == "Star") &&
-                !isRing && logMonitor.SystemBody.ContainsKey((logMonitor.CurrentSystem, scanEvent.Parent[0].Body)))
+                logMonitor.SystemBody.ContainsKey((logMonitor.CurrentSystem, scanEvent.Parent[0].Body)))
             {
                 ScanEvent parent = logMonitor.SystemBody[(logMonitor.CurrentSystem, scanEvent.Parent[0].Body)];
 
@@ -234,7 +234,7 @@ namespace Observatory
 
         private bool CustomInterest()
         {
-            return logMonitor.UserInterest.CheckCriteria(logMonitor.LastScan, Interest);
+            return logMonitor.UserInterest.ProcessCriteria(logMonitor.LastScan, Interest, logMonitor.SystemBody, logMonitor.CurrentSystem);
         }
     }
 }

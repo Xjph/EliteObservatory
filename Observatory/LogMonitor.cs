@@ -208,6 +208,7 @@ namespace Observatory
                                 if (!lastEvent["BodyName"].ToString().Contains("Belt Cluster"))
                                 {
                                     LastScan = lastEvent.ToObject<ScanEvent>();
+                                    LastScan.JournalEntry = logLine;
                                     if (!SystemBody.ContainsKey((CurrentSystem, LastScan.BodyId)))
                                     {
                                         SystemBody[(CurrentSystem, LastScan.BodyId)] = LastScan;

@@ -8,6 +8,8 @@ namespace Observatory
     {
         private ParentObject[] ParentObjects;
 
+        public string JournalEntry;
+
         [JsonProperty("timestamp")]
         public DateTime Timestamp { get; set; }
 

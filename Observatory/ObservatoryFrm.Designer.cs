@@ -47,6 +47,7 @@
             this.btnSettings = new System.Windows.Forms.Button();
             this.linkUpdate = new System.Windows.Forms.LinkLabel();
             this.btnClear = new System.Windows.Forms.Button();
+            this.copyJournalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextCopy.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -139,21 +140,22 @@
             // 
             this.contextCopy.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.copyNameToolStripMenuItem,
-            this.copyAllToolStripMenuItem});
+            this.copyAllToolStripMenuItem,
+            this.copyJournalToolStripMenuItem});
             this.contextCopy.Name = "contextCopy";
-            this.contextCopy.Size = new System.Drawing.Size(138, 48);
+            this.contextCopy.Size = new System.Drawing.Size(181, 92);
             // 
             // copyNameToolStripMenuItem
             // 
             this.copyNameToolStripMenuItem.Name = "copyNameToolStripMenuItem";
-            this.copyNameToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
+            this.copyNameToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.copyNameToolStripMenuItem.Text = "Copy Name";
             this.copyNameToolStripMenuItem.Click += new System.EventHandler(this.CopyNameToolStripMenuItem_Click);
             // 
             // copyAllToolStripMenuItem
             // 
             this.copyAllToolStripMenuItem.Name = "copyAllToolStripMenuItem";
-            this.copyAllToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
+            this.copyAllToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.copyAllToolStripMenuItem.Text = "Copy All";
             this.copyAllToolStripMenuItem.Click += new System.EventHandler(this.CopyAllToolStripMenuItem_Click);
             // 
@@ -197,6 +199,13 @@
             this.btnClear.UseVisualStyleBackColor = true;
             this.btnClear.Click += new System.EventHandler(this.BtnClear_Click);
             // 
+            // copyJournalToolStripMenuItem
+            // 
+            this.copyJournalToolStripMenuItem.Name = "copyJournalToolStripMenuItem";
+            this.copyJournalToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.copyJournalToolStripMenuItem.Text = "Copy Journal";
+            this.copyJournalToolStripMenuItem.Click += new System.EventHandler(this.CopyJournalToolStripMenuItem_Click);
+            // 
             // ObservatoryFrm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -238,6 +247,7 @@
         private System.Windows.Forms.Button btnSettings;
         private System.Windows.Forms.LinkLabel linkUpdate;
         private System.Windows.Forms.Button btnClear;
+        private System.Windows.Forms.ToolStripMenuItem copyJournalToolStripMenuItem;
     }
 }
 

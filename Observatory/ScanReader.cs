@@ -23,13 +23,23 @@ namespace Observatory
         public bool IsInteresting()
         {
             bool interesting = !isRing && (DefaultInterest() | CustomInterest());
-            
+
             // Moved these outside the "DefaultInterest" method so the multiple criteria check would include user criteria, and so the "all jumponium" check would not be counted
 
             // Add note if multiple checks triggered
             if (settings.VeryInteresting && Interest.Count() > 1)
             {
                 Interest.Add((logMonitor.LastScan.BodyName, "Multiple criteria met", $"{Interest.Count()} Criteria Satisfied"));
+            }
+
+            // The line below throws an error: Error	CS0103	The name 'scanEvent' does not exist in the current context
+            // if (settings.SendToIGAU && scanEvent.CodexEntry)
+            // the goal is to check if "SendToIGAU" is enabled, and if there is a "CodexEntry" event in the journal.
+            // if so, then call the _Data_Export_HTTP_POST function, and add data to be shipped.
+            if (settings.SendToIGAU)
+            {
+                //need to work out HTTP POST library / function - should be soemthing like the code below, also needs defined in the project, along with endpoint URL. 
+                //Data_Export_HTTP_POST.Add((scanEvent.Timestamp, scanEvent.Name_Localised, scanEvent.System));
             }
 
             // Check history to determine if all jumponium materials available in system
@@ -138,7 +148,7 @@ namespace Observatory
                         {
                             Interest.Add((scanEvent.BodyName, "Close ring proximity", $"Orbit: {Math.Truncate((double)scanEvent.SemiMajorAxis / 1000):N0}km, Radius: {((double)scanEvent.Radius / 1000).ToString("0")}km, Distance from ring: {separation / 1000:N0}km"));
                         }
-                        
+
                     }
                 }
             }

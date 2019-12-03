@@ -25,6 +25,9 @@ namespace Observatory
         [JsonProperty("BodyID")]
         public long BodyId { get; set; }
 
+        [JsonProperty("System")]
+        public long System { get; set; }
+
         [JsonProperty("Parents", NullValueHandling = NullValueHandling.Ignore)]
         public ParentObject[] Parents {
             get
@@ -49,11 +52,14 @@ namespace Observatory
                     {
                         Parent[i] = ("Star", (long)value[i].Star);
                     }
-                } 
+                }
             }
         }
 
         public (string ParentType,long Body)[] Parent { get; private set; }
+
+        [JsonProperty("CodexEntry", NullValueHandling = NullValueHandling.Ignore)]
+        public string CodexEntry { get; set; } 
 
         [JsonProperty("DistanceFromArrivalLS")]
         public double DistanceFromArrivalLs { get; set; }

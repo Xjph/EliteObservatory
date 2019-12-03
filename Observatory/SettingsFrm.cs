@@ -55,6 +55,7 @@ namespace Observatory
             cbxLandRing.Checked = settings.RingLandable;
             cbxAutoMonitor.Checked = settings.AutoMonitor;
             cbxAutoRead.Checked = settings.AutoRead;
+            cbxSendToIGAU.Checked = settings.SendToIGAU;
         }
 
         private void Cbx_LandWithTerra_CheckedChanged(object sender, EventArgs e)
@@ -257,6 +258,12 @@ namespace Observatory
         private void cbxAutoMonitor_CheckedChanged(object sender, EventArgs e)
         {
             settings.AutoMonitor = ((CheckBox)sender).Checked;
+            settings.Save();
+        }
+
+        private void cbxSendToIGAU_CheckedChanged(object sender, EventArgs e)
+        {
+            settings.SendToIGAU = ((CheckBox)sender).Checked;
             settings.Save();
         }
     }

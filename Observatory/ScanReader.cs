@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace Observatory
+
 {
     class ScanReader
     {
@@ -10,7 +11,6 @@ namespace Observatory
         public List<(string BodyName, string Description, string Detail)> Interest { get; private set; }
         private readonly Properties.Observatory settings;
         private LogMonitor logMonitor;
-
 
         public ScanReader(LogMonitor logMonitor)
         {
@@ -32,14 +32,20 @@ namespace Observatory
                 Interest.Add((logMonitor.LastScan.BodyName, "Multiple criteria met", $"{Interest.Count()} Criteria Satisfied"));
             }
 
-            // The line below throws an error: Error	CS0103	The name 'scanEvent' does not exist in the current context
-            // if (settings.SendToIGAU && scanEvent.CodexEntry)
+            // Check if "Send to IGAU" is enabled, then check journal for "CodexEntry" events with a voucher value greater than 0
+            // the line below complains about logMonitor.LastScan.CodexEntry.GetValueOrDefault(false)
+            // if (settings.SendToIGAU && logMonitor.LastScan.CodexEntry.GetValueOrDefault(false) && logMonitor.LastScan.VoucherAmount > 0)
+            // this line works - VoucherAmount is an integer and if there's a unique CodexEntry event, it will always be greater than 0
+            if (settings.SendToIGAU && logMonitor.LastScan.VoucherAmount > 0)
             // the goal is to check if "SendToIGAU" is enabled, and if there is a "CodexEntry" event in the journal.
             // if so, then call the _Data_Export_HTTP_POST function, and add data to be shipped.
-            if (settings.SendToIGAU)
+            // need to work out HTTP POST library / function - should be soemthing like the code below, also needs defined in the project, along with endpoint URL.
+            //
             {
-                //need to work out HTTP POST library / function - should be soemthing like the code below, also needs defined in the project, along with endpoint URL. 
-                //Data_Export_HTTP_POST.Add((scanEvent.Timestamp, scanEvent.Name_Localised, scanEvent.System));
+                // this line causes the compiler to throw a fit about Data_Export_HTTP_POSTnot being defined in the current context
+                // Data_Export_HTTP_POST.Add((logMonitor.LastScan.Timestamp, logMonitor.LastScan.Name_Localised, logMonitor.LastScan.System));
+                // Should it be defined like "Interest"???
+                // ex: Data_Export_HTTP_POST = new List<(string Timestamp, string Name_Localised, string System)>();
             }
 
             // Check history to determine if all jumponium materials available in system

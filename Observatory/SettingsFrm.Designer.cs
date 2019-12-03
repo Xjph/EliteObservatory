@@ -51,6 +51,7 @@
             this.cbx_LandWithAtmo = new System.Windows.Forms.CheckBox();
             this.cbx_LandWithTerra = new System.Windows.Forms.CheckBox();
             this.groupBox_misc = new System.Windows.Forms.GroupBox();
+            this.cbxSendToIGAU = new System.Windows.Forms.CheckBox();
             this.cbxAutoMonitor = new System.Windows.Forms.CheckBox();
             this.cbxAutoRead = new System.Windows.Forms.CheckBox();
             this.cbx_custom = new System.Windows.Forms.CheckBox();
@@ -64,7 +65,6 @@
             this.btn_TestVol = new System.Windows.Forms.Button();
             this.trackBar_Volume = new System.Windows.Forms.TrackBar();
             this.linkGit = new System.Windows.Forms.LinkLabel();
-            this.cbxSendToIGAU = new System.Windows.Forms.CheckBox();
             this.groupBox_Interest.SuspendLayout();
             this.groupBox_misc.SuspendLayout();
             this.groupBox_TTS.SuspendLayout();
@@ -338,6 +338,17 @@
             this.groupBox_misc.TabStop = false;
             this.groupBox_misc.Text = "Misc.";
             // 
+            // cbxSendToIGAU
+            // 
+            this.cbxSendToIGAU.AutoSize = true;
+            this.cbxSendToIGAU.Location = new System.Drawing.Point(4, 91);
+            this.cbxSendToIGAU.Name = "cbxSendToIGAU";
+            this.cbxSendToIGAU.Size = new System.Drawing.Size(301, 17);
+            this.cbxSendToIGAU.TabIndex = 17;
+            this.cbxSendToIGAU.Text = "Share Codex discoveries to IGAU public discovery catalog";
+            this.tipCopy.SetToolTip(this.cbxSendToIGAU, "https://raw.githubusercontent.com/Elite-IGAU/publications/master/IGAU_Codex.csv ");
+            this.cbxSendToIGAU.UseVisualStyleBackColor = true;
+            // 
             // cbxAutoMonitor
             // 
             this.cbxAutoMonitor.AutoSize = true;
@@ -473,18 +484,6 @@
             this.linkGit.Text = "github";
             this.linkGit.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.linkGit.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkGit_LinkClicked);
-            // 
-            // cbxSendToIGAU
-            // 
-            this.cbxSendToIGAU.AutoSize = true;
-            this.cbxSendToIGAU.Location = new System.Drawing.Point(4, 91);
-            this.cbxSendToIGAU.Name = "cbxSendToIGAU";
-            this.cbxSendToIGAU.Size = new System.Drawing.Size(301, 17);
-            this.cbxSendToIGAU.TabIndex = 17;
-            this.cbxSendToIGAU.Text = "Share Codex discoveries to IGAU public discovery catalog";
-            this.tipCopy.SetToolTip(this.cbxSendToIGAU, "Share Codex Discoveries to IGAU public discovery catalog ( https://raw.githubuser" +
-        "content.com/Elite-IGAU/publications/master/IGAU_Codex.csv )");
-            this.cbxSendToIGAU.UseVisualStyleBackColor = true;
             // 
             // SettingsFrm
             // 

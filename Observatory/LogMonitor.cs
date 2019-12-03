@@ -24,7 +24,7 @@ namespace Observatory
         public Dictionary<(string System, long Body), ScanEvent> SystemBody { get; private set; }
         public UserInterest UserInterest { get; private set; }
         private JournalPoker Poker;
-        
+
         public string CurrentSystem
         {
             get
@@ -43,7 +43,7 @@ namespace Observatory
 
         public LogMonitor(string logPath)
         {
-            
+
             LogDirectory = logPath;
             LogDirectory = CheckLogPath();
             logWatcher = new FileSystemWatcher(LogDirectory, "Journal.????????????.??.log")
@@ -133,7 +133,7 @@ namespace Observatory
                     ShowNewFolderButton = false,
                     Description = "Select Elite Dangerous Journal Folder"
                 };
-                         
+
                 System.Windows.Forms.DialogResult result = folderBrowserDialog.ShowDialog();
                 if (result == System.Windows.Forms.DialogResult.OK && !string.IsNullOrWhiteSpace(folderBrowserDialog.SelectedPath))
                 {
@@ -154,7 +154,7 @@ namespace Observatory
 
                 case WatcherChangeTypes.Changed:
                     CurrentLogPath = e.FullPath;
-                   
+
                     using (StreamReader currentLog = new StreamReader(File.Open(CurrentLogPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)))
                     {
                         LinesToProcess = new List<string>();
@@ -192,7 +192,7 @@ namespace Observatory
 
         private void ProcessLine(string logLine)
         {
-   
+
             if (logLine != null)
             {
                 JObject lastEvent = (JObject)JsonConvert.DeserializeObject(logLine, new JsonSerializerSettings() { DateParseHandling = DateParseHandling.None });
@@ -264,7 +264,7 @@ namespace Observatory
                     string logLine = currentLog.ReadLine();
                     if (logLine.Trim().StartsWith("{") && logLine.Trim().EndsWith("}") && logLine.Contains("\"event\":\"Scan\"") || logLine.Contains("\"event\":\"Location\"") || logLine.Contains("\"event\":\"FSDJump\""))
                     {
-                        
+
                         JObject scanEvent = (JObject)JsonConvert.DeserializeObject(logLine, new JsonSerializerSettings() { DateParseHandling = DateParseHandling.None });
 
                         switch (scanEvent["event"].ToString())

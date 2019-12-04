@@ -12,7 +12,7 @@ namespace Observatory.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.9.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.3.0.0")]
     internal sealed partial class Observatory : global::System.Configuration.ApplicationSettingsBase {
         
         private static Observatory defaultInstance = ((Observatory)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Observatory())));
@@ -370,34 +370,64 @@ namespace Observatory.Properties {
                 this["WindowLocation"] = value;
             }
         }
-
+        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool AutoRead
-        {
-            get
-            {
-                return ((bool)(this["AutoRead"]));
+        public bool EnableTelegram {
+            get {
+                return ((bool)(this["EnableTelegram"]));
             }
-            set
-            {
-                this["AutoRead"] = value;
+            set {
+                this["EnableTelegram"] = value;
             }
         }
-
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string TelegramAPIKey {
+            get {
+                return ((string)(this["TelegramAPIKey"]));
+            }
+            set {
+                this["TelegramAPIKey"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string TelegramChatId {
+            get {
+                return ((string)(this["TelegramChatId"]));
+            }
+            set {
+                this["TelegramChatId"] = value;
+            }
+        }
+        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool AutoMonitor
-        {
-            get
-            {
+        public bool AutoMonitor {
+            get {
                 return ((bool)(this["AutoMonitor"]));
             }
-            set
-            {
+            set {
                 this["AutoMonitor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool AutoRead {
+            get {
+                return ((bool)(this["AutoRead"]));
+            }
+            set {
+                this["AutoRead"] = value;
             }
         }
     }

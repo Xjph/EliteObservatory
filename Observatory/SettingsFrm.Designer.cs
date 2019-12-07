@@ -51,6 +51,8 @@
             this.cbx_LandWithAtmo = new System.Windows.Forms.CheckBox();
             this.cbx_LandWithTerra = new System.Windows.Forms.CheckBox();
             this.groupBox_misc = new System.Windows.Forms.GroupBox();
+            this.cbxAutoMonitor = new System.Windows.Forms.CheckBox();
+            this.cbxAutoRead = new System.Windows.Forms.CheckBox();
             this.cbx_custom = new System.Windows.Forms.CheckBox();
             this.btnCopyReset = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
@@ -62,8 +64,7 @@
             this.btn_TestVol = new System.Windows.Forms.Button();
             this.trackBar_Volume = new System.Windows.Forms.TrackBar();
             this.linkGit = new System.Windows.Forms.LinkLabel();
-            this.cbxAutoRead = new System.Windows.Forms.CheckBox();
-            this.cbxAutoMonitor = new System.Windows.Forms.CheckBox();
+            this.cbxCodex = new System.Windows.Forms.CheckBox();
             this.groupBox_Interest.SuspendLayout();
             this.groupBox_misc.SuspendLayout();
             this.groupBox_TTS.SuspendLayout();
@@ -72,6 +73,7 @@
             // 
             // groupBox_Interest
             // 
+            this.groupBox_Interest.Controls.Add(this.cbxCodex);
             this.groupBox_Interest.Controls.Add(this.cbxLandRing);
             this.groupBox_Interest.Controls.Add(this.cbxRinghugger);
             this.groupBox_Interest.Controls.Add(this.cbx_WideRing);
@@ -94,7 +96,7 @@
             this.groupBox_Interest.Controls.Add(this.cbx_LandWithTerra);
             this.groupBox_Interest.Location = new System.Drawing.Point(13, 13);
             this.groupBox_Interest.Name = "groupBox_Interest";
-            this.groupBox_Interest.Size = new System.Drawing.Size(340, 250);
+            this.groupBox_Interest.Size = new System.Drawing.Size(340, 273);
             this.groupBox_Interest.TabIndex = 0;
             this.groupBox_Interest.TabStop = false;
             this.groupBox_Interest.Text = "Interest Criteria";
@@ -329,12 +331,36 @@
             this.groupBox_misc.Controls.Add(this.txtCopy);
             this.groupBox_misc.Controls.Add(this.cbxTts);
             this.groupBox_misc.Controls.Add(this.cbxToast);
-            this.groupBox_misc.Location = new System.Drawing.Point(13, 269);
+            this.groupBox_misc.Location = new System.Drawing.Point(13, 295);
             this.groupBox_misc.Name = "groupBox_misc";
             this.groupBox_misc.Size = new System.Drawing.Size(340, 102);
             this.groupBox_misc.TabIndex = 1;
             this.groupBox_misc.TabStop = false;
             this.groupBox_misc.Text = "Misc.";
+            // 
+            // cbxAutoMonitor
+            // 
+            this.cbxAutoMonitor.AutoSize = true;
+            this.cbxAutoMonitor.Location = new System.Drawing.Point(119, 71);
+            this.cbxAutoMonitor.Name = "cbxAutoMonitor";
+            this.cbxAutoMonitor.Size = new System.Drawing.Size(111, 17);
+            this.cbxAutoMonitor.TabIndex = 16;
+            this.cbxAutoMonitor.Text = "Monitor on launch";
+            this.tipCopy.SetToolTip(this.cbxAutoMonitor, "Automatically start monitoring logs at start up");
+            this.cbxAutoMonitor.UseVisualStyleBackColor = true;
+            this.cbxAutoMonitor.CheckedChanged += new System.EventHandler(this.CbxAutoMonitor_CheckedChanged);
+            // 
+            // cbxAutoRead
+            // 
+            this.cbxAutoRead.AutoSize = true;
+            this.cbxAutoRead.Location = new System.Drawing.Point(4, 71);
+            this.cbxAutoRead.Name = "cbxAutoRead";
+            this.cbxAutoRead.Size = new System.Drawing.Size(102, 17);
+            this.cbxAutoRead.TabIndex = 15;
+            this.cbxAutoRead.Text = "Read on launch";
+            this.tipCopy.SetToolTip(this.cbxAutoRead, "Automatically read all logs at start up");
+            this.cbxAutoRead.UseVisualStyleBackColor = true;
+            this.cbxAutoRead.CheckedChanged += new System.EventHandler(this.CbxAutoRead_CheckedChanged);
             // 
             // cbx_custom
             // 
@@ -448,35 +474,22 @@
             this.linkGit.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.linkGit.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkGit_LinkClicked);
             // 
-            // cbxAutoRead
+            // cbxCodex
             // 
-            this.cbxAutoRead.AutoSize = true;
-            this.cbxAutoRead.Location = new System.Drawing.Point(4, 71);
-            this.cbxAutoRead.Name = "cbxAutoRead";
-            this.cbxAutoRead.Size = new System.Drawing.Size(102, 17);
-            this.cbxAutoRead.TabIndex = 15;
-            this.cbxAutoRead.Text = "Read on launch";
-            this.tipCopy.SetToolTip(this.cbxAutoRead, "Automatically read all logs at start up");
-            this.cbxAutoRead.UseVisualStyleBackColor = true;
-            this.cbxAutoRead.CheckedChanged += new System.EventHandler(this.cbxAutoRead_CheckedChanged);
-            // 
-            // cbxAutoMonitor
-            // 
-            this.cbxAutoMonitor.AutoSize = true;
-            this.cbxAutoMonitor.Location = new System.Drawing.Point(119, 71);
-            this.cbxAutoMonitor.Name = "cbxAutoMonitor";
-            this.cbxAutoMonitor.Size = new System.Drawing.Size(111, 17);
-            this.cbxAutoMonitor.TabIndex = 16;
-            this.cbxAutoMonitor.Text = "Monitor on launch";
-            this.tipCopy.SetToolTip(this.cbxAutoMonitor, "Automatically start monitoring logs at start up");
-            this.cbxAutoMonitor.UseVisualStyleBackColor = true;
-            this.cbxAutoMonitor.CheckedChanged += new System.EventHandler(this.cbxAutoMonitor_CheckedChanged);
+            this.cbxCodex.AutoSize = true;
+            this.cbxCodex.Location = new System.Drawing.Point(6, 249);
+            this.cbxCodex.Name = "cbxCodex";
+            this.cbxCodex.Size = new System.Drawing.Size(114, 17);
+            this.cbxCodex.TabIndex = 20;
+            this.cbxCodex.Text = "Codex Discoveries";
+            this.cbxCodex.UseVisualStyleBackColor = true;
+            this.cbxCodex.CheckedChanged += new System.EventHandler(this.CbxCodex_CheckedChanged);
             // 
             // SettingsFrm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(429, 383);
+            this.ClientSize = new System.Drawing.Size(429, 409);
             this.Controls.Add(this.linkGit);
             this.Controls.Add(this.groupBox_TTS);
             this.Controls.Add(this.groupBox_misc);
@@ -537,5 +550,6 @@
         private System.Windows.Forms.LinkLabel linkGit;
         private System.Windows.Forms.CheckBox cbxAutoRead;
         private System.Windows.Forms.CheckBox cbxAutoMonitor;
+        private System.Windows.Forms.CheckBox cbxCodex;
     }
 }

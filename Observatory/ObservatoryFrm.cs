@@ -153,7 +153,7 @@ namespace Observatory
 
         private void AnnounceItems(string currentSystem, List<(string BodyName, string Description, string Detail)> items)
         {
-            if (Properties.Observatory.Default.Notify || Properties.Observatory.Default.TTS)
+            if (Properties.Observatory.Default.Notify || Properties.Observatory.Default.TTS || Properties.Observatory.Default.EnableTelegram)
             {
                 string fullBodyName = items[0].BodyName;
                 StringBuilder announceText = new StringBuilder();
@@ -181,6 +181,24 @@ namespace Observatory
                     }
                     speech.Volume = Properties.Observatory.Default.TTSVolume;
                     speech.SpeakSsmlAsync($"<speak version=\"1.0\" xmlns=\"http://www.w3.org/2001/10/synthesis\" xml:lang=\"en-US\">{spokenName}:<break strength=\"weak\"/>{announceText}</speak>");
+                }
+                if(Properties.Observatory.Default.EnableTelegram)
+                {
+                    try
+                    {
+                        using (System.Net.WebClient client = new System.Net.WebClient())
+                        {
+                            string message = fullBodyName + "\r\n" + announceText.ToString();
+                            string urlString = $"https://api.telegram.org/bot{Properties.Observatory.Default.TelegramAPIKey}/sendMessage?chat_id={Properties.Observatory.Default.TelegramChatId}&text={message}";
+                            string result = client.DownloadString(urlString);
+                        }
+
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error sending Telegram notification: {ex.Message}");
+                    }
+
                 }
             }
         }

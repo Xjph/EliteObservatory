@@ -71,6 +71,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.txtTelegramChatId = new System.Windows.Forms.TextBox();
             this.btn_TestTelegram = new System.Windows.Forms.Button();
+            this.cbxCodex = new System.Windows.Forms.CheckBox();
             this.groupBox_Interest.SuspendLayout();
             this.groupBox_misc.SuspendLayout();
             this.groupBox_TTS.SuspendLayout();
@@ -80,6 +81,7 @@
             // 
             // groupBox_Interest
             // 
+            this.groupBox_Interest.Controls.Add(this.cbxCodex);
             this.groupBox_Interest.Controls.Add(this.cbxLandRing);
             this.groupBox_Interest.Controls.Add(this.cbxRinghugger);
             this.groupBox_Interest.Controls.Add(this.cbx_WideRing);
@@ -102,7 +104,7 @@
             this.groupBox_Interest.Controls.Add(this.cbx_LandWithTerra);
             this.groupBox_Interest.Location = new System.Drawing.Point(13, 13);
             this.groupBox_Interest.Name = "groupBox_Interest";
-            this.groupBox_Interest.Size = new System.Drawing.Size(340, 250);
+            this.groupBox_Interest.Size = new System.Drawing.Size(340, 273);
             this.groupBox_Interest.TabIndex = 0;
             this.groupBox_Interest.TabStop = false;
             this.groupBox_Interest.Text = "Interest Criteria";
@@ -337,7 +339,7 @@
             this.groupBox_misc.Controls.Add(this.txtCopy);
             this.groupBox_misc.Controls.Add(this.cbxTts);
             this.groupBox_misc.Controls.Add(this.cbxToast);
-            this.groupBox_misc.Location = new System.Drawing.Point(13, 269);
+            this.groupBox_misc.Location = new System.Drawing.Point(13, 295);
             this.groupBox_misc.Name = "groupBox_misc";
             this.groupBox_misc.Size = new System.Drawing.Size(340, 102);
             this.groupBox_misc.TabIndex = 1;
@@ -366,7 +368,7 @@
             this.cbxAutoRead.Text = "Read on launch";
             this.tipCopy.SetToolTip(this.cbxAutoRead, "Automatically read all logs at start up");
             this.cbxAutoRead.UseVisualStyleBackColor = true;
-            this.cbxAutoRead.CheckedChanged += new System.EventHandler(this.cbxAutoRead_CheckedChanged);
+            this.cbxAutoRead.CheckedChanged += new System.EventHandler(this.CbxAutoRead_CheckedChanged);
             // 
             // cbx_custom
             // 
@@ -549,6 +551,16 @@
             this.btn_TestTelegram.Text = "Test";
             this.btn_TestTelegram.UseVisualStyleBackColor = true;
             this.btn_TestTelegram.Click += new System.EventHandler(this.btn_TestTelegram_Click);
+            // cbxCodex
+            // 
+            this.cbxCodex.AutoSize = true;
+            this.cbxCodex.Location = new System.Drawing.Point(6, 249);
+            this.cbxCodex.Name = "cbxCodex";
+            this.cbxCodex.Size = new System.Drawing.Size(114, 17);
+            this.cbxCodex.TabIndex = 20;
+            this.cbxCodex.Text = "Codex Discoveries";
+            this.cbxCodex.UseVisualStyleBackColor = true;
+            this.cbxCodex.CheckedChanged += new System.EventHandler(this.CbxCodex_CheckedChanged);
             // 
             // SettingsFrm
             // 
@@ -625,5 +637,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.CheckBox cbxTelegram;
         private System.Windows.Forms.Button btn_TestTelegram;
+        private System.Windows.Forms.CheckBox cbxCodex;
     }
 }

@@ -407,6 +407,27 @@ namespace Observatory.Properties {
             }
         }
         
+        public bool IncludeCodex {
+            get {
+                return ((bool)(this["IncludeCodex"]));
+            }
+            set {
+                this["IncludeCodex"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool AutoRead {
+            get {
+                return ((bool)(this["AutoRead"]));
+            }
+            set {
+                this["AutoRead"] = value;
+            }
+        }
+        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]

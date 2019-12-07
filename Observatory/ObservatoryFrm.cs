@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Net;
+using System.Net.Http;
 using System.Windows.Forms;
 using System.Speech.Synthesis;
 using Newtonsoft.Json;
@@ -35,12 +37,15 @@ namespace Observatory
             try
             {
                 string releasesResponse;
-                using (System.Net.WebClient client = new System.Net.WebClient())
+                
+                var request = new HttpRequestMessage
                 {
-                    System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
-                    client.Headers["user-agent"] = "Xjph/EliteObservatory";
-                    releasesResponse = client.DownloadString("https://api.github.com/repos/xjph/EliteObservatory/releases");
-                }
+                    Method = HttpMethod.Get,
+                    RequestUri = new Uri("https://api.github.com/repos/xjph/EliteObservatory/releases"),
+                    Headers = { { "User-Agent", "Xjph/EliteObservatory" } }
+                };
+
+                releasesResponse = HttpClient.SendRequest(request).Content.ReadAsStringAsync().Result;
 
                 if (!string.IsNullOrEmpty(releasesResponse))
                 {
@@ -54,6 +59,7 @@ namespace Observatory
                         }
                     }
                 }
+
             }
             catch (Exception ex)
             {
@@ -105,6 +111,28 @@ namespace Observatory
                         newItem.SubItems[0].ForeColor = Color.DarkGray;
                         newItem.SubItems[1].ForeColor = Color.DarkGray;
                         newItem.SubItems[2].ForeColor = Color.DarkGray;
+                        listEvent.Items.Add(newItem).EnsureVisible();
+                        listEvent.EndUpdate();
+                    });
+                }
+            }
+            else if (logMonitor.LastCodexValid)
+            {
+                CodexReader.ProcessCodex(logMonitor.LastCodex);
+
+                if (Properties.Observatory.Default.IncludeCodex)
+                {
+                    Invoke((MethodInvoker)delegate ()
+                    {
+                        string location;
+                        listEvent.BeginUpdate();
+
+                        if (logMonitor.LastCodex.Category != "$Codex_Category_StellarBodies;" && logMonitor.LastCodex.NearestDestinationLocalised?.Length > 0 && logMonitor.LastCodex.Body?.Length > 0)
+                            location = logMonitor.LastCodex.Body;
+                        else
+                            location = logMonitor.LastCodex.System;
+
+                        ListViewItem newItem = new ListViewItem(new string[] { location, logMonitor.LastCodex.NearestDestinationLocalised, logMonitor.LastCodex.Timestamp.ToString("yyyy-MM-dd HH:mm:ss"), logMonitor.LastCodex.NameLocalised, string.Empty });
                         listEvent.Items.Add(newItem).EnsureVisible();
                         listEvent.EndUpdate();
                     });
@@ -210,10 +238,10 @@ namespace Observatory
                     return;
                 }
             }
-            readAllJournals();
+            ReadAllJournals();
         }
 
-        void readAllJournals()
+        private void ReadAllJournals()
         {
             listEvent.BeginUpdate();
             listEvent.Items.Clear();
@@ -370,7 +398,7 @@ namespace Observatory
         private void ObservatoryFrm_Shown(object sender, EventArgs e)
         {
             if (Properties.Observatory.Default.AutoRead)
-                readAllJournals();
+                ReadAllJournals();
 
             if (Properties.Observatory.Default.AutoMonitor)
                 ToggleMonitor();

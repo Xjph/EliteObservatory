@@ -52,6 +52,7 @@
             this.cbx_LandWithAtmo = new System.Windows.Forms.CheckBox();
             this.cbx_LandWithTerra = new System.Windows.Forms.CheckBox();
             this.groupBox_misc = new System.Windows.Forms.GroupBox();
+            this.cbxSendToIGAU = new System.Windows.Forms.CheckBox();
             this.cbxAutoMonitor = new System.Windows.Forms.CheckBox();
             this.cbxAutoRead = new System.Windows.Forms.CheckBox();
             this.cbx_custom = new System.Windows.Forms.CheckBox();
@@ -72,6 +73,7 @@
             this.txtTelegramAPIKey = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.cbxTelegram = new System.Windows.Forms.CheckBox();
+
             this.groupBox_Interest.SuspendLayout();
             this.groupBox_misc.SuspendLayout();
             this.groupBox_TTS.SuspendLayout();
@@ -342,6 +344,7 @@
             // 
             // groupBox_misc
             // 
+            this.groupBox_misc.Controls.Add(this.cbxSendToIGAU);
             this.groupBox_misc.Controls.Add(this.cbxAutoMonitor);
             this.groupBox_misc.Controls.Add(this.cbxAutoRead);
             this.groupBox_misc.Controls.Add(this.cbx_custom);
@@ -353,6 +356,7 @@
             this.groupBox_misc.Location = new System.Drawing.Point(13, 292);
             this.groupBox_misc.Name = "groupBox_misc";
             this.groupBox_misc.Size = new System.Drawing.Size(340, 94);
+            this.groupBox_misc.Size = new System.Drawing.Size(340, 114);
             this.groupBox_misc.TabIndex = 1;
             this.groupBox_misc.TabStop = false;
             this.groupBox_misc.Text = "Misc.";
@@ -361,6 +365,21 @@
             // 
             this.cbxAutoMonitor.AutoSize = true;
             this.cbxAutoMonitor.Location = new System.Drawing.Point(121, 69);
+            // cbxSendToIGAU
+            // 
+            this.cbxSendToIGAU.AutoSize = true;
+            this.cbxSendToIGAU.Location = new System.Drawing.Point(4, 91);
+            this.cbxSendToIGAU.Name = "cbxSendToIGAU";
+            this.cbxSendToIGAU.Size = new System.Drawing.Size(301, 17);
+            this.cbxSendToIGAU.TabIndex = 17;
+            this.cbxSendToIGAU.Text = "Share Codex discoveries to IGAU public discovery catalog";
+            this.tipCopy.SetToolTip(this.cbxSendToIGAU, "https://raw.githubusercontent.com/Elite-IGAU/publications/master/IGAU_Codex.csv ");
+            this.cbxSendToIGAU.UseVisualStyleBackColor = true;
+            // 
+            // cbxAutoMonitor
+            // 
+            this.cbxAutoMonitor.AutoSize = true;
+            this.cbxAutoMonitor.Location = new System.Drawing.Point(119, 71);
             this.cbxAutoMonitor.Name = "cbxAutoMonitor";
             this.cbxAutoMonitor.Size = new System.Drawing.Size(111, 17);
             this.cbxAutoMonitor.TabIndex = 16;
@@ -368,11 +387,13 @@
             this.tipCopy.SetToolTip(this.cbxAutoMonitor, "Automatically start monitoring logs at start up");
             this.cbxAutoMonitor.UseVisualStyleBackColor = true;
             this.cbxAutoMonitor.CheckedChanged += new System.EventHandler(this.CbxAutoMonitor_CheckedChanged);
+            this.cbxAutoMonitor.CheckedChanged += new System.EventHandler(this.cbxAutoMonitor_CheckedChanged);
             // 
             // cbxAutoRead
             // 
             this.cbxAutoRead.AutoSize = true;
             this.cbxAutoRead.Location = new System.Drawing.Point(6, 69);
+            this.cbxAutoRead.Location = new System.Drawing.Point(4, 71);
             this.cbxAutoRead.Name = "cbxAutoRead";
             this.cbxAutoRead.Size = new System.Drawing.Size(102, 17);
             this.cbxAutoRead.TabIndex = 15;
@@ -380,6 +401,7 @@
             this.tipCopy.SetToolTip(this.cbxAutoRead, "Automatically read all logs at start up");
             this.cbxAutoRead.UseVisualStyleBackColor = true;
             this.cbxAutoRead.CheckedChanged += new System.EventHandler(this.CbxAutoRead_CheckedChanged);
+            this.cbxAutoRead.CheckedChanged += new System.EventHandler(this.cbxAutoRead_CheckedChanged);
             // 
             // cbx_custom
             // 
@@ -493,6 +515,7 @@
             this.linkGit.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.linkGit.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkGit_LinkClicked);
             // 
+
             // groupBox_telegram
             // 
             this.groupBox_telegram.Controls.Add(this.btn_TestTelegram);
@@ -563,12 +586,14 @@
             this.cbxTelegram.UseVisualStyleBackColor = true;
             this.cbxTelegram.CheckedChanged += new System.EventHandler(this.CbxTelegram_CheckedChanged);
             // 
+
             // SettingsFrm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(429, 499);
             this.Controls.Add(this.groupBox_telegram);
+            this.ClientSize = new System.Drawing.Size(429, 393);
             this.Controls.Add(this.linkGit);
             this.Controls.Add(this.groupBox_TTS);
             this.Controls.Add(this.groupBox_misc);
@@ -639,5 +664,6 @@
         private System.Windows.Forms.CheckBox cbxTelegram;
         private System.Windows.Forms.Button btn_TestTelegram;
         private System.Windows.Forms.CheckBox cbxCodex;
+        private System.Windows.Forms.CheckBox cbxSendToIGAU;
     }
 }

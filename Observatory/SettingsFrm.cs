@@ -61,6 +61,7 @@ namespace Observatory
             txtTelegramAPIKey.Text = settings.TelegramAPIKey;
             txtTelegramChatId.Text = settings.TelegramChatId;
             cbxCodex.Checked = settings.IncludeCodex;
+            cbxSendToIGAU.Checked = settings.SendToIGAU;
         }
 
         private void Cbx_LandWithTerra_CheckedChanged(object sender, EventArgs e)
@@ -317,6 +318,10 @@ namespace Observatory
         private void CbxCodex_CheckedChanged(object sender, EventArgs e)
         {
             settings.IncludeCodex = ((CheckBox)sender).Checked;
+        
+        private void cbxSendToIGAU_CheckedChanged(object sender, EventArgs e)
+        {
+            settings.SendToIGAU = ((CheckBox)sender).Checked;
             settings.Save();
         }
     }

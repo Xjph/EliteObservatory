@@ -19,7 +19,7 @@ namespace Observatory
         private SettingsFrm settingsFrm;
         private ListViewColumnSorter columnSorter;
         public bool settingsOpen = false;
-        
+
         public ObservatoryFrm()
         {
             InitializeComponent();
@@ -104,7 +104,7 @@ namespace Observatory
                         UseItemStyleForSubItems = false
                     };
 
-                    Invoke((MethodInvoker)delegate () 
+                    Invoke((MethodInvoker)delegate ()
                     {
                         listEvent.BeginUpdate();
                         RemoveUninteresting();
@@ -157,7 +157,7 @@ namespace Observatory
             {
                 string fullBodyName = items[0].BodyName;
                 StringBuilder announceText = new StringBuilder();
-                
+
                 foreach (var item in items)
                 {
                     announceText.Append(item.Description);
@@ -307,7 +307,7 @@ namespace Observatory
                 {
                     copyText.AppendLine(item.SubItems[0].Text + " - Uninteresting");
                 }
-                    
+
 
             }
             Clipboard.SetText(copyText.ToString());

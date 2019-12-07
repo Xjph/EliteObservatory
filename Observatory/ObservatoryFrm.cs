@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Net;
+using System.Net.Http;
 using System.Windows.Forms;
 using System.Speech.Synthesis;
 using Newtonsoft.Json;
@@ -35,12 +37,15 @@ namespace Observatory
             try
             {
                 string releasesResponse;
-                using (System.Net.WebClient client = new System.Net.WebClient())
+                
+                var request = new HttpRequestMessage
                 {
-                    System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
-                    client.Headers["user-agent"] = "Xjph/EliteObservatory";
-                    releasesResponse = client.DownloadString("https://api.github.com/repos/xjph/EliteObservatory/releases");
-                }
+                    Method = HttpMethod.Get,
+                    RequestUri = new Uri("https://api.github.com/repos/xjph/EliteObservatory/releases"),
+                    Headers = { { "User-Agent", "Xjph/EliteObservatory" } }
+                };
+
+                releasesResponse = HttpClient.SendRequest(request).Content.ReadAsStringAsync().Result;
 
                 if (!string.IsNullOrEmpty(releasesResponse))
                 {
@@ -54,6 +59,7 @@ namespace Observatory
                         }
                     }
                 }
+
             }
             catch (Exception ex)
             {
@@ -110,6 +116,28 @@ namespace Observatory
                     });
                 }
             }
+            else if (logMonitor.LastCodexValid)
+            {
+                CodexReader.ProcessCodex(logMonitor.LastCodex);
+
+                if (Properties.Observatory.Default.IncludeCodex)
+                {
+                    Invoke((MethodInvoker)delegate ()
+                    {
+                        string location;
+                        listEvent.BeginUpdate();
+
+                        if (logMonitor.LastCodex.Category != "$Codex_Category_StellarBodies;" && logMonitor.LastCodex.NearestDestinationLocalised?.Length > 0 && logMonitor.LastCodex.Body?.Length > 0)
+                            location = logMonitor.LastCodex.Body;
+                        else
+                            location = logMonitor.LastCodex.System;
+
+                        ListViewItem newItem = new ListViewItem(new string[] { location, logMonitor.LastCodex.NearestDestinationLocalised, logMonitor.LastCodex.Timestamp.ToString("yyyy-MM-dd HH:mm:ss"), logMonitor.LastCodex.NameLocalised, string.Empty });
+                        listEvent.Items.Add(newItem).EnsureVisible();
+                        listEvent.EndUpdate();
+                    });
+                }
+            }
         }
 
         private void RemoveUninteresting()
@@ -125,7 +153,7 @@ namespace Observatory
 
         private void AnnounceItems(string currentSystem, List<(string BodyName, string Description, string Detail)> items)
         {
-            if (Properties.Observatory.Default.Notify || Properties.Observatory.Default.TTS)
+            if (Properties.Observatory.Default.Notify || Properties.Observatory.Default.TTS || Properties.Observatory.Default.EnableTelegram)
             {
                 string fullBodyName = items[0].BodyName;
                 StringBuilder announceText = new StringBuilder();
@@ -153,6 +181,27 @@ namespace Observatory
                     }
                     speech.Volume = Properties.Observatory.Default.TTSVolume;
                     speech.SpeakSsmlAsync($"<speak version=\"1.0\" xmlns=\"http://www.w3.org/2001/10/synthesis\" xml:lang=\"en-US\">{spokenName}:<break strength=\"weak\"/>{announceText}</speak>");
+                }
+                if(Properties.Observatory.Default.EnableTelegram)
+                {
+                    try
+                    {
+        
+                        string message = fullBodyName + "\r\n" + announceText.ToString();
+                        var request = new System.Net.Http.HttpRequestMessage
+                        {
+                            Method = System.Net.Http.HttpMethod.Get,
+                            RequestUri = new Uri($"https://api.telegram.org/bot{Properties.Observatory.Default.TelegramAPIKey}/sendMessage?chat_id={Properties.Observatory.Default.TelegramChatId}&text={message}")
+                        };
+
+                        HttpClient.SendRequest(request);
+
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error sending Telegram notification: {ex.Message}");
+                    }
+
                 }
             }
         }
@@ -192,10 +241,10 @@ namespace Observatory
                     return;
                 }
             }
-            readAllJournals();
+            ReadAllJournals();
         }
 
-        void readAllJournals()
+        private void ReadAllJournals()
         {
             listEvent.BeginUpdate();
             listEvent.Items.Clear();
@@ -352,7 +401,7 @@ namespace Observatory
         private void ObservatoryFrm_Shown(object sender, EventArgs e)
         {
             if (Properties.Observatory.Default.AutoRead)
-                readAllJournals();
+                ReadAllJournals();
 
             if (Properties.Observatory.Default.AutoMonitor)
                 ToggleMonitor();

@@ -30,6 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             this.groupBox_Interest = new System.Windows.Forms.GroupBox();
+            this.cbxCodex = new System.Windows.Forms.CheckBox();
             this.cbxLandRing = new System.Windows.Forms.CheckBox();
             this.cbxRinghugger = new System.Windows.Forms.CheckBox();
             this.cbx_WideRing = new System.Windows.Forms.CheckBox();
@@ -65,14 +66,24 @@
             this.btn_TestVol = new System.Windows.Forms.Button();
             this.trackBar_Volume = new System.Windows.Forms.TrackBar();
             this.linkGit = new System.Windows.Forms.LinkLabel();
+            this.groupBox_telegram = new System.Windows.Forms.GroupBox();
+            this.btn_TestTelegram = new System.Windows.Forms.Button();
+            this.txtTelegramChatId = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.txtTelegramAPIKey = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.cbxTelegram = new System.Windows.Forms.CheckBox();
+
             this.groupBox_Interest.SuspendLayout();
             this.groupBox_misc.SuspendLayout();
             this.groupBox_TTS.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_Volume)).BeginInit();
+            this.groupBox_telegram.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox_Interest
             // 
+            this.groupBox_Interest.Controls.Add(this.cbxCodex);
             this.groupBox_Interest.Controls.Add(this.cbxLandRing);
             this.groupBox_Interest.Controls.Add(this.cbxRinghugger);
             this.groupBox_Interest.Controls.Add(this.cbx_WideRing);
@@ -95,10 +106,21 @@
             this.groupBox_Interest.Controls.Add(this.cbx_LandWithTerra);
             this.groupBox_Interest.Location = new System.Drawing.Point(13, 13);
             this.groupBox_Interest.Name = "groupBox_Interest";
-            this.groupBox_Interest.Size = new System.Drawing.Size(340, 250);
+            this.groupBox_Interest.Size = new System.Drawing.Size(340, 273);
             this.groupBox_Interest.TabIndex = 0;
             this.groupBox_Interest.TabStop = false;
             this.groupBox_Interest.Text = "Interest Criteria";
+            // 
+            // cbxCodex
+            // 
+            this.cbxCodex.AutoSize = true;
+            this.cbxCodex.Location = new System.Drawing.Point(6, 249);
+            this.cbxCodex.Name = "cbxCodex";
+            this.cbxCodex.Size = new System.Drawing.Size(114, 17);
+            this.cbxCodex.TabIndex = 20;
+            this.cbxCodex.Text = "Codex Discoveries";
+            this.cbxCodex.UseVisualStyleBackColor = true;
+            this.cbxCodex.CheckedChanged += new System.EventHandler(this.CbxCodex_CheckedChanged);
             // 
             // cbxLandRing
             // 
@@ -331,13 +353,18 @@
             this.groupBox_misc.Controls.Add(this.txtCopy);
             this.groupBox_misc.Controls.Add(this.cbxTts);
             this.groupBox_misc.Controls.Add(this.cbxToast);
-            this.groupBox_misc.Location = new System.Drawing.Point(13, 269);
+            this.groupBox_misc.Location = new System.Drawing.Point(13, 292);
             this.groupBox_misc.Name = "groupBox_misc";
+            this.groupBox_misc.Size = new System.Drawing.Size(340, 94);
             this.groupBox_misc.Size = new System.Drawing.Size(340, 114);
             this.groupBox_misc.TabIndex = 1;
             this.groupBox_misc.TabStop = false;
             this.groupBox_misc.Text = "Misc.";
             // 
+            // cbxAutoMonitor
+            // 
+            this.cbxAutoMonitor.AutoSize = true;
+            this.cbxAutoMonitor.Location = new System.Drawing.Point(121, 69);
             // cbxSendToIGAU
             // 
             this.cbxSendToIGAU.AutoSize = true;
@@ -359,11 +386,13 @@
             this.cbxAutoMonitor.Text = "Monitor on launch";
             this.tipCopy.SetToolTip(this.cbxAutoMonitor, "Automatically start monitoring logs at start up");
             this.cbxAutoMonitor.UseVisualStyleBackColor = true;
+            this.cbxAutoMonitor.CheckedChanged += new System.EventHandler(this.CbxAutoMonitor_CheckedChanged);
             this.cbxAutoMonitor.CheckedChanged += new System.EventHandler(this.cbxAutoMonitor_CheckedChanged);
             // 
             // cbxAutoRead
             // 
             this.cbxAutoRead.AutoSize = true;
+            this.cbxAutoRead.Location = new System.Drawing.Point(6, 69);
             this.cbxAutoRead.Location = new System.Drawing.Point(4, 71);
             this.cbxAutoRead.Name = "cbxAutoRead";
             this.cbxAutoRead.Size = new System.Drawing.Size(102, 17);
@@ -371,12 +400,13 @@
             this.cbxAutoRead.Text = "Read on launch";
             this.tipCopy.SetToolTip(this.cbxAutoRead, "Automatically read all logs at start up");
             this.cbxAutoRead.UseVisualStyleBackColor = true;
+            this.cbxAutoRead.CheckedChanged += new System.EventHandler(this.CbxAutoRead_CheckedChanged);
             this.cbxAutoRead.CheckedChanged += new System.EventHandler(this.cbxAutoRead_CheckedChanged);
             // 
             // cbx_custom
             // 
             this.cbx_custom.AutoSize = true;
-            this.cbx_custom.Location = new System.Drawing.Point(224, 48);
+            this.cbx_custom.Location = new System.Drawing.Point(226, 46);
             this.cbx_custom.Name = "cbx_custom";
             this.cbx_custom.Size = new System.Drawing.Size(96, 17);
             this.cbx_custom.TabIndex = 14;
@@ -416,7 +446,7 @@
             // cbxTts
             // 
             this.cbxTts.AutoSize = true;
-            this.cbxTts.Location = new System.Drawing.Point(119, 48);
+            this.cbxTts.Location = new System.Drawing.Point(121, 46);
             this.cbxTts.Name = "cbxTts";
             this.cbxTts.Size = new System.Drawing.Size(99, 17);
             this.cbxTts.TabIndex = 9;
@@ -427,7 +457,7 @@
             // cbxToast
             // 
             this.cbxToast.AutoSize = true;
-            this.cbxToast.Location = new System.Drawing.Point(4, 48);
+            this.cbxToast.Location = new System.Drawing.Point(6, 46);
             this.cbxToast.Name = "cbxToast";
             this.cbxToast.Size = new System.Drawing.Size(113, 17);
             this.cbxToast.TabIndex = 8;
@@ -485,10 +515,84 @@
             this.linkGit.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.linkGit.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkGit_LinkClicked);
             // 
+
+            // groupBox_telegram
+            // 
+            this.groupBox_telegram.Controls.Add(this.btn_TestTelegram);
+            this.groupBox_telegram.Controls.Add(this.txtTelegramChatId);
+            this.groupBox_telegram.Controls.Add(this.label3);
+            this.groupBox_telegram.Controls.Add(this.txtTelegramAPIKey);
+            this.groupBox_telegram.Controls.Add(this.label2);
+            this.groupBox_telegram.Controls.Add(this.cbxTelegram);
+            this.groupBox_telegram.Location = new System.Drawing.Point(13, 392);
+            this.groupBox_telegram.Name = "groupBox_telegram";
+            this.groupBox_telegram.Size = new System.Drawing.Size(339, 97);
+            this.groupBox_telegram.TabIndex = 4;
+            this.groupBox_telegram.TabStop = false;
+            this.groupBox_telegram.Text = "Telegram";
+            // 
+            // btn_TestTelegram
+            // 
+            this.btn_TestTelegram.Location = new System.Drawing.Point(289, 15);
+            this.btn_TestTelegram.Name = "btn_TestTelegram";
+            this.btn_TestTelegram.Size = new System.Drawing.Size(41, 21);
+            this.btn_TestTelegram.TabIndex = 5;
+            this.btn_TestTelegram.Text = "Test";
+            this.btn_TestTelegram.UseVisualStyleBackColor = true;
+            this.btn_TestTelegram.Click += new System.EventHandler(this.Btn_TestTelegram_Click);
+            // 
+            // txtTelegramChatId
+            // 
+            this.txtTelegramChatId.Location = new System.Drawing.Point(126, 68);
+            this.txtTelegramChatId.Name = "txtTelegramChatId";
+            this.txtTelegramChatId.Size = new System.Drawing.Size(194, 20);
+            this.txtTelegramChatId.TabIndex = 4;
+            this.txtTelegramChatId.TextChanged += new System.EventHandler(this.TxtTelegramChatId_TextChanged);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(6, 71);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(93, 13);
+            this.label3.TabIndex = 3;
+            this.label3.Text = "Telegram Chat ID:";
+            // 
+            // txtTelegramAPIKey
+            // 
+            this.txtTelegramAPIKey.Location = new System.Drawing.Point(126, 42);
+            this.txtTelegramAPIKey.Name = "txtTelegramAPIKey";
+            this.txtTelegramAPIKey.Size = new System.Drawing.Size(194, 20);
+            this.txtTelegramAPIKey.TabIndex = 2;
+            this.txtTelegramAPIKey.TextChanged += new System.EventHandler(this.TxtTelegramAPIKey_TextChanged);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(6, 45);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(114, 13);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "Telegram Bot API Key:";
+            // 
+            // cbxTelegram
+            // 
+            this.cbxTelegram.AutoSize = true;
+            this.cbxTelegram.Location = new System.Drawing.Point(6, 19);
+            this.cbxTelegram.Name = "cbxTelegram";
+            this.cbxTelegram.Size = new System.Drawing.Size(154, 17);
+            this.cbxTelegram.TabIndex = 0;
+            this.cbxTelegram.Text = "Send Telegram Notification";
+            this.cbxTelegram.UseVisualStyleBackColor = true;
+            this.cbxTelegram.CheckedChanged += new System.EventHandler(this.CbxTelegram_CheckedChanged);
+            // 
+
             // SettingsFrm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(429, 499);
+            this.Controls.Add(this.groupBox_telegram);
             this.ClientSize = new System.Drawing.Size(429, 393);
             this.Controls.Add(this.linkGit);
             this.Controls.Add(this.groupBox_TTS);
@@ -508,6 +612,8 @@
             this.groupBox_TTS.ResumeLayout(false);
             this.groupBox_TTS.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_Volume)).EndInit();
+            this.groupBox_telegram.ResumeLayout(false);
+            this.groupBox_telegram.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -550,6 +656,14 @@
         private System.Windows.Forms.LinkLabel linkGit;
         private System.Windows.Forms.CheckBox cbxAutoRead;
         private System.Windows.Forms.CheckBox cbxAutoMonitor;
+        private System.Windows.Forms.GroupBox groupBox_telegram;
+        private System.Windows.Forms.TextBox txtTelegramChatId;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox txtTelegramAPIKey;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.CheckBox cbxTelegram;
+        private System.Windows.Forms.Button btn_TestTelegram;
+        private System.Windows.Forms.CheckBox cbxCodex;
         private System.Windows.Forms.CheckBox cbxSendToIGAU;
     }
 }

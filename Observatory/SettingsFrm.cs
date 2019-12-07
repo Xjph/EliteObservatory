@@ -26,6 +26,7 @@ namespace Observatory
         private void SettingsFrm_Load(object sender, EventArgs e)
         {
             Loading = true;
+
             cbx_LandWithTerra.Checked = settings.LandWithTerra;
             cbx_LandWithAtmo.Checked = settings.LandWithAtmo;
             cbx_LandHighG.Checked = settings.LandHighG;
@@ -55,6 +56,11 @@ namespace Observatory
             cbxLandRing.Checked = settings.RingLandable;
             cbxAutoMonitor.Checked = settings.AutoMonitor;
             cbxAutoRead.Checked = settings.AutoRead;
+            cbxTelegram.Checked = settings.EnableTelegram;
+            btn_TestTelegram.Enabled = settings.EnableTelegram;
+            txtTelegramAPIKey.Text = settings.TelegramAPIKey;
+            txtTelegramChatId.Text = settings.TelegramChatId;
+            cbxCodex.Checked = settings.IncludeCodex;
             cbxSendToIGAU.Checked = settings.SendToIGAU;
         }
 
@@ -249,18 +255,70 @@ namespace Observatory
             settings.Save();
         }
 
-        private void cbxAutoRead_CheckedChanged(object sender, EventArgs e)
+        private void CbxAutoRead_CheckedChanged(object sender, EventArgs e)
         {
             settings.AutoRead = ((CheckBox)sender).Checked;
             settings.Save();
         }
 
-        private void cbxAutoMonitor_CheckedChanged(object sender, EventArgs e)
+        private void CbxAutoMonitor_CheckedChanged(object sender, EventArgs e)
         {
             settings.AutoMonitor = ((CheckBox)sender).Checked;
             settings.Save();
         }
 
+        private void CbxTelegram_CheckedChanged(object sender, EventArgs e)
+        {
+            settings.EnableTelegram = ((CheckBox)sender).Checked;
+            btn_TestTelegram.Enabled = ((CheckBox)sender).Checked;
+            settings.Save();
+        }
+
+        private void TxtTelegramAPIKey_TextChanged(object sender, EventArgs e)
+        {
+            settings.TelegramAPIKey = txtTelegramAPIKey.Text;
+            settings.Save();
+        }
+
+        private void TxtTelegramChatId_TextChanged(object sender, EventArgs e)
+        {
+            settings.TelegramChatId = txtTelegramChatId.Text;
+            settings.Save();
+        }
+
+        private void Btn_TestTelegram_Click(object sender, EventArgs e)
+        {
+            if (txtTelegramAPIKey.Text != string.Empty && txtTelegramChatId.Text != string.Empty)
+            {
+                try
+                {
+                    string message = "A test from Elite Observatory";
+                    var request = new System.Net.Http.HttpRequestMessage
+                    {
+                        Method = System.Net.Http.HttpMethod.Get,
+                        RequestUri = new Uri($"https://api.telegram.org/bot{settings.TelegramAPIKey}/sendMessage?chat_id={settings.TelegramChatId}&text={message}")
+                    };
+
+                    string response = HttpClient.SendRequest(request).Content.ReadAsStringAsync().Result;
+
+                    MessageBox.Show(response, "Server Response");
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error trying to send notification: {ex.Message}");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please provide an API Key and Chat ID");
+            }
+        }
+
+        private void CbxCodex_CheckedChanged(object sender, EventArgs e)
+        {
+            settings.IncludeCodex = ((CheckBox)sender).Checked;
+        
         private void cbxSendToIGAU_CheckedChanged(object sender, EventArgs e)
         {
             settings.SendToIGAU = ((CheckBox)sender).Checked;

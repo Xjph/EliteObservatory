@@ -406,7 +406,10 @@ namespace Observatory.Properties {
                 this["TelegramChatId"] = value;
             }
         }
-        
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool IncludeCodex {
             get {
                 return ((bool)(this["IncludeCodex"]));
@@ -439,17 +442,6 @@ namespace Observatory.Properties {
                 this["AutoMonitor"] = value;
             }
         }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool AutoRead {
-            get {
-                return ((bool)(this["AutoRead"]));
-            }
-            set {
-                this["AutoRead"] = value;
-            }
-        }
+
     }
 }

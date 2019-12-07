@@ -266,37 +266,41 @@ namespace Observatory
             settings.Save();
         }
 
-        private void cbxTelegram_CheckedChanged(object sender, EventArgs e)
+        private void CbxTelegram_CheckedChanged(object sender, EventArgs e)
         {
             settings.EnableTelegram = ((CheckBox)sender).Checked;
             btn_TestTelegram.Enabled = ((CheckBox)sender).Checked;
             settings.Save();
         }
 
-        private void txtTelegramAPIKey_TextChanged(object sender, EventArgs e)
+        private void TxtTelegramAPIKey_TextChanged(object sender, EventArgs e)
         {
             settings.TelegramAPIKey = txtTelegramAPIKey.Text;
             settings.Save();
         }
 
-        private void txtTelegramChatId_TextChanged(object sender, EventArgs e)
+        private void TxtTelegramChatId_TextChanged(object sender, EventArgs e)
         {
             settings.TelegramChatId = txtTelegramChatId.Text;
             settings.Save();
         }
 
-        private void btn_TestTelegram_Click(object sender, EventArgs e)
+        private void Btn_TestTelegram_Click(object sender, EventArgs e)
         {
             if (txtTelegramAPIKey.Text != string.Empty && txtTelegramChatId.Text != string.Empty)
             {
                 try
                 {
-                    using (System.Net.WebClient client = new System.Net.WebClient())
+                    string message = "A test from Elite Observatory";
+                    var request = new System.Net.Http.HttpRequestMessage
                     {
-                        string message = "A test from Elite Observatory";
-                        string urlString = $"https://api.telegram.org/bot{settings.TelegramAPIKey}/sendMessage?chat_id={settings.TelegramChatId}&text={message}";
-                        MessageBox.Show(client.DownloadString(urlString), "Server Response");
-                    }
+                        Method = System.Net.Http.HttpMethod.Get,
+                        RequestUri = new Uri($"https://api.telegram.org/bot{settings.TelegramAPIKey}/sendMessage?chat_id={settings.TelegramChatId}&text={message}")
+                    };
+
+                    string response = HttpClient.SendRequest(request).Content.ReadAsStringAsync().Result;
+
+                    MessageBox.Show(response, "Server Response");
 
                 }
                 catch (Exception ex)

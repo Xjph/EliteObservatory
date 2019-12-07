@@ -186,12 +186,15 @@ namespace Observatory
                 {
                     try
                     {
-                        using (System.Net.WebClient client = new System.Net.WebClient())
+        
+                        string message = fullBodyName + "\r\n" + announceText.ToString();
+                        var request = new System.Net.Http.HttpRequestMessage
                         {
-                            string message = fullBodyName + "\r\n" + announceText.ToString();
-                            string urlString = $"https://api.telegram.org/bot{Properties.Observatory.Default.TelegramAPIKey}/sendMessage?chat_id={Properties.Observatory.Default.TelegramChatId}&text={message}";
-                            string result = client.DownloadString(urlString);
-                        }
+                            Method = System.Net.Http.HttpMethod.Get,
+                            RequestUri = new Uri($"https://api.telegram.org/bot{Properties.Observatory.Default.TelegramAPIKey}/sendMessage?chat_id={Properties.Observatory.Default.TelegramChatId}&text={message}")
+                        };
+
+                        HttpClient.SendRequest(request);
 
                     }
                     catch (Exception ex)

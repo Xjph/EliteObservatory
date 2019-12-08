@@ -286,6 +286,18 @@ namespace Observatory
             settings.Save();
         }
 
+        private void CbxCodex_CheckedChanged(object sender, EventArgs e)
+        {
+            settings.IncludeCodex = ((CheckBox)sender).Checked;
+            settings.Save();
+        }
+
+        private void CbxSendToIGAU_CheckedChanged(object sender, EventArgs e)
+        {
+            settings.SendToIGAU = ((CheckBox)sender).Checked;
+            settings.Save();
+        }
+
         private void Btn_TestTelegram_Click(object sender, EventArgs e)
         {
             if (txtTelegramAPIKey.Text != string.Empty && txtTelegramChatId.Text != string.Empty)
@@ -313,16 +325,6 @@ namespace Observatory
             {
                 MessageBox.Show("Please provide an API Key and Chat ID");
             }
-        }
-
-        private void CbxCodex_CheckedChanged(object sender, EventArgs e)
-        {
-            settings.IncludeCodex = ((CheckBox)sender).Checked;
-
-        private void cbxSendToIGAU_CheckedChanged(object sender, EventArgs e)
-        {
-            settings.SendToIGAU = ((CheckBox)sender).Checked;
-            settings.Save();
         }
     }
 }

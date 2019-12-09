@@ -24,7 +24,7 @@ namespace Observatory
                   // this works, Need to combine this with the "If" above.
                   if (Properties.Observatory.Default.IncludeCodex)
                   {
-                  string POST_content = "{ \"timestamp\":\""+codexEntry.Timestamp+"\", \"Name_Localised\":\""+codexEntry.NameLocalised+"\", \"System\":\""+codexEntry.System+"\" }";
+                  string POST_content = "{ \"timestamp\":\""+codexEntry.Timestamp.ToString("yyyy-MM-ddTHH:mm:ssZ")+"\", \"Name_Localised\":\""+codexEntry.NameLocalised+"\", \"System\":\""+codexEntry.System+"\" }";
                   var request = new System.Net.Http.HttpRequestMessage
                    {
                         Method = System.Net.Http.HttpMethod.Post,
@@ -32,7 +32,7 @@ namespace Observatory
                         Content = new System.Net.Http.StringContent(POST_content)
                    };
                   // disabled for now, otherwise testing will bombard dynamoDB / API Gateway
-                  // string response = HttpClient.SendRequest(request).Content.ReadAsStringAsync().Result;
+                  // string response = HttpClient.SendRequest(request).Content.ReadAsStringAsync().Result;                  
                   }
         }
     }

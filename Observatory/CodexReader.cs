@@ -32,7 +32,7 @@ namespace Observatory
                         Content = new System.Net.Http.StringContent(POST_content)
                    };
                   // disabled for now, otherwise testing will bombard dynamoDB / API Gateway
-                  // string response = HttpClient.SendRequest(request).Content.ReadAsStringAsync().Result;                  
+                  // HttpClient.SendRequest(request);
                   }
         }
     }

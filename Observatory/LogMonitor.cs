@@ -27,7 +27,6 @@ namespace Observatory
         public Dictionary<(string System, long Body), ScanEvent> SystemBody { get; private set; }
         public UserInterest UserInterest { get; private set; }
         private JournalPoker Poker;
-
         public string CurrentSystem
         {
             get
@@ -46,7 +45,6 @@ namespace Observatory
 
         public LogMonitor(string logPath)
         {
-
             LogDirectory = logPath;
             LogDirectory = CheckLogPath();
             logWatcher = new FileSystemWatcher(LogDirectory, "Journal.????????????.??.log")
@@ -97,11 +95,11 @@ namespace Observatory
                         while (!currentLog.EndOfStream)
                         {
                             CurrentLogLine = currentLog.ReadLine();
-                            if (CurrentLogLine.Trim().StartsWith("{") && 
-                                CurrentLogLine.Trim().EndsWith("}") && 
-                                CurrentLogLine.Contains("\"event\":\"Scan\"") || 
-                                CurrentLogLine.Contains("\"event\":\"Location\"") || 
-                                CurrentLogLine.Contains("\"event\":\"FSDJump\"") || 
+                            if (CurrentLogLine.Trim().StartsWith("{") &&
+                                CurrentLogLine.Trim().EndsWith("}") &&
+                                CurrentLogLine.Contains("\"event\":\"Scan\"") ||
+                                CurrentLogLine.Contains("\"event\":\"Location\"") ||
+                                CurrentLogLine.Contains("\"event\":\"FSDJump\"") ||
                                 CurrentLogLine.Contains("\"event\":\"CodexEntry\"") ||
                                 CurrentLogLine.Contains("\"event\":\"SupercruiseExit\""))
                             {
@@ -142,7 +140,6 @@ namespace Observatory
                     ShowNewFolderButton = false,
                     Description = "Select Elite Dangerous Journal Folder"
                 };
-
                 System.Windows.Forms.DialogResult result = folderBrowserDialog.ShowDialog();
                 if (result == System.Windows.Forms.DialogResult.OK && !string.IsNullOrWhiteSpace(folderBrowserDialog.SelectedPath))
                 {
@@ -162,8 +159,7 @@ namespace Observatory
                     break;
 
                 case WatcherChangeTypes.Changed:
-                    CurrentLogPath = e.FullPath;
-
+                    CurrentLogPath = e.FullPath;             
                     using (StreamReader currentLog = new StreamReader(File.Open(CurrentLogPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)))
                     {
                         LinesToProcess = new List<string>();
@@ -174,10 +170,10 @@ namespace Observatory
                             {
                                 LinesToProcess.Add(checkLine);
                             }
-                            else if (checkLine.Contains("\"event\":\"Scan\"") || 
-                                checkLine.Contains("\"event\":\"Location\"") || 
-                                checkLine.Contains("\"event\":\"FSDJump\"") || 
-                                checkLine.Contains("\"event\":\"CodexEntry\"") || 
+                            else if (checkLine.Contains("\"event\":\"Scan\"") ||
+                                checkLine.Contains("\"event\":\"Location\"") ||
+                                checkLine.Contains("\"event\":\"FSDJump\"") ||
+                                checkLine.Contains("\"event\":\"CodexEntry\"") ||
                                 checkLine.Contains("\"event\":\"SupercruiseExit\""))
                             {
                                 CurrentLogLine = checkLine;

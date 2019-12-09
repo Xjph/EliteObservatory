@@ -19,7 +19,6 @@ namespace Observatory
         private SettingsFrm settingsFrm;
         private ListViewColumnSorter columnSorter;
         public bool settingsOpen = false;
-
         public ObservatoryFrm()
         {
             InitializeComponent();
@@ -37,7 +36,7 @@ namespace Observatory
             try
             {
                 string releasesResponse;
-                
+
                 var request = new HttpRequestMessage
                 {
                     Method = HttpMethod.Get,
@@ -157,7 +156,6 @@ namespace Observatory
             {
                 string fullBodyName = items[0].BodyName;
                 StringBuilder announceText = new StringBuilder();
-
                 foreach (var item in items)
                 {
                     announceText.Append(item.Description);
@@ -186,7 +184,7 @@ namespace Observatory
                 {
                     try
                     {
-        
+
                         string message = fullBodyName + "\r\n" + announceText.ToString();
                         var request = new System.Net.Http.HttpRequestMessage
                         {
@@ -307,8 +305,7 @@ namespace Observatory
                 {
                     copyText.AppendLine(item.SubItems[0].Text + " - Uninteresting");
                 }
-
-
+  
             }
             Clipboard.SetText(copyText.ToString());
         }

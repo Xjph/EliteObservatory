@@ -25,15 +25,6 @@ namespace Observatory
         [JsonProperty("BodyID")]
         public long BodyId { get; set; }
 
-        [JsonProperty("Name_Localised")]
-        public string Name_Localised { get; set; }
-
-        [JsonProperty("System")]
-        public string System { get; set; }
-
-        [JsonProperty("CodexEntry")]
-        public long CodexEntry { get; set; }
-
         [JsonProperty("Parents", NullValueHandling = NullValueHandling.Ignore)]
         public ParentObject[] Parents {
             get
@@ -58,7 +49,7 @@ namespace Observatory
                     {
                         Parent[i] = ("Star", (long)value[i].Star);
                     }
-                }
+                } 
             }
         }
 
@@ -66,9 +57,6 @@ namespace Observatory
 
         [JsonProperty("DistanceFromArrivalLS")]
         public double DistanceFromArrivalLs { get; set; }
-
-        [JsonProperty("VoucherAmount")]
-        public double VoucherAmount { get; set; }
 
         [JsonProperty("TidalLock", NullValueHandling = NullValueHandling.Ignore)]
         public bool? TidalLock { get; set; }

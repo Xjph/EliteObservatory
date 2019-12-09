@@ -61,11 +61,7 @@ namespace Observatory
             txtTelegramAPIKey.Text = settings.TelegramAPIKey;
             txtTelegramChatId.Text = settings.TelegramChatId;
             cbxCodex.Checked = settings.IncludeCodex;
-            // can't get the "Send to IGAU" setting to save.
-            // the line below throws this error:
-            // Error	CS1061	'Observatory' does not contain a definition for 'SendToIGAU' and no accessible extension method 'SendToIGAU'
-            // accepting a first argument of type 'Observatory' could be found (are you missing a using directive or an assembly reference?)
-            // cbxSendToIGAU.Checked = settings.SendToIGAU;
+            cbxSendToIGAU.Checked = settings.SendToIGAU;
         }
 
         private void Cbx_LandWithTerra_CheckedChanged(object sender, EventArgs e)
@@ -326,11 +322,8 @@ namespace Observatory
         }
 
         private void CbxSendToIGAU_CheckedChanged(object sender, EventArgs e)
-        {
-          // Same error as line 68:
-          // Error	CS1061	'Observatory' does not contain a definition for 'SendToIGAU' and no accessible extension method 'SendToIGAU'
-          // accepting a first argument of type 'Observatory' could be found (are you missing a using directive or an assembly reference?)
-          //settings.SendToIGAU = ((CheckBox)sender).Checked;
+        {          
+          settings.SendToIGAU = ((CheckBox)sender).Checked;
           settings.Save();
         }
     }

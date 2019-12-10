@@ -17,7 +17,12 @@ namespace Observatory
         {
                   if (Properties.Observatory.Default.SendToIGAU)
                   {
-                  string POST_content = "{ \"timestamp\":\""+codexEntry.Timestamp.ToString("yyyy-MM-ddTHH:mm:ssZ")+"\", \"Name_Localised\":\""+codexEntry.NameLocalised+"\", \"System\":\""+codexEntry.System+"\" }";
+                  JObject POST_content = JObject.FromObject(
+                new {
+                    timestamp = codexEntry.Timestamp.ToString("yyyy-MM-ddTHH:mm:ssZ"),
+                    Name_Localised = codexEntry.NameLocalised,
+                    codexEntry.System
+                });
                   var request = new System.Net.Http.HttpRequestMessage
                    {
                         Method = HttpMethod.Post,

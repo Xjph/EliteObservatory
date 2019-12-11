@@ -29,7 +29,7 @@ namespace Observatory
                         RequestUri = new Uri($"https://ddss70885k.execute-api.us-west-1.amazonaws.com/Prod"),
                         Content = new StringContent(POST_content.ToString(Formatting.None))
                    };
-                  HttpClient.SendRequest(request);                  
+                   HttpClient.SendRequest(request);
                   }
         }
     }

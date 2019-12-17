@@ -23,7 +23,6 @@ namespace Observatory
         public bool IsInteresting()
         {
             bool interesting = !isRing && (DefaultInterest() | CustomInterest());
-            
             // Moved these outside the "DefaultInterest" method so the multiple criteria check would include user criteria, and so the "all jumponium" check would not be counted
 
             // Add note if multiple checks triggered
@@ -138,7 +137,6 @@ namespace Observatory
                         {
                             Interest.Add((scanEvent.BodyName, "Close ring proximity", $"Orbit: {Math.Truncate((double)scanEvent.SemiMajorAxis / 1000):N0}km, Radius: {((double)scanEvent.Radius / 1000).ToString("0")}km, Distance from ring: {separation / 1000:N0}km"));
                         }
-                        
                     }
                 }
             }

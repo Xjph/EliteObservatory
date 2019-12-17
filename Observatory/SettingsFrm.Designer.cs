@@ -52,6 +52,7 @@
             this.cbx_LandWithAtmo = new System.Windows.Forms.CheckBox();
             this.cbx_LandWithTerra = new System.Windows.Forms.CheckBox();
             this.groupBox_misc = new System.Windows.Forms.GroupBox();
+            this.cbxSendToIGAU = new System.Windows.Forms.CheckBox();
             this.cbxAutoMonitor = new System.Windows.Forms.CheckBox();
             this.cbxAutoRead = new System.Windows.Forms.CheckBox();
             this.cbx_custom = new System.Windows.Forms.CheckBox();
@@ -78,9 +79,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_Volume)).BeginInit();
             this.groupBox_telegram.SuspendLayout();
             this.SuspendLayout();
-            // 
+            //
             // groupBox_Interest
-            // 
+            //
             this.groupBox_Interest.Controls.Add(this.cbxCodex);
             this.groupBox_Interest.Controls.Add(this.cbxLandRing);
             this.groupBox_Interest.Controls.Add(this.cbxRinghugger);
@@ -108,9 +109,9 @@
             this.groupBox_Interest.TabIndex = 0;
             this.groupBox_Interest.TabStop = false;
             this.groupBox_Interest.Text = "Interest Criteria";
-            // 
+            //
             // cbxCodex
-            // 
+            //
             this.cbxCodex.AutoSize = true;
             this.cbxCodex.Location = new System.Drawing.Point(6, 249);
             this.cbxCodex.Name = "cbxCodex";
@@ -119,9 +120,9 @@
             this.cbxCodex.Text = "Codex Discoveries";
             this.cbxCodex.UseVisualStyleBackColor = true;
             this.cbxCodex.CheckedChanged += new System.EventHandler(this.CbxCodex_CheckedChanged);
-            // 
+            //
             // cbxLandRing
-            // 
+            //
             this.cbxLandRing.AutoSize = true;
             this.cbxLandRing.Location = new System.Drawing.Point(165, 20);
             this.cbxLandRing.Name = "cbxLandRing";
@@ -130,9 +131,9 @@
             this.cbxLandRing.Text = "Landable w/ Ring";
             this.cbxLandRing.UseVisualStyleBackColor = true;
             this.cbxLandRing.CheckedChanged += new System.EventHandler(this.CbxLandRing_CheckedChanged);
-            // 
+            //
             // cbxRinghugger
-            // 
+            //
             this.cbxRinghugger.AutoSize = true;
             this.cbxRinghugger.Location = new System.Drawing.Point(6, 226);
             this.cbxRinghugger.Name = "cbxRinghugger";
@@ -141,9 +142,9 @@
             this.cbxRinghugger.Text = "Close Ring Proximity";
             this.cbxRinghugger.UseVisualStyleBackColor = true;
             this.cbxRinghugger.CheckedChanged += new System.EventHandler(this.CbxRinghugger_CheckedChanged);
-            // 
+            //
             // cbx_WideRing
-            // 
+            //
             this.cbx_WideRing.AutoSize = true;
             this.cbx_WideRing.Location = new System.Drawing.Point(6, 157);
             this.cbx_WideRing.Name = "cbx_WideRing";
@@ -152,9 +153,9 @@
             this.cbx_WideRing.Text = "Wide Ring";
             this.cbx_WideRing.UseVisualStyleBackColor = true;
             this.cbx_WideRing.CheckedChanged += new System.EventHandler(this.Cbx_WideRing_CheckedChanged);
-            // 
+            //
             // cbx_LandLarge
-            // 
+            //
             this.cbx_LandLarge.AutoSize = true;
             this.cbx_LandLarge.Location = new System.Drawing.Point(6, 88);
             this.cbx_LandLarge.Name = "cbx_LandLarge";
@@ -163,9 +164,9 @@
             this.cbx_LandLarge.Text = "Landable Large";
             this.cbx_LandLarge.UseVisualStyleBackColor = true;
             this.cbx_LandLarge.CheckedChanged += new System.EventHandler(this.Cbx_LandLarge_CheckedChanged);
-            // 
+            //
             // cbx_VeryInteresting
-            // 
+            //
             this.cbx_VeryInteresting.AutoSize = true;
             this.cbx_VeryInteresting.Location = new System.Drawing.Point(165, 226);
             this.cbx_VeryInteresting.Name = "cbx_VeryInteresting";
@@ -174,9 +175,9 @@
             this.cbx_VeryInteresting.Text = "Multiple Criteria Notification";
             this.cbx_VeryInteresting.UseVisualStyleBackColor = true;
             this.cbx_VeryInteresting.CheckedChanged += new System.EventHandler(this.Cbx_VeryInteresting_CheckedChanged);
-            // 
+            //
             // cbx_AllJumpSystem
-            // 
+            //
             this.cbx_AllJumpSystem.AutoSize = true;
             this.cbx_AllJumpSystem.Location = new System.Drawing.Point(165, 203);
             this.cbx_AllJumpSystem.Name = "cbx_AllJumpSystem";
@@ -185,9 +186,9 @@
             this.cbx_AllJumpSystem.Text = "All Jumponium Avail. (System)";
             this.cbx_AllJumpSystem.UseVisualStyleBackColor = true;
             this.cbx_AllJumpSystem.CheckedChanged += new System.EventHandler(this.Cbx_AllJumpSystem_CheckedChanged);
-            // 
+            //
             // cbx_AllJumpBody
-            // 
+            //
             this.cbx_AllJumpBody.AutoSize = true;
             this.cbx_AllJumpBody.Location = new System.Drawing.Point(165, 180);
             this.cbx_AllJumpBody.Name = "cbx_AllJumpBody";
@@ -196,9 +197,9 @@
             this.cbx_AllJumpBody.Text = "All Jumponium Avail. (Body)";
             this.cbx_AllJumpBody.UseVisualStyleBackColor = true;
             this.cbx_AllJumpBody.CheckedChanged += new System.EventHandler(this.Cbx_AllJumpBody_CheckedChanged);
-            // 
+            //
             // cbx_GoodJump
-            // 
+            //
             this.cbx_GoodJump.AutoSize = true;
             this.cbx_GoodJump.Location = new System.Drawing.Point(165, 157);
             this.cbx_GoodJump.Name = "cbx_GoodJump";
@@ -207,9 +208,9 @@
             this.cbx_GoodJump.Text = "Good Jumponium Avail.";
             this.cbx_GoodJump.UseVisualStyleBackColor = true;
             this.cbx_GoodJump.CheckedChanged += new System.EventHandler(this.Cbx_GoodJump_CheckedChanged);
-            // 
+            //
             // cbx_HighEccentric
-            // 
+            //
             this.cbx_HighEccentric.AutoSize = true;
             this.cbx_HighEccentric.Location = new System.Drawing.Point(165, 134);
             this.cbx_HighEccentric.Name = "cbx_HighEccentric";
@@ -218,9 +219,9 @@
             this.cbx_HighEccentric.Text = "High Eccentricity";
             this.cbx_HighEccentric.UseVisualStyleBackColor = true;
             this.cbx_HighEccentric.CheckedChanged += new System.EventHandler(this.Cbx_HighEccentric_CheckedChanged);
-            // 
+            //
             // cbx_FastOrbit
-            // 
+            //
             this.cbx_FastOrbit.AutoSize = true;
             this.cbx_FastOrbit.Location = new System.Drawing.Point(165, 111);
             this.cbx_FastOrbit.Name = "cbx_FastOrbit";
@@ -229,9 +230,9 @@
             this.cbx_FastOrbit.Text = "Fast Orbit";
             this.cbx_FastOrbit.UseVisualStyleBackColor = true;
             this.cbx_FastOrbit.CheckedChanged += new System.EventHandler(this.Cbx_FastOrbit_CheckedChanged);
-            // 
+            //
             // cbx_FastRotate
-            // 
+            //
             this.cbx_FastRotate.AutoSize = true;
             this.cbx_FastRotate.Location = new System.Drawing.Point(165, 88);
             this.cbx_FastRotate.Name = "cbx_FastRotate";
@@ -240,9 +241,9 @@
             this.cbx_FastRotate.Text = "Fast Rotation";
             this.cbx_FastRotate.UseVisualStyleBackColor = true;
             this.cbx_FastRotate.CheckedChanged += new System.EventHandler(this.Cbx_FastRotate_CheckedChanged);
-            // 
+            //
             // cbx_TinyObject
-            // 
+            //
             this.cbx_TinyObject.AutoSize = true;
             this.cbx_TinyObject.Location = new System.Drawing.Point(165, 66);
             this.cbx_TinyObject.Name = "cbx_TinyObject";
@@ -251,9 +252,9 @@
             this.cbx_TinyObject.Text = "Tiny Object";
             this.cbx_TinyObject.UseVisualStyleBackColor = true;
             this.cbx_TinyObject.CheckedChanged += new System.EventHandler(this.Cbx_TinyObject_CheckedChanged);
-            // 
+            //
             // cbx_NestedMoon
-            // 
+            //
             this.cbx_NestedMoon.AutoSize = true;
             this.cbx_NestedMoon.Location = new System.Drawing.Point(165, 43);
             this.cbx_NestedMoon.Name = "cbx_NestedMoon";
@@ -262,9 +263,9 @@
             this.cbx_NestedMoon.Text = "Nested Moon";
             this.cbx_NestedMoon.UseVisualStyleBackColor = true;
             this.cbx_NestedMoon.CheckedChanged += new System.EventHandler(this.Cbx_NestedMoon_CheckedChanged);
-            // 
+            //
             // cbx_CollidingBinary
-            // 
+            //
             this.cbx_CollidingBinary.AutoSize = true;
             this.cbx_CollidingBinary.Location = new System.Drawing.Point(6, 203);
             this.cbx_CollidingBinary.Name = "cbx_CollidingBinary";
@@ -273,9 +274,9 @@
             this.cbx_CollidingBinary.Text = "Colliding Binary";
             this.cbx_CollidingBinary.UseVisualStyleBackColor = true;
             this.cbx_CollidingBinary.CheckedChanged += new System.EventHandler(this.Cbx_CollidingBinary_CheckedChanged);
-            // 
+            //
             // cbx_CloseBinary
-            // 
+            //
             this.cbx_CloseBinary.AutoSize = true;
             this.cbx_CloseBinary.Location = new System.Drawing.Point(6, 180);
             this.cbx_CloseBinary.Name = "cbx_CloseBinary";
@@ -284,9 +285,9 @@
             this.cbx_CloseBinary.Text = "Close Binary";
             this.cbx_CloseBinary.UseVisualStyleBackColor = true;
             this.cbx_CloseBinary.CheckedChanged += new System.EventHandler(this.Cbx_CloseBinary_CheckedChanged);
-            // 
+            //
             // cbx_ShepherdMoon
-            // 
+            //
             this.cbx_ShepherdMoon.AutoSize = true;
             this.cbx_ShepherdMoon.Location = new System.Drawing.Point(6, 134);
             this.cbx_ShepherdMoon.Name = "cbx_ShepherdMoon";
@@ -295,9 +296,9 @@
             this.cbx_ShepherdMoon.Text = "Shepherd Moon";
             this.cbx_ShepherdMoon.UseVisualStyleBackColor = true;
             this.cbx_ShepherdMoon.CheckedChanged += new System.EventHandler(this.Cbx_ShepherdMoon_CheckedChanged);
-            // 
+            //
             // cbx_CloseOrbit
-            // 
+            //
             this.cbx_CloseOrbit.AutoSize = true;
             this.cbx_CloseOrbit.Location = new System.Drawing.Point(6, 111);
             this.cbx_CloseOrbit.Name = "cbx_CloseOrbit";
@@ -306,9 +307,9 @@
             this.cbx_CloseOrbit.Text = "Close Orbit";
             this.cbx_CloseOrbit.UseVisualStyleBackColor = true;
             this.cbx_CloseOrbit.CheckedChanged += new System.EventHandler(this.Cbx_CloseOrbit_CheckedChanged);
-            // 
+            //
             // cbx_LandHighG
-            // 
+            //
             this.cbx_LandHighG.AutoSize = true;
             this.cbx_LandHighG.Location = new System.Drawing.Point(6, 65);
             this.cbx_LandHighG.Name = "cbx_LandHighG";
@@ -317,9 +318,9 @@
             this.cbx_LandHighG.Text = "Landable High-G";
             this.cbx_LandHighG.UseVisualStyleBackColor = true;
             this.cbx_LandHighG.CheckedChanged += new System.EventHandler(this.Cbx_LandHighG_CheckedChanged);
-            // 
+            //
             // cbx_LandWithAtmo
-            // 
+            //
             this.cbx_LandWithAtmo.AutoSize = true;
             this.cbx_LandWithAtmo.Location = new System.Drawing.Point(6, 43);
             this.cbx_LandWithAtmo.Name = "cbx_LandWithAtmo";
@@ -328,9 +329,9 @@
             this.cbx_LandWithAtmo.Text = "Landable w/ Atmosphere";
             this.cbx_LandWithAtmo.UseVisualStyleBackColor = true;
             this.cbx_LandWithAtmo.CheckedChanged += new System.EventHandler(this.Cbx_LandWithAtmo_CheckedChanged);
-            // 
+            //
             // cbx_LandWithTerra
-            // 
+            //
             this.cbx_LandWithTerra.AutoSize = true;
             this.cbx_LandWithTerra.Location = new System.Drawing.Point(6, 20);
             this.cbx_LandWithTerra.Name = "cbx_LandWithTerra";
@@ -339,9 +340,10 @@
             this.cbx_LandWithTerra.Text = "Landable && Terraformable";
             this.cbx_LandWithTerra.UseVisualStyleBackColor = true;
             this.cbx_LandWithTerra.CheckedChanged += new System.EventHandler(this.Cbx_LandWithTerra_CheckedChanged);
-            // 
+            //
             // groupBox_misc
-            // 
+            //
+            this.groupBox_misc.Controls.Add(this.cbxSendToIGAU);
             this.groupBox_misc.Controls.Add(this.cbxAutoMonitor);
             this.groupBox_misc.Controls.Add(this.cbxAutoRead);
             this.groupBox_misc.Controls.Add(this.cbx_custom);
@@ -352,13 +354,25 @@
             this.groupBox_misc.Controls.Add(this.cbxToast);
             this.groupBox_misc.Location = new System.Drawing.Point(13, 292);
             this.groupBox_misc.Name = "groupBox_misc";
-            this.groupBox_misc.Size = new System.Drawing.Size(340, 94);
+            this.groupBox_misc.Size = new System.Drawing.Size(340, 123);
             this.groupBox_misc.TabIndex = 1;
             this.groupBox_misc.TabStop = false;
             this.groupBox_misc.Text = "Misc.";
-            // 
+            //
+            // cbxSendToIGAU
+            //
+            this.cbxSendToIGAU.AutoSize = true;
+            this.cbxSendToIGAU.Location = new System.Drawing.Point(6, 92);
+            this.cbxSendToIGAU.Name = "cbxSendToIGAU";
+            this.cbxSendToIGAU.Size = new System.Drawing.Size(284, 17);
+            this.cbxSendToIGAU.TabIndex = 21;
+            this.cbxSendToIGAU.Text = "Transmit Codex Discoveries to IGAU discovery catalog";
+            this.tipCopy.SetToolTip(this.cbxSendToIGAU, "https://raw.githubusercontent.com/Elite-IGAU/publications/master/IGAU_Codex.csv");
+            this.cbxSendToIGAU.UseVisualStyleBackColor = true;
+            this.cbxSendToIGAU.CheckedChanged += new System.EventHandler(this.CbxSendToIGAU_CheckedChanged);
+            //
             // cbxAutoMonitor
-            // 
+            //
             this.cbxAutoMonitor.AutoSize = true;
             this.cbxAutoMonitor.Location = new System.Drawing.Point(121, 69);
             this.cbxAutoMonitor.Name = "cbxAutoMonitor";
@@ -368,9 +382,9 @@
             this.tipCopy.SetToolTip(this.cbxAutoMonitor, "Automatically start monitoring logs at start up");
             this.cbxAutoMonitor.UseVisualStyleBackColor = true;
             this.cbxAutoMonitor.CheckedChanged += new System.EventHandler(this.CbxAutoMonitor_CheckedChanged);
-            // 
+            //
             // cbxAutoRead
-            // 
+            //
             this.cbxAutoRead.AutoSize = true;
             this.cbxAutoRead.Location = new System.Drawing.Point(6, 69);
             this.cbxAutoRead.Name = "cbxAutoRead";
@@ -380,9 +394,9 @@
             this.tipCopy.SetToolTip(this.cbxAutoRead, "Automatically read all logs at start up");
             this.cbxAutoRead.UseVisualStyleBackColor = true;
             this.cbxAutoRead.CheckedChanged += new System.EventHandler(this.CbxAutoRead_CheckedChanged);
-            // 
+            //
             // cbx_custom
-            // 
+            //
             this.cbx_custom.AutoSize = true;
             this.cbx_custom.Location = new System.Drawing.Point(226, 46);
             this.cbx_custom.Name = "cbx_custom";
@@ -391,9 +405,9 @@
             this.cbx_custom.Text = "Custom Criteria";
             this.cbx_custom.UseVisualStyleBackColor = true;
             this.cbx_custom.CheckedChanged += new System.EventHandler(this.Cbx_custom_CheckedChanged);
-            // 
+            //
             // btnCopyReset
-            // 
+            //
             this.btnCopyReset.Location = new System.Drawing.Point(289, 19);
             this.btnCopyReset.Name = "btnCopyReset";
             this.btnCopyReset.Size = new System.Drawing.Size(45, 23);
@@ -401,18 +415,18 @@
             this.btnCopyReset.Text = "Reset";
             this.btnCopyReset.UseVisualStyleBackColor = true;
             this.btnCopyReset.Click += new System.EventHandler(this.BtnCopyReset_Click);
-            // 
+            //
             // label1
-            // 
+            //
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(6, 23);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(81, 13);
             this.label1.TabIndex = 12;
             this.label1.Text = "Copy Template:";
-            // 
+            //
             // txtCopy
-            // 
+            //
             this.txtCopy.Location = new System.Drawing.Point(93, 20);
             this.txtCopy.Name = "txtCopy";
             this.txtCopy.Size = new System.Drawing.Size(190, 20);
@@ -420,9 +434,9 @@
             this.tipCopy.SetToolTip(this.txtCopy, "%time% - Timestamp\r\n%body% - Body name\r\n%bodyL% - Body name with landable status\r" +
         "\n%info% - Interest criteria\r\n%detail% - Detailed information");
             this.txtCopy.TextChanged += new System.EventHandler(this.TxtCopy_TextChanged);
-            // 
+            //
             // cbxTts
-            // 
+            //
             this.cbxTts.AutoSize = true;
             this.cbxTts.Location = new System.Drawing.Point(121, 46);
             this.cbxTts.Name = "cbxTts";
@@ -431,9 +445,9 @@
             this.cbxTts.Text = "Text-to-Speech";
             this.cbxTts.UseVisualStyleBackColor = true;
             this.cbxTts.CheckedChanged += new System.EventHandler(this.CbxTts_CheckedChanged);
-            // 
+            //
             // cbxToast
-            // 
+            //
             this.cbxToast.AutoSize = true;
             this.cbxToast.Location = new System.Drawing.Point(6, 46);
             this.cbxToast.Name = "cbxToast";
@@ -442,13 +456,13 @@
             this.cbxToast.Text = "Popup Notification";
             this.cbxToast.UseVisualStyleBackColor = true;
             this.cbxToast.CheckedChanged += new System.EventHandler(this.CbxToast_CheckedChanged);
-            // 
+            //
             // tipCopy
-            // 
+            //
             this.tipCopy.ShowAlways = true;
-            // 
+            //
             // groupBox_TTS
-            // 
+            //
             this.groupBox_TTS.Controls.Add(this.btn_TestVol);
             this.groupBox_TTS.Controls.Add(this.trackBar_Volume);
             this.groupBox_TTS.Location = new System.Drawing.Point(359, 13);
@@ -457,9 +471,9 @@
             this.groupBox_TTS.TabIndex = 2;
             this.groupBox_TTS.TabStop = false;
             this.groupBox_TTS.Text = "Volume";
-            // 
+            //
             // btn_TestVol
-            // 
+            //
             this.btn_TestVol.Location = new System.Drawing.Point(6, 270);
             this.btn_TestVol.Name = "btn_TestVol";
             this.btn_TestVol.Size = new System.Drawing.Size(45, 23);
@@ -467,9 +481,9 @@
             this.btn_TestVol.Text = "Test";
             this.btn_TestVol.UseVisualStyleBackColor = true;
             this.btn_TestVol.Click += new System.EventHandler(this.Btn_TestVol_Click);
-            // 
+            //
             // trackBar_Volume
-            // 
+            //
             this.trackBar_Volume.LargeChange = 20;
             this.trackBar_Volume.Location = new System.Drawing.Point(7, 19);
             this.trackBar_Volume.Maximum = 100;
@@ -480,9 +494,9 @@
             this.trackBar_Volume.TickFrequency = 10;
             this.trackBar_Volume.TickStyle = System.Windows.Forms.TickStyle.Both;
             this.trackBar_Volume.Scroll += new System.EventHandler(this.TrackBar_Volume_Scroll);
-            // 
+            //
             // linkGit
-            // 
+            //
             this.linkGit.AutoSize = true;
             this.linkGit.Location = new System.Drawing.Point(370, 321);
             this.linkGit.Name = "linkGit";
@@ -492,24 +506,24 @@
             this.linkGit.Text = "github";
             this.linkGit.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.linkGit.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkGit_LinkClicked);
-            // 
+            //
             // groupBox_telegram
-            // 
+            //
             this.groupBox_telegram.Controls.Add(this.btn_TestTelegram);
             this.groupBox_telegram.Controls.Add(this.txtTelegramChatId);
             this.groupBox_telegram.Controls.Add(this.label3);
             this.groupBox_telegram.Controls.Add(this.txtTelegramAPIKey);
             this.groupBox_telegram.Controls.Add(this.label2);
             this.groupBox_telegram.Controls.Add(this.cbxTelegram);
-            this.groupBox_telegram.Location = new System.Drawing.Point(13, 392);
+            this.groupBox_telegram.Location = new System.Drawing.Point(14, 421);
             this.groupBox_telegram.Name = "groupBox_telegram";
-            this.groupBox_telegram.Size = new System.Drawing.Size(339, 97);
+            this.groupBox_telegram.Size = new System.Drawing.Size(339, 95);
             this.groupBox_telegram.TabIndex = 4;
             this.groupBox_telegram.TabStop = false;
             this.groupBox_telegram.Text = "Telegram";
-            // 
+            //
             // btn_TestTelegram
-            // 
+            //
             this.btn_TestTelegram.Location = new System.Drawing.Point(289, 15);
             this.btn_TestTelegram.Name = "btn_TestTelegram";
             this.btn_TestTelegram.Size = new System.Drawing.Size(41, 21);
@@ -517,43 +531,43 @@
             this.btn_TestTelegram.Text = "Test";
             this.btn_TestTelegram.UseVisualStyleBackColor = true;
             this.btn_TestTelegram.Click += new System.EventHandler(this.Btn_TestTelegram_Click);
-            // 
+            //
             // txtTelegramChatId
-            // 
+            //
             this.txtTelegramChatId.Location = new System.Drawing.Point(126, 68);
             this.txtTelegramChatId.Name = "txtTelegramChatId";
             this.txtTelegramChatId.Size = new System.Drawing.Size(194, 20);
             this.txtTelegramChatId.TabIndex = 4;
             this.txtTelegramChatId.TextChanged += new System.EventHandler(this.TxtTelegramChatId_TextChanged);
-            // 
+            //
             // label3
-            // 
+            //
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(6, 71);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(93, 13);
             this.label3.TabIndex = 3;
             this.label3.Text = "Telegram Chat ID:";
-            // 
+            //
             // txtTelegramAPIKey
-            // 
+            //
             this.txtTelegramAPIKey.Location = new System.Drawing.Point(126, 42);
             this.txtTelegramAPIKey.Name = "txtTelegramAPIKey";
             this.txtTelegramAPIKey.Size = new System.Drawing.Size(194, 20);
             this.txtTelegramAPIKey.TabIndex = 2;
             this.txtTelegramAPIKey.TextChanged += new System.EventHandler(this.TxtTelegramAPIKey_TextChanged);
-            // 
+            //
             // label2
-            // 
+            //
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(6, 45);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(114, 13);
             this.label2.TabIndex = 1;
             this.label2.Text = "Telegram Bot API Key:";
-            // 
+            //
             // cbxTelegram
-            // 
+            //
             this.cbxTelegram.AutoSize = true;
             this.cbxTelegram.Location = new System.Drawing.Point(6, 19);
             this.cbxTelegram.Name = "cbxTelegram";
@@ -562,12 +576,12 @@
             this.cbxTelegram.Text = "Send Telegram Notification";
             this.cbxTelegram.UseVisualStyleBackColor = true;
             this.cbxTelegram.CheckedChanged += new System.EventHandler(this.CbxTelegram_CheckedChanged);
-            // 
+            //
             // SettingsFrm
-            // 
+            //
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(429, 499);
+            this.ClientSize = new System.Drawing.Size(429, 528);
             this.Controls.Add(this.groupBox_telegram);
             this.Controls.Add(this.linkGit);
             this.Controls.Add(this.groupBox_TTS);
@@ -639,5 +653,6 @@
         private System.Windows.Forms.CheckBox cbxTelegram;
         private System.Windows.Forms.Button btn_TestTelegram;
         private System.Windows.Forms.CheckBox cbxCodex;
+        private System.Windows.Forms.CheckBox cbxSendToIGAU;
     }
 }

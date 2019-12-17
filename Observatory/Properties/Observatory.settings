@@ -101,6 +101,9 @@
     <Setting Name="IncludeCodex" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="SendToIGAU" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
     <Setting Name="AutoRead" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>

@@ -22,6 +22,7 @@ namespace Observatory
         public ObservatoryFrm()
         {
             InitializeComponent();
+            Text = $"{Text} - v{System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString()}";
             logMonitor = new LogMonitor("");
             logMonitor.LogEntry += LogEvent;
             Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
@@ -131,7 +132,7 @@ namespace Observatory
                         else
                             location = logMonitor.LastCodex.System;
 
-                        ListViewItem newItem = new ListViewItem(new string[] { location, logMonitor.LastCodex.NearestDestinationLocalised, logMonitor.LastCodex.Timestamp.ToString("yyyy-MM-dd HH:mm:ss"), logMonitor.LastCodex.NameLocalised, string.Empty });
+                        ListViewItem newItem = new ListViewItem(new string[] { location, logMonitor.LastCodex.NearestDestinationLocalised?.Length > 0 ? logMonitor.LastCodex.NearestDestinationLocalised : "New Codex Entry", logMonitor.LastCodex.Timestamp.ToString("yyyy-MM-dd HH:mm:ss"), logMonitor.LastCodex.NameLocalised, string.Empty });
                         listEvent.Items.Add(newItem).EnsureVisible();
                         listEvent.EndUpdate();
                     });
@@ -333,8 +334,23 @@ namespace Observatory
         {
             if (Properties.Observatory.Default.WindowSize.Height != 0)
             {
-                Location = Properties.Observatory.Default.WindowLocation;
-                Size = Properties.Observatory.Default.WindowSize;
+                bool offScreen = true;
+                Screen[] screens = Screen.AllScreens;
+                foreach (Screen screen in screens)
+                {
+                    Rectangle formRectangle = new Rectangle(Properties.Observatory.Default.WindowLocation, Properties.Observatory.Default.WindowSize);
+
+                    if (screen.WorkingArea.Contains(formRectangle))
+                    {
+                        offScreen = false;
+                    }
+                }
+
+                if (!offScreen)
+                {
+                    Location = Properties.Observatory.Default.WindowLocation;
+                    Size = Properties.Observatory.Default.WindowSize;
+                }
             }
         }
 
@@ -373,6 +389,7 @@ namespace Observatory
         {
             bool resumeMonitor = logMonitor.IsMonitoring();
             listEvent.Items.Clear();
+            logMonitor.MonitorStop();
             logMonitor = new LogMonitor("");
             logMonitor.LogEntry += LogEvent;
             if (resumeMonitor)

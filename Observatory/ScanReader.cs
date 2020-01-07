@@ -47,6 +47,7 @@ namespace Observatory
         private LogMonitor logMonitor;
         private readonly Materials PremiumBoostMaterials 
             = Materials.Carbon | Materials.Germanium | Materials.Arsenic | Materials.Niobium | Materials.Yttrium | Materials.Polonium;
+        private readonly Dictionary<string, int> MaterialLookup = Enum.GetValues(typeof(Materials)).Cast<Materials>().ToDictionary(mat => mat.ToString().ToLower(), mat => (int)mat);
 
 
         public ScanReader(LogMonitor logMonitor)
@@ -77,7 +78,7 @@ namespace Observatory
                 {
                     foreach (MaterialComposition material in scan.Value.Materials)
                     {
-                        matsFound |= (Materials)Enum.Parse(typeof(Materials), material.Name, true);
+                        matsFound |= (Materials)MaterialLookup[material.Name.ToLower()]; //(Materials)Enum.Parse(typeof(Materials), material.Name, true);
 
                         if ((matsFound & PremiumBoostMaterials) == PremiumBoostMaterials)
                         {
@@ -233,7 +234,7 @@ namespace Observatory
                 Materials matsNotFound = PremiumBoostMaterials;
                 foreach (MaterialComposition material in scanEvent.Materials)
                 {
-                    Materials matFound = (Materials)Enum.Parse(typeof(Materials), material.Name, true);
+                    Materials matFound = (Materials)MaterialLookup[material.Name.ToLower()]; //(Materials)Enum.Parse(typeof(Materials), material.Name, true);
 
                     if ((matFound & PremiumBoostMaterials) == matFound)
                     {

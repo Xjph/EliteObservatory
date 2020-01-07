@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Linq;
 
 namespace Observatory
 {
@@ -9,6 +10,7 @@ namespace Observatory
         private Properties.Observatory settings;
         private ObservatoryFrm mainForm;
         private bool Loading;
+        private bool BulkChangeInProgress;
 
         public SettingsFrm(ObservatoryFrm mainForm)
         {
@@ -21,12 +23,13 @@ namespace Observatory
         private void SettingsFrm_FormClosed(object sender, FormClosedEventArgs e)
         {
             mainForm.settingsOpen = false;
+            
         }
 
         private void SettingsFrm_Load(object sender, EventArgs e)
         {
             Loading = true;
-
+            BulkChangeInProgress = true;
             cbx_LandWithTerra.Checked = settings.LandWithTerra;
             cbx_LandWithAtmo.Checked = settings.LandWithAtmo;
             cbx_LandHighG.Checked = settings.LandHighG;
@@ -51,7 +54,6 @@ namespace Observatory
             cbx_WideRing.Checked = settings.WideRing;
             trackBar_Volume.Value = settings.TTSVolume;
             btn_TestVol.Enabled = settings.TTS;
-            Loading = false;
             cbxRinghugger.Checked = settings.RingHugger;
             cbxLandRing.Checked = settings.RingLandable;
             cbxAutoMonitor.Checked = settings.AutoMonitor;
@@ -62,108 +64,110 @@ namespace Observatory
             txtTelegramChatId.Text = settings.TelegramChatId;
             cbxCodex.Checked = settings.IncludeCodex;
             cbxSendToIGAU.Checked = settings.SendToIGAU;
+            Loading = false;
+            BulkChangeInProgress = false;
         }
 
         private void Cbx_LandWithTerra_CheckedChanged(object sender, EventArgs e)
         {
             settings.LandWithTerra = ((CheckBox)sender).Checked;
-            settings.Save();
+            Save();
         }
 
         private void Cbx_LandWithAtmo_CheckedChanged(object sender, EventArgs e)
         {
             settings.LandWithAtmo = ((CheckBox)sender).Checked;
-            settings.Save();
+            Save();
         }
 
         private void Cbx_LandHighG_CheckedChanged(object sender, EventArgs e)
         {
             settings.LandHighG = ((CheckBox)sender).Checked;
-            settings.Save();
+            Save();
         }
 
         private void Cbx_CloseOrbit_CheckedChanged(object sender, EventArgs e)
         {
             settings.CloseOrbit = ((CheckBox)sender).Checked;
-            settings.Save();
+            Save();
         }
 
         private void Cbx_ShepherdMoon_CheckedChanged(object sender, EventArgs e)
         {
             settings.ShepherdMoon = ((CheckBox)sender).Checked;
-            settings.Save();
+            Save();
         }
 
         private void Cbx_CloseBinary_CheckedChanged(object sender, EventArgs e)
         {
             settings.CloseBinary = ((CheckBox)sender).Checked;
-            settings.Save();
+            Save();
         }
 
         private void Cbx_CollidingBinary_CheckedChanged(object sender, EventArgs e)
         {
             settings.CollidingBinary = ((CheckBox)sender).Checked;
-            settings.Save();
+            Save();
         }
 
         private void Cbx_NestedMoon_CheckedChanged(object sender, EventArgs e)
         {
             settings.NestedMoon = ((CheckBox)sender).Checked;
-            settings.Save();
+            Save();
         }
 
         private void Cbx_TinyObject_CheckedChanged(object sender, EventArgs e)
         {
             settings.TinyObject = ((CheckBox)sender).Checked;
-            settings.Save();
+            Save();
         }
 
         private void Cbx_FastRotate_CheckedChanged(object sender, EventArgs e)
         {
             settings.FastRotate = ((CheckBox)sender).Checked;
-            settings.Save();
+            Save();
         }
 
         private void Cbx_FastOrbit_CheckedChanged(object sender, EventArgs e)
         {
             settings.FastOrbit = ((CheckBox)sender).Checked;
-            settings.Save();
+            Save();
         }
 
         private void Cbx_HighEccentric_CheckedChanged(object sender, EventArgs e)
         {
             settings.HighEccentric = ((CheckBox)sender).Checked;
-            settings.Save();
+            Save();
         }
 
         private void Cbx_GoodJump_CheckedChanged(object sender, EventArgs e)
         {
             settings.GoodJump = ((CheckBox)sender).Checked;
-            settings.Save();
+            Save();
         }
 
         private void Cbx_AllJumpBody_CheckedChanged(object sender, EventArgs e)
         {
             settings.AllJumpBody = ((CheckBox)sender).Checked;
-            settings.Save();
+            Save();
         }
 
         private void Cbx_AllJumpSystem_CheckedChanged(object sender, EventArgs e)
         {
             settings.AllJumpSystem = ((CheckBox)sender).Checked;
-            settings.Save();
+            Save();
         }
 
         private void Cbx_VeryInteresting_CheckedChanged(object sender, EventArgs e)
         {
             settings.VeryInteresting = ((CheckBox)sender).Checked;
-            settings.Save();
+            Save();
         }
 
         private void CbxToast_CheckedChanged(object sender, EventArgs e)
         {
             settings.Notify = ((CheckBox)sender).Checked;
-            settings.Save();
+            Save();
             if (!Loading && settings.Notify)
             {
                 NotifyFrm notifyFrm = new NotifyFrm("Notification Popups Enabled");
@@ -194,7 +198,7 @@ namespace Observatory
             }
             btn_TestVol.Enabled = cbxTts.Checked;
             settings.TTS = cbxTts.Checked;
-            settings.Save();
+            Save();
         }
 
         private void BtnCopyReset_Click(object sender, EventArgs e)
@@ -205,31 +209,31 @@ namespace Observatory
         private void TxtCopy_TextChanged(object sender, EventArgs e)
         {
             settings.CopyTemplate = txtCopy.Text;
-            settings.Save();
+            Save();
         }
 
         private void Cbx_custom_CheckedChanged(object sender, EventArgs e)
         {
             settings.CustomRules = ((CheckBox)sender).Checked;
-            settings.Save();
+            Save();
         }
 
         private void Cbx_LandLarge_CheckedChanged(object sender, EventArgs e)
         {
             settings.LandLarge = ((CheckBox)sender).Checked;
-            settings.Save();
+            Save();
         }
 
         private void Cbx_WideRing_CheckedChanged(object sender, EventArgs e)
         {
             settings.WideRing = ((CheckBox)sender).Checked;
-            settings.Save();
+            Save();
         }
 
         private void TrackBar_Volume_Scroll(object sender, EventArgs e)
         {
             settings.TTSVolume = ((TrackBar)sender).Value;
-            settings.Save();
+            Save();
         }
 
         private void Btn_TestVol_Click(object sender, EventArgs e)
@@ -246,44 +250,44 @@ namespace Observatory
         private void CbxLandRing_CheckedChanged(object sender, EventArgs e)
         {
             settings.RingLandable = ((CheckBox)sender).Checked;
-            settings.Save();
+            Save();
         }
 
         private void CbxRinghugger_CheckedChanged(object sender, EventArgs e)
         {
             settings.RingHugger = ((CheckBox)sender).Checked;
-            settings.Save();
+            Save();
         }
 
         private void CbxAutoRead_CheckedChanged(object sender, EventArgs e)
         {
             settings.AutoRead = ((CheckBox)sender).Checked;
-            settings.Save();
+            Save();
         }
 
         private void CbxAutoMonitor_CheckedChanged(object sender, EventArgs e)
         {
             settings.AutoMonitor = ((CheckBox)sender).Checked;
-            settings.Save();
+            Save();
         }
 
         private void CbxTelegram_CheckedChanged(object sender, EventArgs e)
         {
             settings.EnableTelegram = ((CheckBox)sender).Checked;
             btn_TestTelegram.Enabled = ((CheckBox)sender).Checked;
-            settings.Save();
+            Save();
         }
 
         private void TxtTelegramAPIKey_TextChanged(object sender, EventArgs e)
         {
             settings.TelegramAPIKey = txtTelegramAPIKey.Text;
-            settings.Save();
+            Save();
         }
 
         private void TxtTelegramChatId_TextChanged(object sender, EventArgs e)
         {
             settings.TelegramChatId = txtTelegramChatId.Text;
-            settings.Save();
+            Save();
         }
 
         private void Btn_TestTelegram_Click(object sender, EventArgs e)
@@ -318,13 +322,41 @@ namespace Observatory
         private void CbxCodex_CheckedChanged(object sender, EventArgs e)
         {
             settings.IncludeCodex = ((CheckBox)sender).Checked;
-            settings.Save();
+            Save();
         }
 
         private void CbxSendToIGAU_CheckedChanged(object sender, EventArgs e)
         {          
-          settings.SendToIGAU = ((CheckBox)sender).Checked;
-          settings.Save();
+            settings.SendToIGAU = ((CheckBox)sender).Checked;
+            Save();
+        }
+
+        private void BtnSelectAll_Click(object sender, EventArgs e)
+        {
+            BulkChangeInProgress = true;
+            foreach (var checkBox in groupBox_Interest.Controls.OfType<CheckBox>())
+            {
+                checkBox.Checked = true;
+            }
+            BulkChangeInProgress = false;
+            Save();
+        }
+
+        private void BtnSelectNone_Click(object sender, EventArgs e)
+        {
+            BulkChangeInProgress = true;
+            foreach (var checkBox in groupBox_Interest.Controls.OfType<CheckBox>())
+            {
+                checkBox.Checked = false;
+            }
+            BulkChangeInProgress = false;
+            Save();
+        }
+
+        private void Save()
+        {
+            if (!BulkChangeInProgress)
+                settings.Save();
         }
     }
 }

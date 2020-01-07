@@ -73,10 +73,24 @@ namespace Observatory
                 bool interestingBody = false;
                 foreach (XmlElement criteria in AllCriteria)
                 {
-                    if (CheckCriteria(criteria))
+                    try
                     {
-                        interest.Add((scanEvent.BodyName, criteria.SelectSingleNode("Description").InnerText, BuildDetailString(criteria.SelectSingleNode("Detail"), scanEvent)));
-                        interestingBody = true;
+                        if (CheckCriteria(criteria))
+                        {
+                            interest.Add((scanEvent.BodyName, criteria.SelectSingleNode("Description").InnerText, BuildDetailString(criteria.SelectSingleNode("Detail"), scanEvent)));
+                            interestingBody = true;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        DialogResult errorResponse = MessageBox.Show("There was an error processing custom criteria. Custom criteria will be disabled until manually re-enabled from the settings pane.\r\nDo you want to see the error details?", "Error Processing Criteria", MessageBoxButtons.YesNo);
+                        if (errorResponse == DialogResult.Yes)
+                        {
+                            MessageBox.Show($"Error: {ex.Message}\r\nCriteria XML: {criteria.OuterXml}", "Criteria Error Detail", MessageBoxButtons.OK);
+                        }
+                        Properties.Observatory.Default.CustomRules = false;
+                        Properties.Observatory.Default.Save();
+                        break;
                     }
                         
                 }

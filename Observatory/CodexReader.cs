@@ -15,7 +15,7 @@ namespace Observatory
         public static void ProcessCodex(CodexEntry codexEntry)
 
         {
-                  if (Properties.Observatory.Default.SendToIGAU)
+                  if (Properties.Observatory.Default.SendToIGAU && codexEntry.VoucherAmount > 0)
                   {
                   JObject POST_content = JObject.FromObject(
                 new {

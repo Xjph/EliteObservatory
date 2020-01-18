@@ -50,10 +50,10 @@ namespace Observatory
             }
 
             RequestQueue.Add(request);
-            var SendTask = SendRequests();
+            SendRequests();
         }
 
-        private static async Task SendRequests()
+        private static async void SendRequests()
         {
             if (!RequestsSending)
             {
@@ -62,16 +62,8 @@ namespace Observatory
                 var mainForm = System.Windows.Forms.Application.OpenForms.OfType<ObservatoryFrm>().First();
                 while (RequestQueue.Count > 0)
                 {
-#if DEBUG
-                    var response = HttpClient.SendRequestAsync(RequestQueue.First());
-                    System.IO.File.AppendAllText(@"C:\temp\CodexTransmit.log", $"Time: {Environment.TickCount - startTicks}; ResponseCode: {response.Result.StatusCode.ToString()}; Response: {response.Result.Content.ReadAsStringAsync().Result};\r\n");
-                    await Task.Delay(750);
-#else
                     var SendRequestTask = HttpClient.SendRequestAsync(RequestQueue.First());
 
-                    //Requests complete much more quickly than this, but the IGAU endpoint will start throwing HTTP429 "Too Many Requests"
-                    //so we have to wait a moment between transmissions.
-                    await Task.Delay(1000);
                     await SendRequestTask;
 
                     if (!SendRequestTask.Result.IsSuccessStatusCode)
@@ -83,7 +75,6 @@ namespace Observatory
                         Properties.Observatory.Default.Save();
                         break;
                     }
-#endif
 
                     RequestQueue.Remove(RequestQueue.First());
 

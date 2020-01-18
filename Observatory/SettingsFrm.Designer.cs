@@ -30,6 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             this.groupBox_Interest = new System.Windows.Forms.GroupBox();
+            this.cbxGold = new System.Windows.Forms.CheckBox();
             this.btnSelectAll = new System.Windows.Forms.Button();
             this.btnSelectNone = new System.Windows.Forms.Button();
             this.cbxCodex = new System.Windows.Forms.CheckBox();
@@ -75,7 +76,6 @@
             this.txtTelegramAPIKey = new System.Windows.Forms.TextBox();
             this.lblTelegramBot = new System.Windows.Forms.Label();
             this.cbxTelegram = new System.Windows.Forms.CheckBox();
-            this.cbxGold = new System.Windows.Forms.CheckBox();
             this.groupBox_Interest.SuspendLayout();
             this.groupBox_misc.SuspendLayout();
             this.groupBox_TTS.SuspendLayout();
@@ -115,6 +115,17 @@
             this.groupBox_Interest.TabIndex = 0;
             this.groupBox_Interest.TabStop = false;
             this.groupBox_Interest.Text = "Interest Criteria";
+            // 
+            // cbxGold
+            // 
+            this.cbxGold.AutoSize = true;
+            this.cbxGold.Location = new System.Drawing.Point(165, 226);
+            this.cbxGold.Name = "cbxGold";
+            this.cbxGold.Size = new System.Drawing.Size(165, 17);
+            this.cbxGold.TabIndex = 23;
+            this.cbxGold.Text = "All Surface Materials (System)";
+            this.cbxGold.UseVisualStyleBackColor = true;
+            this.cbxGold.CheckedChanged += new System.EventHandler(this.CbxGold_CheckedChanged);
             // 
             // btnSelectAll
             // 
@@ -602,17 +613,6 @@
             this.cbxTelegram.Text = "Send Telegram Notification";
             this.cbxTelegram.UseVisualStyleBackColor = true;
             this.cbxTelegram.CheckedChanged += new System.EventHandler(this.CbxTelegram_CheckedChanged);
-            // 
-            // cbxGold
-            // 
-            this.cbxGold.AutoSize = true;
-            this.cbxGold.Location = new System.Drawing.Point(165, 226);
-            this.cbxGold.Name = "cbxGold";
-            this.cbxGold.Size = new System.Drawing.Size(163, 17);
-            this.cbxGold.TabIndex = 23;
-            this.cbxGold.Text = "All Surface Materials (system)";
-            this.cbxGold.UseVisualStyleBackColor = true;
-            this.cbxGold.CheckedChanged += new System.EventHandler(this.CbxGold_CheckedChanged);
             // 
             // SettingsFrm
             // 

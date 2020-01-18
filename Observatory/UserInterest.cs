@@ -15,6 +15,7 @@ namespace Observatory
         private Dictionary<(string System, long Body), ScanEvent> scanHistory;
         private string currentSystem;
         private ScanEvent parent;
+        private readonly string decimalSeparator = System.Threading.Thread.CurrentThread.CurrentCulture.NumberFormat.NumberDecimalSeparator;
 
         public UserInterest()
         {
@@ -121,7 +122,7 @@ namespace Observatory
                     interesting = !CheckCriteria(criteria.SelectSingleNode("Criteria"));
                     break;
                 default:
-                    compare = opType == "between" ? 0 : double.Parse(criteria.Attributes["Value"].Value);
+                    compare = opType == "between" ? 0 : CultureInvariantParse(criteria.Attributes["Value"].Value);
                     opResult = EvaluateCriteriaOperation(criteria.SelectSingleNode("Operation"));
                     switch (opType)
                     {
@@ -135,7 +136,7 @@ namespace Observatory
                             interesting = (opResult == compare);
                             break;
                         case "between":
-                            interesting = opResult > double.Parse(criteria.Attributes["LowerValue"].Value) && opResult < double.Parse(criteria.Attributes["UpperValue"].Value);
+                            interesting = opResult > CultureInvariantParse(criteria.Attributes["LowerValue"].Value) && opResult < CultureInvariantParse(criteria.Attributes["UpperValue"].Value);
                             break;
                     }
                     break;
@@ -261,7 +262,7 @@ namespace Observatory
             switch (value.Attributes["Type"].Value.ToLower())
             {
                 case "number":
-                    result = double.Parse(value.InnerText);
+                    result = CultureInvariantParse(value.InnerText);
                     break;
                 case "operation":
                     result = EvaluateCriteriaOperation(value.FirstChild);
@@ -400,6 +401,11 @@ namespace Observatory
             }
 
             return result;
+        }
+
+        private double CultureInvariantParse(string value)
+        {
+            return double.Parse(value.Replace(".", decimalSeparator).Replace(",", decimalSeparator));
         }
 
         private void CreateTemplate(string path)

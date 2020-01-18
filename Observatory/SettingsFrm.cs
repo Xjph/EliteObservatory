@@ -260,7 +260,7 @@ namespace Observatory
             Save();
         }
 
-        private void cbxGold_CheckedChanged(object sender, EventArgs e)
+        private void CbxGold_CheckedChanged(object sender, EventArgs e)
         {
             settings.AllMaterialSystem = ((CheckBox)sender).Checked;
             Save();

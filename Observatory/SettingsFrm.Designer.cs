@@ -612,7 +612,7 @@
             this.cbxGold.TabIndex = 23;
             this.cbxGold.Text = "All Surface Materials (system)";
             this.cbxGold.UseVisualStyleBackColor = true;
-            this.cbxGold.CheckedChanged += new System.EventHandler(this.cbxGold_CheckedChanged);
+            this.cbxGold.CheckedChanged += new System.EventHandler(this.CbxGold_CheckedChanged);
             // 
             // SettingsFrm
             // 

@@ -249,7 +249,6 @@ namespace Observatory
                                 {
                                     LastCodex = lastEvent.ToObject<CodexEntry>();
                                     LastCodex.Body = currentBody;
-                                    LastCodex.JournalEntry = logLine;
                                     LocaliseLastCodex();
                                     LastCodexValid = true;
                                 }

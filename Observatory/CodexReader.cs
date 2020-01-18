@@ -65,6 +65,8 @@ namespace Observatory
 #if DEBUG
                     var response =
 #endif
+
+#pragma warning disable 4014
                     HttpClient.SendRequestAsync(RequestQueue.First());
 #if DEBUG
                     System.IO.File.AppendAllText(@"C:\temp\CodexTransmit.log", $"Time: {Environment.TickCount - startTicks}; ResponseCode: {response.Result.StatusCode.ToString()}; Response: {response.Result.Content.ReadAsStringAsync().Result};\r\n");

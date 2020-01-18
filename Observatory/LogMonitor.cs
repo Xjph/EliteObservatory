@@ -16,6 +16,7 @@ namespace Observatory
         public string CurrentLogPath { get; private set; }
         public string CurrentLogLine { get; private set; }
         public bool JumponiumReported;
+        public bool GoldSystemReported;
         private List<string> LinesToProcess;
         private string LogDirectory;
         public bool LastScanValid { get; private set; }
@@ -38,15 +39,19 @@ namespace Observatory
                 if (value != currentSystem)
                 {
                     JumponiumReported = false;
+                    GoldSystemReported = false;
                 }
                 currentSystem = value;
             }
         }
 
-        public LogMonitor(string logPath)
+        public LogMonitor()
         {
-            LogDirectory = logPath;
+            LogDirectory = Properties.Observatory.Default.JournalPath;
             LogDirectory = CheckLogPath();
+            Properties.Observatory.Default.JournalPath = LogDirectory;
+            Properties.Observatory.Default.Save();
+
             logWatcher = new FileSystemWatcher(LogDirectory, "Journal.????????????.??.log")
             {
                 NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.Size | NotifyFilters.FileName
@@ -62,19 +67,25 @@ namespace Observatory
 
         public void MonitorStart()
         {
-            PopulatePastScans();
-            UserInterest = new UserInterest();
-            logWatcher.EnableRaisingEvents = true;
-            Poker = new JournalPoker(LogDirectory);
-            Poker.Start();
+            if (!IsMonitoring())
+            {
+                PopulatePastScans();
+                UserInterest = new UserInterest();
+                logWatcher.EnableRaisingEvents = true;
+                Poker = new JournalPoker(LogDirectory);
+                Poker.Start();
+            }
         }
 
         public void MonitorStop()
         {
-            UserInterest = null;
-            logWatcher.EnableRaisingEvents = false;
-            Poker.Stop();
-            Poker = null;
+            if (IsMonitoring())
+            {
+                UserInterest = null;
+                logWatcher.EnableRaisingEvents = false;
+                Poker.Stop();
+                Poker = null;
+            }
         }
 
         public void ReadAll(ProgressBar progressBar)
@@ -234,9 +245,14 @@ namespace Observatory
                                 }
                                 break;
                             case "CodexEntry":
-                                LastCodex = lastEvent.ToObject<CodexEntry>();
-                                LastCodex.Body = currentBody;
-                                LastCodexValid = true;
+                                if (LastCodex?.Timestamp != lastEvent.ToObject<CodexEntry>().Timestamp)
+                                {
+                                    LastCodex = lastEvent.ToObject<CodexEntry>();
+                                    LastCodex.Body = currentBody;
+                                    LastCodex.JournalEntry = logLine;
+                                    LocaliseLastCodex();
+                                    LastCodexValid = true;
+                                }
                                 break;
                             case "SupercruiseExit":
                                 if (lastEvent["Body"]?.ToString().Length > 0)
@@ -262,7 +278,6 @@ namespace Observatory
 
         private void PopulatePastScans()
         {
-            FileStream fileStream;
             FileInfo fileToRead = null;
 
             foreach (var file in new DirectoryInfo(LogDirectory).GetFiles("Journal.????????????.??.log"))
@@ -273,8 +288,8 @@ namespace Observatory
                 }
             }
 
-            fileStream = fileToRead.Open(FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-            using (StreamReader currentLog = new StreamReader(fileStream))
+            if (fileToRead != null)
+            using (StreamReader currentLog = new StreamReader(fileToRead.Open(FileMode.Open, FileAccess.Read, FileShare.ReadWrite)))
             {
                 while (!currentLog.EndOfStream)
                 {
@@ -305,7 +320,105 @@ namespace Observatory
                     }
                 }
             }
-            fileStream.Close();
+        }
+
+        //Frontier's codex name localisations are frequently lacking detail or otherwise unhelpful.
+        //Need to fix that to display useful descriptions.
+        private void LocaliseLastCodex()
+        {
+            switch (LastCodex.NameLocalised)
+            {
+                case "Standard gas giant":
+                case "Green gas giant":
+                    LastCodex.NameLocalised = 
+                        LastCodex.NameLocalised.Replace("gas giant", "Gas Giant:").Replace("Standard ", "") +
+                        LastCodex.Name
+                            .Replace("$Codex_Ent_Standard_", " ")
+                            .Replace("Sudarsky_","")
+                            .Replace("_Name;", "")
+                            .Replace("Giant_With_","")
+                            .Replace("_", " ");
+                    break;
+
+                default:
+
+                    switch (LastCodex.Name)
+                    {
+                        case "$Codex_Ent_Standard_Ammonia_Worlds_Name;":
+                            LastCodex.NameLocalised = "Ammonia World";
+                            break;
+                        case "$Codex_Ent_TRF_Ammonia_Worlds_Name;":
+                            LastCodex.NameLocalised = "Terraformable Ammonia World";
+                            break;
+                        case "$Codex_Ent_Standard_High_Metal_Content_No_Atmos_Name;":
+                            LastCodex.NameLocalised = "High Metal Content w/o Atmosphere";
+                            break;
+                        case "$Codex_Ent_Standard_Ter_High_Metal_Content_Name;":
+                            LastCodex.NameLocalised = "High Metal Content w/ Atmosphere";
+                            break;
+                        case "$Codex_Ent_TRF_High_Metal_Content_No_Atmos_Name;":
+                            LastCodex.NameLocalised = "Terraformable High Metal Content w/o Atmosphere";
+                            break;
+                        case "$Codex_Ent_TRF_Ter_High_Metal_Content_Name;":
+                            LastCodex.NameLocalised = "Terraformable High Metal Content w/ Atmosphere";
+                            break;
+                        case "$Codex_Ent_Standard_Ice_No_Atmos_Name;":
+                            LastCodex.NameLocalised = "Icy Body w/o Atmosphere";
+                            break;
+                        case "$Codex_Ent_Standard_Ter_Ice_Name;":
+                            LastCodex.NameLocalised = "Icy Body w/ Atmosphere";
+                            break;
+                        case "$Codex_Ent_TRF_Ice_No_Atmos_Name;":
+                            LastCodex.NameLocalised = "Terraformable Icy Body w/o Atmosphere";
+                            break;
+                        case "$Codex_Ent_TRF_Ter_Ice_Name;":
+                            LastCodex.NameLocalised = "Terraformable Icy Body w/ Atmosphere";
+                            break;
+                        case "$Codex_Ent_Standard_Rocky_Ice_No_Atmos_Name;":
+                            LastCodex.NameLocalised = "Rocky Ice Body w/o Atmosphere";
+                            break;
+                        case "$Codex_Ent_Standard_Ter_Rocky_Ice_Name;":
+                            LastCodex.NameLocalised = "Rocky Ice Body w/ Atmosphere";
+                            break;
+                        case "$Codex_Ent_TRF_Rocky_Ice_No_Atmos_Name;":
+                            LastCodex.NameLocalised = "Terraformable Rocky Ice Body w/o Atmosphere";
+                            break;
+                        case "$Codex_Ent_TRF_Ter_Rocky_Ice_Name;":
+                            LastCodex.NameLocalised = "Terraformable Rocky Ice Body w/ Atmosphere";
+                            break;
+                        case "$Codex_Ent_Standard_Rocky_No_Atmos_Name;":
+                            LastCodex.NameLocalised = "Rocky Body w/o Atmosphere";
+                            break;
+                        case "$Codex_Ent_Standard_Ter_Rocky_Name;":
+                            LastCodex.NameLocalised = "Rocky Body w/ Atmosphere";
+                            break;
+                        case "$Codex_Ent_TRF_Rocky_No_Atmos_Name;":
+                            LastCodex.NameLocalised = "Terraformable Rocky Body w/o Atmosphere";
+                            break;
+                        case "$Codex_Ent_TRF_Ter_Rocky_Name;":
+                            LastCodex.NameLocalised = "Terraformable Rocky Body w/ Atmosphere";
+                            break;
+                        case "$Codex_Ent_Standard_Metal_Rich_No_Atmos_Name;":
+                            LastCodex.NameLocalised = "Metal Rich Body w/o Atmosphere";
+                            break;
+                        case "$Codex_Ent_Standard_Ter_Metal_Rich_Name;":
+                            LastCodex.NameLocalised = "Metal Rich Body w/ Atmosphere";
+                            break;
+                        case "$Codex_Ent_TRF_Metal_Rich_No_Atmos_Name;":
+                            LastCodex.NameLocalised = "Terraformable Metal Rich Body w/o Atmosphere";
+                            break;
+                        case "$Codex_Ent_TRF_Ter_Metal_Rich_Name;":
+                            LastCodex.NameLocalised = "Terraformable Metal Rich Body w/ Atmosphere";
+                            break;
+                        case "$Codex_Ent_Standard_Water_Worlds_Name;":
+                            LastCodex.NameLocalised = "Water World";
+                            break;
+                        case "$Codex_Ent_TRF_Water_Worlds_Name;":
+                            LastCodex.NameLocalised = "Terraformable Water World";
+                            break;
+                    }
+                    break;
+            }
         }
 
         public event EventHandler LogEntry;

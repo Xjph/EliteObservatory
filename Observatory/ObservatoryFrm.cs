@@ -22,8 +22,8 @@ namespace Observatory
         public ObservatoryFrm()
         {
             InitializeComponent();
-            Text = $"{Text} - v{System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString()}";
-            logMonitor = new LogMonitor("");
+            Text = $"{Text} - v{Application.ProductVersion}";
+            logMonitor = new LogMonitor();
             logMonitor.LogEntry += LogEvent;
             Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
             columnSorter = new ListViewColumnSorter();
@@ -56,6 +56,7 @@ namespace Observatory
                         {
                             linkUpdate.Enabled = true;
                             linkUpdate.Visible = true;
+                            break;
                         }
                     }
                 }
@@ -81,7 +82,6 @@ namespace Observatory
                 {
                     Invoke((MethodInvoker)delegate ()
                     {
-                        listEvent.BeginUpdate();
                         if (!logMonitor.ReadAllInProgress)
                         {
                             RemoveUninteresting();
@@ -93,7 +93,6 @@ namespace Observatory
                         }
 
                         if (!logMonitor.ReadAllInProgress && scan.Interest.Count > 0) { AnnounceItems(logMonitor.CurrentSystem, scan.Interest); }
-                        listEvent.EndUpdate();
                     });
                 }
                 else if (!logMonitor.ReadAllInProgress)
@@ -132,7 +131,7 @@ namespace Observatory
                         else
                             location = logMonitor.LastCodex.System;
 
-                        ListViewItem newItem = new ListViewItem(new string[] { location, logMonitor.LastCodex.NearestDestinationLocalised?.Length > 0 ? logMonitor.LastCodex.NearestDestinationLocalised : "New Codex Entry", logMonitor.LastCodex.Timestamp.ToString("yyyy-MM-dd HH:mm:ss"), logMonitor.LastCodex.NameLocalised, string.Empty });
+                        ListViewItem newItem = new ListViewItem(new string[] { location, logMonitor.LastCodex.NearestDestinationLocalised?.Length > 0 ? logMonitor.LastCodex.NearestDestinationLocalised : "Codex Entry", logMonitor.LastCodex.Timestamp.ToString("yyyy-MM-dd HH:mm:ss"), logMonitor.LastCodex.NameLocalised, string.Empty });
                         listEvent.Items.Add(newItem).EnsureVisible();
                         listEvent.EndUpdate();
                     });
@@ -157,6 +156,7 @@ namespace Observatory
             {
                 string fullBodyName = items[0].BodyName;
                 StringBuilder announceText = new StringBuilder();
+
                 foreach (var item in items)
                 {
                     announceText.Append(item.Description);
@@ -165,11 +165,13 @@ namespace Observatory
                         announceText.AppendLine(", ");
                     }
                 }
+
                 if (Properties.Observatory.Default.Notify)
                 {
                     NotifyFrm notifyFrm = new NotifyFrm(fullBodyName + "\r\n" + announceText.ToString());
                     notifyFrm.Show(5000);
                 }
+
                 if (Properties.Observatory.Default.TTS)
                 {
                     string spokenName;
@@ -181,7 +183,8 @@ namespace Observatory
                     speech.Volume = Properties.Observatory.Default.TTSVolume;
                     speech.SpeakSsmlAsync($"<speak version=\"1.0\" xmlns=\"http://www.w3.org/2001/10/synthesis\" xml:lang=\"en-US\">{spokenName}:<break strength=\"weak\"/>{announceText}</speak>");
                 }
-                if(Properties.Observatory.Default.EnableTelegram)
+
+                if (Properties.Observatory.Default.EnableTelegram)
                 {
                     try
                     {
@@ -213,7 +216,7 @@ namespace Observatory
                                         item.Description,
                                         logMonitor.LastScan.Timestamp.ToString("yyyy-MM-dd HH:mm:ss"),
                                         item.Detail,
-                                        (logMonitor.LastScan.Landable.GetValueOrDefault(false) && !(item.Description == $"All {Properties.Observatory.Default.FSDBoostSynthName} materials in system")) ? "🌐" : string.Empty
+                                        (logMonitor.LastScan.Landable.GetValueOrDefault(false) && !item.Description.Contains("materials in system")) ? "🌐" : string.Empty
                                         });
             if (item.Description.Contains("Multiple criteria"))
             {
@@ -390,7 +393,7 @@ namespace Observatory
             bool resumeMonitor = logMonitor.IsMonitoring();
             listEvent.Items.Clear();
             logMonitor.MonitorStop();
-            logMonitor = new LogMonitor("");
+            logMonitor = new LogMonitor();
             logMonitor.LogEntry += LogEvent;
             if (resumeMonitor)
             {
@@ -430,7 +433,20 @@ namespace Observatory
                 if (bodyData.Count() > 0)
                     copyText.AppendLine(logMonitor.SystemBody.Where(body => body.Value.BodyName == item.SubItems[0].Text).First().Value.JournalEntry);
             }
-            Clipboard.SetText(copyText.ToString());
+            if (copyText.Length == 0)
+            {
+                MessageBox.Show("No Journal entries in selected rows to copy.", "No Data", MessageBoxButtons.OK);
+            }
+            else
+            {
+                Clipboard.SetText(copyText.ToString());
+            }
+        }
+
+        public void SetIGAUText(string text)
+        {
+            lblIGAUTransmit.Visible = text.Length > 0;
+            lblIGAUTransmit.Text = text;
         }
     }
 }

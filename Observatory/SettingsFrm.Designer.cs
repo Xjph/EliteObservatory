@@ -59,7 +59,7 @@
             this.cbxAutoRead = new System.Windows.Forms.CheckBox();
             this.cbx_custom = new System.Windows.Forms.CheckBox();
             this.btnCopyReset = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
+            this.lblCopy = new System.Windows.Forms.Label();
             this.txtCopy = new System.Windows.Forms.TextBox();
             this.cbxTts = new System.Windows.Forms.CheckBox();
             this.cbxToast = new System.Windows.Forms.CheckBox();
@@ -71,10 +71,11 @@
             this.groupBox_telegram = new System.Windows.Forms.GroupBox();
             this.btn_TestTelegram = new System.Windows.Forms.Button();
             this.txtTelegramChatId = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
+            this.lblTelegramChat = new System.Windows.Forms.Label();
             this.txtTelegramAPIKey = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
+            this.lblTelegramBot = new System.Windows.Forms.Label();
             this.cbxTelegram = new System.Windows.Forms.CheckBox();
+            this.cbxGold = new System.Windows.Forms.CheckBox();
             this.groupBox_Interest.SuspendLayout();
             this.groupBox_misc.SuspendLayout();
             this.groupBox_TTS.SuspendLayout();
@@ -84,6 +85,7 @@
             // 
             // groupBox_Interest
             // 
+            this.groupBox_Interest.Controls.Add(this.cbxGold);
             this.groupBox_Interest.Controls.Add(this.btnSelectAll);
             this.groupBox_Interest.Controls.Add(this.btnSelectNone);
             this.groupBox_Interest.Controls.Add(this.cbxCodex);
@@ -109,14 +111,14 @@
             this.groupBox_Interest.Controls.Add(this.cbx_LandWithTerra);
             this.groupBox_Interest.Location = new System.Drawing.Point(13, 13);
             this.groupBox_Interest.Name = "groupBox_Interest";
-            this.groupBox_Interest.Size = new System.Drawing.Size(340, 273);
+            this.groupBox_Interest.Size = new System.Drawing.Size(340, 305);
             this.groupBox_Interest.TabIndex = 0;
             this.groupBox_Interest.TabStop = false;
             this.groupBox_Interest.Text = "Interest Criteria";
             // 
             // btnSelectAll
             // 
-            this.btnSelectAll.Location = new System.Drawing.Point(165, 245);
+            this.btnSelectAll.Location = new System.Drawing.Point(178, 276);
             this.btnSelectAll.Name = "btnSelectAll";
             this.btnSelectAll.Size = new System.Drawing.Size(75, 23);
             this.btnSelectAll.TabIndex = 22;
@@ -126,7 +128,7 @@
             // 
             // btnSelectNone
             // 
-            this.btnSelectNone.Location = new System.Drawing.Point(246, 245);
+            this.btnSelectNone.Location = new System.Drawing.Point(259, 276);
             this.btnSelectNone.Name = "btnSelectNone";
             this.btnSelectNone.Size = new System.Drawing.Size(75, 23);
             this.btnSelectNone.TabIndex = 21;
@@ -192,7 +194,7 @@
             // cbx_VeryInteresting
             // 
             this.cbx_VeryInteresting.AutoSize = true;
-            this.cbx_VeryInteresting.Location = new System.Drawing.Point(165, 226);
+            this.cbx_VeryInteresting.Location = new System.Drawing.Point(165, 249);
             this.cbx_VeryInteresting.Name = "cbx_VeryInteresting";
             this.cbx_VeryInteresting.Size = new System.Drawing.Size(153, 17);
             this.cbx_VeryInteresting.TabIndex = 15;
@@ -372,11 +374,11 @@
             this.groupBox_misc.Controls.Add(this.cbxAutoRead);
             this.groupBox_misc.Controls.Add(this.cbx_custom);
             this.groupBox_misc.Controls.Add(this.btnCopyReset);
-            this.groupBox_misc.Controls.Add(this.label1);
+            this.groupBox_misc.Controls.Add(this.lblCopy);
             this.groupBox_misc.Controls.Add(this.txtCopy);
             this.groupBox_misc.Controls.Add(this.cbxTts);
             this.groupBox_misc.Controls.Add(this.cbxToast);
-            this.groupBox_misc.Location = new System.Drawing.Point(13, 292);
+            this.groupBox_misc.Location = new System.Drawing.Point(13, 324);
             this.groupBox_misc.Name = "groupBox_misc";
             this.groupBox_misc.Size = new System.Drawing.Size(340, 123);
             this.groupBox_misc.TabIndex = 1;
@@ -440,14 +442,14 @@
             this.btnCopyReset.UseVisualStyleBackColor = true;
             this.btnCopyReset.Click += new System.EventHandler(this.BtnCopyReset_Click);
             // 
-            // label1
+            // lblCopy
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 23);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(81, 13);
-            this.label1.TabIndex = 12;
-            this.label1.Text = "Copy Template:";
+            this.lblCopy.AutoSize = true;
+            this.lblCopy.Location = new System.Drawing.Point(6, 23);
+            this.lblCopy.Name = "lblCopy";
+            this.lblCopy.Size = new System.Drawing.Size(81, 13);
+            this.lblCopy.TabIndex = 12;
+            this.lblCopy.Text = "Copy Template:";
             // 
             // txtCopy
             // 
@@ -535,11 +537,11 @@
             // 
             this.groupBox_telegram.Controls.Add(this.btn_TestTelegram);
             this.groupBox_telegram.Controls.Add(this.txtTelegramChatId);
-            this.groupBox_telegram.Controls.Add(this.label3);
+            this.groupBox_telegram.Controls.Add(this.lblTelegramChat);
             this.groupBox_telegram.Controls.Add(this.txtTelegramAPIKey);
-            this.groupBox_telegram.Controls.Add(this.label2);
+            this.groupBox_telegram.Controls.Add(this.lblTelegramBot);
             this.groupBox_telegram.Controls.Add(this.cbxTelegram);
-            this.groupBox_telegram.Location = new System.Drawing.Point(14, 421);
+            this.groupBox_telegram.Location = new System.Drawing.Point(14, 453);
             this.groupBox_telegram.Name = "groupBox_telegram";
             this.groupBox_telegram.Size = new System.Drawing.Size(339, 95);
             this.groupBox_telegram.TabIndex = 4;
@@ -564,14 +566,14 @@
             this.txtTelegramChatId.TabIndex = 4;
             this.txtTelegramChatId.TextChanged += new System.EventHandler(this.TxtTelegramChatId_TextChanged);
             // 
-            // label3
+            // lblTelegramChat
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 71);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(93, 13);
-            this.label3.TabIndex = 3;
-            this.label3.Text = "Telegram Chat ID:";
+            this.lblTelegramChat.AutoSize = true;
+            this.lblTelegramChat.Location = new System.Drawing.Point(6, 71);
+            this.lblTelegramChat.Name = "lblTelegramChat";
+            this.lblTelegramChat.Size = new System.Drawing.Size(93, 13);
+            this.lblTelegramChat.TabIndex = 3;
+            this.lblTelegramChat.Text = "Telegram Chat ID:";
             // 
             // txtTelegramAPIKey
             // 
@@ -581,14 +583,14 @@
             this.txtTelegramAPIKey.TabIndex = 2;
             this.txtTelegramAPIKey.TextChanged += new System.EventHandler(this.TxtTelegramAPIKey_TextChanged);
             // 
-            // label2
+            // lblTelegramBot
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 45);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(114, 13);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "Telegram Bot API Key:";
+            this.lblTelegramBot.AutoSize = true;
+            this.lblTelegramBot.Location = new System.Drawing.Point(6, 45);
+            this.lblTelegramBot.Name = "lblTelegramBot";
+            this.lblTelegramBot.Size = new System.Drawing.Size(114, 13);
+            this.lblTelegramBot.TabIndex = 1;
+            this.lblTelegramBot.Text = "Telegram Bot API Key:";
             // 
             // cbxTelegram
             // 
@@ -601,11 +603,22 @@
             this.cbxTelegram.UseVisualStyleBackColor = true;
             this.cbxTelegram.CheckedChanged += new System.EventHandler(this.CbxTelegram_CheckedChanged);
             // 
+            // cbxGold
+            // 
+            this.cbxGold.AutoSize = true;
+            this.cbxGold.Location = new System.Drawing.Point(165, 226);
+            this.cbxGold.Name = "cbxGold";
+            this.cbxGold.Size = new System.Drawing.Size(163, 17);
+            this.cbxGold.TabIndex = 23;
+            this.cbxGold.Text = "All Surface Materials (system)";
+            this.cbxGold.UseVisualStyleBackColor = true;
+            this.cbxGold.CheckedChanged += new System.EventHandler(this.cbxGold_CheckedChanged);
+            // 
             // SettingsFrm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(429, 528);
+            this.ClientSize = new System.Drawing.Size(429, 560);
             this.Controls.Add(this.groupBox_telegram);
             this.Controls.Add(this.linkGit);
             this.Controls.Add(this.groupBox_TTS);
@@ -655,7 +668,7 @@
         private System.Windows.Forms.CheckBox cbxTts;
         private System.Windows.Forms.CheckBox cbxToast;
         private System.Windows.Forms.Button btnCopyReset;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblCopy;
         private System.Windows.Forms.TextBox txtCopy;
         private System.Windows.Forms.ToolTip tipCopy;
         private System.Windows.Forms.CheckBox cbx_custom;
@@ -671,14 +684,15 @@
         private System.Windows.Forms.CheckBox cbxAutoMonitor;
         private System.Windows.Forms.GroupBox groupBox_telegram;
         private System.Windows.Forms.TextBox txtTelegramChatId;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label lblTelegramChat;
         private System.Windows.Forms.TextBox txtTelegramAPIKey;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lblTelegramBot;
         private System.Windows.Forms.CheckBox cbxTelegram;
         private System.Windows.Forms.Button btn_TestTelegram;
         private System.Windows.Forms.CheckBox cbxCodex;
         private System.Windows.Forms.CheckBox cbxSendToIGAU;
         private System.Windows.Forms.Button btnSelectNone;
         private System.Windows.Forms.Button btnSelectAll;
+        private System.Windows.Forms.CheckBox cbxGold;
     }
 }

@@ -78,7 +78,9 @@
     <Compile Include="CodexEntry.cs" />
     <Compile Include="CodexReader.cs" />
     <Compile Include="ColumnSorter.cs" />
+    <Compile Include="HttpClient.cs" />
     <Compile Include="JournalPoker.cs" />
+    <Compile Include="Materials.cs" />
     <Compile Include="NotifyFrm.cs">
       <SubType>Form</SubType>
     </Compile>

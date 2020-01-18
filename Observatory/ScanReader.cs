@@ -7,55 +7,28 @@ namespace Observatory
     class ScanReader
     {
 
-        [Flags]
-        private enum Materials
-        {
-            None        = 0,
-            Antimony    = 0b0000000000000000000000000001,
-            Arsenic     = 0b0000000000000000000000000010,
-            Boron       = 0b0000000000000000000000000100,
-            Cadmium     = 0b0000000000000000000000001000,
-            Carbon      = 0b0000000000000000000000010000,
-            Chromium    = 0b0000000000000000000000100000,
-            Germanium   = 0b0000000000000000000001000000,
-            Iron        = 0b0000000000000000000010000000,
-            Lead        = 0b0000000000000000000100000000,
-            Manganese   = 0b0000000000000000001000000000,
-            Mercury     = 0b0000000000000000010000000000,
-            Molybdenum  = 0b0000000000000000100000000000,
-            Nickel      = 0b0000000000000001000000000000,
-            Niobium     = 0b0000000000000010000000000000,
-            Phosphorus  = 0b0000000000000100000000000000,
-            Polonium    = 0b0000000000001000000000000000,
-            Rhenium     = 0b0000000000010000000000000000,
-            Ruthenium   = 0b0000000000100000000000000000,
-            Selenium    = 0b0000000001000000000000000000,
-            Sulphur     = 0b0000000010000000000000000000,
-            Technetium  = 0b0000000100000000000000000000,
-            Tellurium   = 0b0000001000000000000000000000,
-            Tin         = 0b0000010000000000000000000000,
-            Tungsten    = 0b0000100000000000000000000000,
-            Vanadium    = 0b0001000000000000000000000000,
-            Yttrium     = 0b0010000000000000000000000000,
-            Zinc        = 0b0100000000000000000000000000,
-            Zirconium   = 0b1000000000000000000000000000,
-        }
-
         private readonly bool isRing;
         public List<(string BodyName, string Description, string Detail)> Interest { get; private set; }
         private readonly Properties.Observatory settings;
         private LogMonitor logMonitor;
-        private readonly Materials PremiumBoostMaterials 
-            = Materials.Carbon | Materials.Germanium | Materials.Arsenic | Materials.Niobium | Materials.Yttrium | Materials.Polonium;
-        private readonly Dictionary<string, int> MaterialLookup = Enum.GetValues(typeof(Materials)).Cast<Materials>().ToDictionary(mat => mat.ToString().ToLower(), mat => (int)mat);
-
+        private readonly Materials PremiumBoostMaterials = 
+            Materials.Carbon | Materials.Germanium | Materials.Arsenic | 
+            Materials.Niobium | Materials.Yttrium | Materials.Polonium;
+        private readonly Materials GoldSystemMaterials = 
+            Materials.Antimony | Materials.Arsenic |  Materials.Cadmium | Materials.Carbon |
+            Materials.Chromium | Materials.Germanium | Materials.Iron | Materials.Manganese |
+            Materials.Mercury | Materials.Molybdenum | Materials.Nickel | Materials.Niobium |
+            Materials.Phosphorus | Materials.Polonium |  Materials.Ruthenium | Materials.Selenium | 
+            Materials.Sulphur | Materials.Technetium | Materials.Tellurium | Materials.Tin | 
+            Materials.Tungsten | Materials.Vanadium | Materials.Yttrium | Materials.Zinc | 
+            Materials.Zirconium;
 
         public ScanReader(LogMonitor logMonitor)
         {
             this.logMonitor = logMonitor;
-            isRing = logMonitor.LastScan.BodyName.Contains(" Ring");
-            Interest = new List<(string BodyName, string Description, string Detail)>();
             settings = Properties.Observatory.Default;
+            Interest = new List<(string BodyName, string Description, string Detail)>();
+            isRing = logMonitor.LastScan.BodyName.Contains(" Ring");
         }
 
         public bool IsInteresting()
@@ -70,7 +43,7 @@ namespace Observatory
             }
 
             // Check history to determine if all jumponium materials available in system
-            if (!logMonitor.JumponiumReported && settings.AllJumpSystem && logMonitor.LastScan.Landable.GetValueOrDefault(false))
+            if (!logMonitor.GoldSystemReported && (settings.AllJumpSystem || settings.AllMaterialSystem) && logMonitor.LastScan.Landable.GetValueOrDefault(false))
             {
                 Materials matsFound = Materials.None;
                 
@@ -78,15 +51,20 @@ namespace Observatory
                 {
                     foreach (MaterialComposition material in scan.Value.Materials)
                     {
-                        matsFound |= (Materials)MaterialLookup[material.Name.ToLower()]; //(Materials)Enum.Parse(typeof(Materials), material.Name, true);
+                        matsFound |= (Materials)MaterialLookup.ByName(material.Name.ToLower()); //(Materials)Enum.Parse(typeof(Materials), material.Name, true);
+                    }
 
-                        if ((matsFound & PremiumBoostMaterials) == PremiumBoostMaterials)
-                        {
-                            interesting = true;
-                            logMonitor.JumponiumReported = true;
-                            Interest.Add((logMonitor.CurrentSystem, $"All {settings.FSDBoostSynthName} materials in system", string.Empty));
-                            break;
-                        }
+                    if (settings.AllMaterialSystem && (matsFound & GoldSystemMaterials) == GoldSystemMaterials)
+                    {
+                        interesting = true;
+                        logMonitor.GoldSystemReported = true;
+                        Interest.Add((logMonitor.CurrentSystem, $"All surface materials in system", string.Empty));
+                    }
+                    else if (settings.AllJumpSystem && !logMonitor.JumponiumReported && (matsFound & PremiumBoostMaterials) == PremiumBoostMaterials)
+                    {
+                        interesting = true;
+                        logMonitor.JumponiumReported = true;
+                        Interest.Add((logMonitor.CurrentSystem, $"All {settings.FSDBoostSynthName} materials in system", string.Empty));
                     }
                 }
             }
@@ -234,7 +212,7 @@ namespace Observatory
                 Materials matsNotFound = PremiumBoostMaterials;
                 foreach (MaterialComposition material in scanEvent.Materials)
                 {
-                    Materials matFound = (Materials)MaterialLookup[material.Name.ToLower()]; //(Materials)Enum.Parse(typeof(Materials), material.Name, true);
+                    Materials matFound = (Materials)MaterialLookup.ByName(material.Name.ToLower()); //(Materials)Enum.Parse(typeof(Materials), material.Name, true);
 
                     if ((matFound & PremiumBoostMaterials) == matFound)
                     {

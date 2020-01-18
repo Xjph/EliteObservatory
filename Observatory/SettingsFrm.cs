@@ -59,11 +59,12 @@ namespace Observatory
             cbxAutoMonitor.Checked = settings.AutoMonitor;
             cbxAutoRead.Checked = settings.AutoRead;
             cbxTelegram.Checked = settings.EnableTelegram;
-            btn_TestTelegram.Enabled = settings.EnableTelegram;
+            ShowHideTelegram();
             txtTelegramAPIKey.Text = settings.TelegramAPIKey;
             txtTelegramChatId.Text = settings.TelegramChatId;
             cbxCodex.Checked = settings.IncludeCodex;
             cbxSendToIGAU.Checked = settings.SendToIGAU;
+            cbxGold.Checked = settings.AllMaterialSystem;
             Loading = false;
             BulkChangeInProgress = false;
         }
@@ -259,6 +260,12 @@ namespace Observatory
             Save();
         }
 
+        private void cbxGold_CheckedChanged(object sender, EventArgs e)
+        {
+            settings.AllMaterialSystem = ((CheckBox)sender).Checked;
+            Save();
+        }
+
         private void CbxAutoRead_CheckedChanged(object sender, EventArgs e)
         {
             settings.AutoRead = ((CheckBox)sender).Checked;
@@ -274,8 +281,20 @@ namespace Observatory
         private void CbxTelegram_CheckedChanged(object sender, EventArgs e)
         {
             settings.EnableTelegram = ((CheckBox)sender).Checked;
-            btn_TestTelegram.Enabled = ((CheckBox)sender).Checked;
+            ShowHideTelegram();
             Save();
+        }
+
+        private void ShowHideTelegram()
+        {
+            bool show = cbxTelegram.Checked;
+            btn_TestTelegram.Enabled = show;
+            txtTelegramAPIKey.Visible = show;
+            txtTelegramChatId.Visible = show;
+            lblTelegramBot.Visible = show;
+            lblTelegramChat.Visible = show;
+            groupBox_telegram.Height = 45 + (show ? 1 : 0) * 50;
+            Height = 549 + (show ? 1 : 0) * 50;
         }
 
         private void TxtTelegramAPIKey_TextChanged(object sender, EventArgs e)

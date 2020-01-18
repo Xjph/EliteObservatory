@@ -17,7 +17,7 @@
             {
                 components.Dispose();
             }
-            speech?.Dispose();
+            if (speech != null) speech.Dispose();
             base.Dispose(disposing);
         }
 
@@ -43,20 +43,21 @@
             this.contextCopy = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.copyNameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
+            this.copyJournalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.btnSettings = new System.Windows.Forms.Button();
             this.linkUpdate = new System.Windows.Forms.LinkLabel();
             this.btnClear = new System.Windows.Forms.Button();
-            this.copyJournalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.lblIGAUTransmit = new System.Windows.Forms.Label();
             this.contextCopy.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnToggleMonitor
             // 
             this.btnToggleMonitor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnToggleMonitor.Location = new System.Drawing.Point(597, 496);
+            this.btnToggleMonitor.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnToggleMonitor.Location = new System.Drawing.Point(588, 496);
             this.btnToggleMonitor.Name = "btnToggleMonitor";
-            this.btnToggleMonitor.Size = new System.Drawing.Size(100, 23);
+            this.btnToggleMonitor.Size = new System.Drawing.Size(109, 23);
             this.btnToggleMonitor.TabIndex = 1;
             this.btnToggleMonitor.Text = "Start Monitoring";
             this.btnToggleMonitor.UseVisualStyleBackColor = true;
@@ -73,6 +74,7 @@
             this.timestamp,
             this.detail,
             this.landable});
+            this.listEvent.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.listEvent.FullRowSelect = true;
             this.listEvent.HideSelection = false;
             this.listEvent.Location = new System.Drawing.Point(12, 12);
@@ -118,7 +120,8 @@
             // btnReadAll
             // 
             this.btnReadAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnReadAll.Location = new System.Drawing.Point(503, 496);
+            this.btnReadAll.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnReadAll.Location = new System.Drawing.Point(494, 496);
             this.btnReadAll.Name = "btnReadAll";
             this.btnReadAll.Size = new System.Drawing.Size(88, 23);
             this.btnReadAll.TabIndex = 3;
@@ -143,31 +146,34 @@
             this.copyAllToolStripMenuItem,
             this.copyJournalToolStripMenuItem});
             this.contextCopy.Name = "contextCopy";
-            this.contextCopy.Size = new System.Drawing.Size(181, 92);
+            this.contextCopy.Size = new System.Drawing.Size(144, 70);
             // 
             // copyNameToolStripMenuItem
             // 
             this.copyNameToolStripMenuItem.Name = "copyNameToolStripMenuItem";
-            this.copyNameToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.copyNameToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.copyNameToolStripMenuItem.Text = "Copy Name";
             this.copyNameToolStripMenuItem.Click += new System.EventHandler(this.CopyNameToolStripMenuItem_Click);
             // 
             // copyAllToolStripMenuItem
             // 
             this.copyAllToolStripMenuItem.Name = "copyAllToolStripMenuItem";
-            this.copyAllToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.copyAllToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.copyAllToolStripMenuItem.Text = "Copy All";
             this.copyAllToolStripMenuItem.Click += new System.EventHandler(this.CopyAllToolStripMenuItem_Click);
             // 
-            // notifyIcon
+            // copyJournalToolStripMenuItem
             // 
-            this.notifyIcon.Text = "ObservatoryMon";
-            this.notifyIcon.Visible = true;
+            this.copyJournalToolStripMenuItem.Name = "copyJournalToolStripMenuItem";
+            this.copyJournalToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.copyJournalToolStripMenuItem.Text = "Copy Journal";
+            this.copyJournalToolStripMenuItem.Click += new System.EventHandler(this.CopyJournalToolStripMenuItem_Click);
             // 
             // btnSettings
             // 
             this.btnSettings.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSettings.Location = new System.Drawing.Point(341, 496);
+            this.btnSettings.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSettings.Location = new System.Drawing.Point(332, 496);
             this.btnSettings.Name = "btnSettings";
             this.btnSettings.Size = new System.Drawing.Size(75, 23);
             this.btnSettings.TabIndex = 8;
@@ -177,11 +183,13 @@
             // 
             // linkUpdate
             // 
+            this.linkUpdate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.linkUpdate.AutoSize = true;
             this.linkUpdate.Enabled = false;
+            this.linkUpdate.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.linkUpdate.Location = new System.Drawing.Point(12, 501);
             this.linkUpdate.Name = "linkUpdate";
-            this.linkUpdate.Size = new System.Drawing.Size(88, 13);
+            this.linkUpdate.Size = new System.Drawing.Size(94, 13);
             this.linkUpdate.TabIndex = 9;
             this.linkUpdate.TabStop = true;
             this.linkUpdate.Text = "Update Available";
@@ -191,7 +199,8 @@
             // btnClear
             // 
             this.btnClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnClear.Location = new System.Drawing.Point(422, 496);
+            this.btnClear.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnClear.Location = new System.Drawing.Point(413, 496);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(75, 23);
             this.btnClear.TabIndex = 10;
@@ -199,12 +208,17 @@
             this.btnClear.UseVisualStyleBackColor = true;
             this.btnClear.Click += new System.EventHandler(this.BtnClear_Click);
             // 
-            // copyJournalToolStripMenuItem
+            // lblIGAUTransmit
             // 
-            this.copyJournalToolStripMenuItem.Name = "copyJournalToolStripMenuItem";
-            this.copyJournalToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.copyJournalToolStripMenuItem.Text = "Copy Journal";
-            this.copyJournalToolStripMenuItem.Click += new System.EventHandler(this.CopyJournalToolStripMenuItem_Click);
+            this.lblIGAUTransmit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblIGAUTransmit.BackColor = System.Drawing.SystemColors.Control;
+            this.lblIGAUTransmit.Location = new System.Drawing.Point(112, 501);
+            this.lblIGAUTransmit.Name = "lblIGAUTransmit";
+            this.lblIGAUTransmit.Size = new System.Drawing.Size(214, 13);
+            this.lblIGAUTransmit.TabIndex = 11;
+            this.lblIGAUTransmit.Text = "IGAU";
+            this.lblIGAUTransmit.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.lblIGAUTransmit.Visible = false;
             // 
             // ObservatoryFrm
             // 
@@ -212,12 +226,14 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(710, 530);
             this.Controls.Add(this.progressReadAll);
+            this.Controls.Add(this.lblIGAUTransmit);
             this.Controls.Add(this.btnClear);
             this.Controls.Add(this.linkUpdate);
             this.Controls.Add(this.btnSettings);
             this.Controls.Add(this.btnReadAll);
             this.Controls.Add(this.listEvent);
             this.Controls.Add(this.btnToggleMonitor);
+            this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ObservatoryFrm";
             this.Text = "Elite Observatory";
@@ -243,11 +259,11 @@
         private System.Windows.Forms.ContextMenuStrip contextCopy;
         private System.Windows.Forms.ToolStripMenuItem copyNameToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem copyAllToolStripMenuItem;
-        private System.Windows.Forms.NotifyIcon notifyIcon;
         private System.Windows.Forms.Button btnSettings;
         private System.Windows.Forms.LinkLabel linkUpdate;
         private System.Windows.Forms.Button btnClear;
         private System.Windows.Forms.ToolStripMenuItem copyJournalToolStripMenuItem;
+        private System.Windows.Forms.Label lblIGAUTransmit;
     }
 }
 

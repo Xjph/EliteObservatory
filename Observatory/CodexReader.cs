@@ -20,11 +20,11 @@ namespace Observatory
                     new
                     {
                         timestamp = codexEntry.Timestamp.ToString("yyyy-MM-ddTHH:mm:ssZ"),
-                        EntryID = codexEntry.EntryID,
-                        Name = codexEntry.Name,
+                        codexEntry.EntryID,
+                        codexEntry.Name,
                         Name_Localised = codexEntry.NameLocalised,
-                        System = codexEntry.System,
-                        SystemAddress = codexEntry.SystemAddress
+                        codexEntry.System,
+                        codexEntry.SystemAddress
                     });
 
                 var request = new HttpRequestMessage

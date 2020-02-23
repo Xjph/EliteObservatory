@@ -24,7 +24,9 @@ namespace Observatory
                         codexEntry.Name,
                         Name_Localised = codexEntry.NameLocalised,
                         codexEntry.System,
-                        codexEntry.SystemAddress
+                        codexEntry.SystemAddress,
+                        App_Name = "Elite_Observatory",
+                        App_Version = "0.4.2"
                     });
 
                 var request = new HttpRequestMessage

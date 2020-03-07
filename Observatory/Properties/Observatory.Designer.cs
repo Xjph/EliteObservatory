@@ -478,5 +478,29 @@ namespace Observatory.Properties {
                 this["AllMaterialSystem"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string FrontierToken {
+            get {
+                return ((string)(this["FrontierToken"]));
+            }
+            set {
+                this["FrontierToken"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool UseCapi {
+            get {
+                return ((bool)(this["UseCapi"]));
+            }
+            set {
+                this["UseCapi"] = value;
+            }
+        }
     }
 }

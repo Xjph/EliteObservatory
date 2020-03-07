@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Net.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Windows.Forms;
 
 namespace Observatory
 {
@@ -20,13 +20,17 @@ namespace Observatory
                     new
                     {
                         timestamp = codexEntry.Timestamp.ToString("yyyy-MM-ddTHH:mm:ssZ"),
-                        codexEntry.EntryID,
-                        codexEntry.Name,
+                        EntryID = codexEntry.EntryID.ToString(),
+                        Name = codexEntry.Name
+                            .Replace("$", string.Empty)
+                            .Replace(";", string.Empty)
+                            .Replace("_Name", string.Empty)
+                            .ToLower(),
                         Name_Localised = codexEntry.NameLocalised,
                         codexEntry.System,
-                        codexEntry.SystemAddress,
+                        SystemAddress = codexEntry.SystemAddress.ToString(),
                         App_Name = "Elite_Observatory",
-                        App_Version = "0.4.2"
+                        App_Version = Application.ProductVersion
                     });
 
                 var request = new HttpRequestMessage
@@ -75,7 +79,7 @@ namespace Observatory
                     {
                         System.Windows.Forms.MessageBox.Show($"HTTP Error: {SendRequestTask.Result.StatusCode.ToString()}\r\nContent: {SendRequestTask.Result.Content}\r\nTransmission disabled.", "Error Sending IGAU Data");
                         RequestQueue.Clear();
-                        mainForm.SetIGAUText(string.Empty);
+                        mainForm.SetStatusText(string.Empty);
                         Properties.Observatory.Default.SendToIGAU = false;
                         Properties.Observatory.Default.Save();
                         break;
@@ -83,7 +87,7 @@ namespace Observatory
 
                     RequestQueue.Remove(RequestQueue.First());
 
-                    mainForm.SetIGAUText(RequestQueue.Count > 0 ? $"{RequestQueue.Count} pending IGAU transmission{(RequestQueue.Count > 1 ? "s" : "")}.":"");
+                    mainForm.SetStatusText(RequestQueue.Count > 0 ? $"{RequestQueue.Count} pending IGAU transmission{(RequestQueue.Count > 1 ? "s" : "")}.":"");
                     
                 }
                 RequestsSending = false;

@@ -47,7 +47,7 @@
             this.btnSettings = new System.Windows.Forms.Button();
             this.linkUpdate = new System.Windows.Forms.LinkLabel();
             this.btnClear = new System.Windows.Forms.Button();
-            this.lblIGAUTransmit = new System.Windows.Forms.Label();
+            this.lblStatus = new System.Windows.Forms.Label();
             this.contextCopy.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -58,7 +58,7 @@
             this.btnToggleMonitor.Location = new System.Drawing.Point(588, 496);
             this.btnToggleMonitor.Name = "btnToggleMonitor";
             this.btnToggleMonitor.Size = new System.Drawing.Size(109, 23);
-            this.btnToggleMonitor.TabIndex = 1;
+            this.btnToggleMonitor.TabIndex = 4;
             this.btnToggleMonitor.Text = "Start Monitoring";
             this.btnToggleMonitor.UseVisualStyleBackColor = true;
             this.btnToggleMonitor.Click += new System.EventHandler(this.BtnToggleMonitor_Click);
@@ -80,7 +80,7 @@
             this.listEvent.Location = new System.Drawing.Point(12, 12);
             this.listEvent.Name = "listEvent";
             this.listEvent.Size = new System.Drawing.Size(685, 478);
-            this.listEvent.TabIndex = 2;
+            this.listEvent.TabIndex = 0;
             this.listEvent.UseCompatibleStateImageBehavior = false;
             this.listEvent.View = System.Windows.Forms.View.Details;
             this.listEvent.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.ListEvent_ColumnClick);
@@ -176,7 +176,7 @@
             this.btnSettings.Location = new System.Drawing.Point(332, 496);
             this.btnSettings.Name = "btnSettings";
             this.btnSettings.Size = new System.Drawing.Size(75, 23);
-            this.btnSettings.TabIndex = 8;
+            this.btnSettings.TabIndex = 1;
             this.btnSettings.Text = "Settings";
             this.btnSettings.UseVisualStyleBackColor = true;
             this.btnSettings.Click += new System.EventHandler(this.BtnSettings_Click);
@@ -203,22 +203,22 @@
             this.btnClear.Location = new System.Drawing.Point(413, 496);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(75, 23);
-            this.btnClear.TabIndex = 10;
+            this.btnClear.TabIndex = 2;
             this.btnClear.Text = "Clear List";
             this.btnClear.UseVisualStyleBackColor = true;
             this.btnClear.Click += new System.EventHandler(this.BtnClear_Click);
             // 
-            // lblIGAUTransmit
+            // lblStatus
             // 
-            this.lblIGAUTransmit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblIGAUTransmit.BackColor = System.Drawing.SystemColors.Control;
-            this.lblIGAUTransmit.Location = new System.Drawing.Point(112, 501);
-            this.lblIGAUTransmit.Name = "lblIGAUTransmit";
-            this.lblIGAUTransmit.Size = new System.Drawing.Size(214, 13);
-            this.lblIGAUTransmit.TabIndex = 11;
-            this.lblIGAUTransmit.Text = "IGAU";
-            this.lblIGAUTransmit.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            this.lblIGAUTransmit.Visible = false;
+            this.lblStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblStatus.BackColor = System.Drawing.SystemColors.Control;
+            this.lblStatus.Location = new System.Drawing.Point(112, 501);
+            this.lblStatus.Name = "lblStatus";
+            this.lblStatus.Size = new System.Drawing.Size(214, 13);
+            this.lblStatus.TabIndex = 11;
+            this.lblStatus.Text = "IGAU";
+            this.lblStatus.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.lblStatus.Visible = false;
             // 
             // ObservatoryFrm
             // 
@@ -226,7 +226,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(710, 530);
             this.Controls.Add(this.progressReadAll);
-            this.Controls.Add(this.lblIGAUTransmit);
+            this.Controls.Add(this.lblStatus);
             this.Controls.Add(this.btnClear);
             this.Controls.Add(this.linkUpdate);
             this.Controls.Add(this.btnSettings);
@@ -263,7 +263,7 @@
         private System.Windows.Forms.LinkLabel linkUpdate;
         private System.Windows.Forms.Button btnClear;
         private System.Windows.Forms.ToolStripMenuItem copyJournalToolStripMenuItem;
-        private System.Windows.Forms.Label lblIGAUTransmit;
+        private System.Windows.Forms.Label lblStatus;
     }
 }
 

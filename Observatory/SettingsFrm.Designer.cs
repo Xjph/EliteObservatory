@@ -55,6 +55,8 @@
             this.cbx_LandWithAtmo = new System.Windows.Forms.CheckBox();
             this.cbx_LandWithTerra = new System.Windows.Forms.CheckBox();
             this.groupBox_misc = new System.Windows.Forms.GroupBox();
+            this.btnEditCustom = new System.Windows.Forms.Button();
+            this.cbxCapi = new System.Windows.Forms.CheckBox();
             this.cbxSendToIGAU = new System.Windows.Forms.CheckBox();
             this.cbxAutoMonitor = new System.Windows.Forms.CheckBox();
             this.cbxAutoRead = new System.Windows.Forms.CheckBox();
@@ -76,6 +78,7 @@
             this.txtTelegramAPIKey = new System.Windows.Forms.TextBox();
             this.lblTelegramBot = new System.Windows.Forms.Label();
             this.cbxTelegram = new System.Windows.Forms.CheckBox();
+            this.linkDonate = new System.Windows.Forms.LinkLabel();
             this.groupBox_Interest.SuspendLayout();
             this.groupBox_misc.SuspendLayout();
             this.groupBox_TTS.SuspendLayout();
@@ -380,6 +383,8 @@
             // 
             // groupBox_misc
             // 
+            this.groupBox_misc.Controls.Add(this.btnEditCustom);
+            this.groupBox_misc.Controls.Add(this.cbxCapi);
             this.groupBox_misc.Controls.Add(this.cbxSendToIGAU);
             this.groupBox_misc.Controls.Add(this.cbxAutoMonitor);
             this.groupBox_misc.Controls.Add(this.cbxAutoRead);
@@ -391,10 +396,31 @@
             this.groupBox_misc.Controls.Add(this.cbxToast);
             this.groupBox_misc.Location = new System.Drawing.Point(13, 324);
             this.groupBox_misc.Name = "groupBox_misc";
-            this.groupBox_misc.Size = new System.Drawing.Size(340, 123);
+            this.groupBox_misc.Size = new System.Drawing.Size(404, 123);
             this.groupBox_misc.TabIndex = 1;
             this.groupBox_misc.TabStop = false;
             this.groupBox_misc.Text = "Misc.";
+            // 
+            // btnEditCustom
+            // 
+            this.btnEditCustom.Location = new System.Drawing.Point(352, 65);
+            this.btnEditCustom.Name = "btnEditCustom";
+            this.btnEditCustom.Size = new System.Drawing.Size(45, 23);
+            this.btnEditCustom.TabIndex = 23;
+            this.btnEditCustom.Text = "Edit";
+            this.btnEditCustom.UseVisualStyleBackColor = true;
+            this.btnEditCustom.Click += new System.EventHandler(this.btnEditCustom_Click);
+            // 
+            // cbxCapi
+            // 
+            this.cbxCapi.AutoSize = true;
+            this.cbxCapi.Location = new System.Drawing.Point(238, 46);
+            this.cbxCapi.Name = "cbxCapi";
+            this.cbxCapi.Size = new System.Drawing.Size(71, 17);
+            this.cbxCapi.TabIndex = 22;
+            this.cbxCapi.Text = "Use cAPI";
+            this.cbxCapi.UseVisualStyleBackColor = true;
+            this.cbxCapi.CheckedChanged += new System.EventHandler(this.CbxCapi_CheckedChanged);
             // 
             // cbxSendToIGAU
             // 
@@ -435,7 +461,7 @@
             // cbx_custom
             // 
             this.cbx_custom.AutoSize = true;
-            this.cbx_custom.Location = new System.Drawing.Point(226, 46);
+            this.cbx_custom.Location = new System.Drawing.Point(238, 69);
             this.cbx_custom.Name = "cbx_custom";
             this.cbx_custom.Size = new System.Drawing.Size(96, 17);
             this.cbx_custom.TabIndex = 14;
@@ -445,7 +471,7 @@
             // 
             // btnCopyReset
             // 
-            this.btnCopyReset.Location = new System.Drawing.Point(289, 19);
+            this.btnCopyReset.Location = new System.Drawing.Point(352, 19);
             this.btnCopyReset.Name = "btnCopyReset";
             this.btnCopyReset.Size = new System.Drawing.Size(45, 23);
             this.btnCopyReset.TabIndex = 13;
@@ -466,7 +492,7 @@
             // 
             this.txtCopy.Location = new System.Drawing.Point(93, 20);
             this.txtCopy.Name = "txtCopy";
-            this.txtCopy.Size = new System.Drawing.Size(190, 20);
+            this.txtCopy.Size = new System.Drawing.Size(247, 20);
             this.txtCopy.TabIndex = 11;
             this.tipCopy.SetToolTip(this.txtCopy, "%time% - Timestamp\r\n%body% - Body name\r\n%bodyL% - Body name with landable status\r" +
         "\n%info% - Interest criteria\r\n%detail% - Detailed information");
@@ -535,7 +561,7 @@
             // linkGit
             // 
             this.linkGit.AutoSize = true;
-            this.linkGit.Location = new System.Drawing.Point(370, 321);
+            this.linkGit.Location = new System.Drawing.Point(381, 453);
             this.linkGit.Name = "linkGit";
             this.linkGit.Size = new System.Drawing.Size(36, 13);
             this.linkGit.TabIndex = 3;
@@ -614,11 +640,23 @@
             this.cbxTelegram.UseVisualStyleBackColor = true;
             this.cbxTelegram.CheckedChanged += new System.EventHandler(this.CbxTelegram_CheckedChanged);
             // 
+            // linkDonate
+            // 
+            this.linkDonate.AutoSize = true;
+            this.linkDonate.Location = new System.Drawing.Point(375, 476);
+            this.linkDonate.Name = "linkDonate";
+            this.linkDonate.Size = new System.Drawing.Size(42, 13);
+            this.linkDonate.TabIndex = 5;
+            this.linkDonate.TabStop = true;
+            this.linkDonate.Text = "Donate";
+            this.linkDonate.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkDonate_LinkClicked);
+            // 
             // SettingsFrm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(429, 560);
+            this.Controls.Add(this.linkDonate);
             this.Controls.Add(this.groupBox_telegram);
             this.Controls.Add(this.linkGit);
             this.Controls.Add(this.groupBox_TTS);
@@ -694,5 +732,8 @@
         private System.Windows.Forms.Button btnSelectNone;
         private System.Windows.Forms.Button btnSelectAll;
         private System.Windows.Forms.CheckBox cbxGold;
+        private System.Windows.Forms.CheckBox cbxCapi;
+        private System.Windows.Forms.Button btnEditCustom;
+        private System.Windows.Forms.LinkLabel linkDonate;
     }
 }

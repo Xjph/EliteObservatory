@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Windows.Forms;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Forms;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.IO;
+using System.Runtime.InteropServices;
 
 namespace Observatory
 {
@@ -28,6 +29,7 @@ namespace Observatory
         public Dictionary<(string System, long Body), ScanEvent> SystemBody { get; private set; }
         public UserInterest UserInterest { get; private set; }
         private JournalPoker Poker;
+
         public string CurrentSystem
         {
             get
@@ -142,23 +144,47 @@ namespace Observatory
 
         private string CheckLogPath()
         {
-            LogDirectory = string.IsNullOrEmpty(LogDirectory) ? Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Saved Games\\Frontier Developments\\Elite Dangerous" : LogDirectory;
+            LogDirectory = string.IsNullOrEmpty(LogDirectory) ? GetSavedGamesPath() + "\\Frontier Developments\\Elite Dangerous" : LogDirectory;
             if (!Directory.Exists(LogDirectory) || new DirectoryInfo(LogDirectory).GetFiles("Journal.????????????.??.log").Count() == 0)
             {
-                System.Windows.Forms.FolderBrowserDialog folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog
+
+                //var useCapi = MessageBox.Show("Journal Folder not found or empty, use Frontier Companion API?\r\n\r\nConsole players should choose 'Yes', PC users should choose 'No' unless you're very sure you need to pull of copy of your recent journals from Frontier's servers.", "Journal Files Not Found", MessageBoxButtons.YesNo);
+
+                FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog
                 {
                     RootFolder = Environment.SpecialFolder.MyComputer,
-                    ShowNewFolderButton = false,
+                    ShowNewFolderButton = true,
                     Description = "Select Elite Dangerous Journal Folder"
                 };
-                System.Windows.Forms.DialogResult result = folderBrowserDialog.ShowDialog();
-                if (result == System.Windows.Forms.DialogResult.OK && !string.IsNullOrWhiteSpace(folderBrowserDialog.SelectedPath))
+
+                DialogResult result = folderBrowserDialog.ShowDialog();
+                if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(folderBrowserDialog.SelectedPath))
                 {
                     LogDirectory = folderBrowserDialog.SelectedPath;
                 }
+
             }
             return LogDirectory;
         }
+
+        public static string GetSavedGamesPath()
+        {
+            if (Environment.OSVersion.Version.Major < 6) throw new NotSupportedException();
+            IntPtr pathPtr = IntPtr.Zero;
+            try
+            {
+                SHGetKnownFolderPath(ref FolderSavedGames, 0, IntPtr.Zero, out pathPtr);
+                return Marshal.PtrToStringUni(pathPtr);
+            }
+            finally
+            {
+                Marshal.FreeCoTaskMem(pathPtr);
+            }
+        }
+
+        private static Guid FolderSavedGames = new Guid("4C5C32FF-BB9D-43b0-B5B4-2D72E54EAAA4");
+        [DllImport("shell32.dll", CharSet = CharSet.Auto)]
+        private static extern int SHGetKnownFolderPath(ref Guid id, int flags, IntPtr token, out IntPtr path);
 
         private void LogChanged(object source, FileSystemEventArgs e)
         {

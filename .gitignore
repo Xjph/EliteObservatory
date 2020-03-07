@@ -259,4 +259,7 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
-/Observatory/OAuth.cs
+/Observatory/OAuthIDs.resx
+/Observatory/OAuthIDs.Designer.cs
+/ObservatorySetup
+/Observatory/Observatory License.rtf

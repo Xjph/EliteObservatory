@@ -19,6 +19,9 @@ namespace Observatory
         private SettingsFrm settingsFrm;
         private ListViewColumnSorter columnSorter;
         public bool settingsOpen = false;
+        private CapiState capiState;
+        private CompanionAPI cAPI;
+
         public ObservatoryFrm()
         {
             InitializeComponent();
@@ -28,6 +31,9 @@ namespace Observatory
             Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
             columnSorter = new ListViewColumnSorter();
             listEvent.ListViewItemSorter = columnSorter;
+            capiState = Properties.Observatory.Default.UseCapi ? CapiState.Enabled : CapiState.Disabled;
+            CheckCapi(capiState);
+
             if (Properties.Observatory.Default.TTS)
             {
                 speech = new SpeechSynthesizer();
@@ -69,8 +75,31 @@ namespace Observatory
 
         }
 
-        private void BtnToggleMonitor_Click(object sender, EventArgs e) =>
-            ToggleMonitor();
+        private void BtnToggleMonitor_Click(object sender, EventArgs e)
+        {
+            if (settingsOpen)
+            {
+                MessageBox.Show("Unable to retrieve logs or change monitoring state while settings window is open.", "Settings Open", MessageBoxButtons.OK);
+            }
+            else
+            {
+                if (capiState == CapiState.Enabled)
+                {
+                    cAPI = new CompanionAPI();
+                    var capiTask = cAPI.GetJournals(this);
+
+                }
+                else if (capiState == CapiState.InProgress)
+                {
+                    cAPI.retrieve = false;
+                }
+                else
+                {
+                    ToggleMonitor();
+                }
+            }
+        }
+            
 
         private void LogEvent(object source, EventArgs e)
         {
@@ -92,7 +121,10 @@ namespace Observatory
                             AddListItem(item);
                         }
 
-                        if (!logMonitor.ReadAllInProgress && scan.Interest.Count > 0) { AnnounceItems(logMonitor.CurrentSystem, scan.Interest); }
+                        if (!logMonitor.ReadAllInProgress && scan.Interest.Count > 0)
+                        {
+                            AnnounceItems(logMonitor.CurrentSystem, scan.Interest);
+                        }
                     });
                 }
                 else if (!logMonitor.ReadAllInProgress)
@@ -176,10 +208,24 @@ namespace Observatory
                 {
                     string spokenName;
                     spokenName = fullBodyName.Replace(currentSystem, string.Empty);
+
                     if (spokenName.Trim().Length > 0)
                     {
-                        spokenName = "Body " + spokenName;
+                        if (spokenName.Contains("Ring"))
+                        {
+                            int ringIndex = spokenName.Length - 6;
+                            spokenName = 
+                                "Body <say-as interpret-as=\"spell-out\">" + spokenName.Substring(0, ringIndex) + 
+                                "</say-as><break strength=\"weak\"/><say-as interpret-as=\"spell-out\">" + 
+                                spokenName.Substring(ringIndex, 1) + "</say-as>" + spokenName.Substring(ringIndex + 1, spokenName.Length - (ringIndex + 1));
+                        }
+                        else
+                        {
+                            spokenName = "Body <say-as interpret-as=\"spell-out\">" + spokenName + "</say-as>";
+                        }
                     }
+
+                    
                     speech.Volume = Properties.Observatory.Default.TTSVolume;
                     speech.SpeakSsmlAsync($"<speak version=\"1.0\" xmlns=\"http://www.w3.org/2001/10/synthesis\" xml:lang=\"en-US\">{spokenName}:<break strength=\"weak\"/>{announceText}</speak>");
                 }
@@ -248,6 +294,14 @@ namespace Observatory
 
         private void ReadAllJournals()
         {
+            bool resumeMonitor = false;
+
+            if (logMonitor.IsMonitoring())
+            {
+                logMonitor.MonitorStop();
+                resumeMonitor = true;
+            }
+
             listEvent.BeginUpdate();
             listEvent.Items.Clear();
             logMonitor.SystemBody.Clear();
@@ -256,6 +310,11 @@ namespace Observatory
             listEvent.ListViewItemSorter = columnSorter;
             listEvent.Sort();
             listEvent.EndUpdate();
+
+            if (resumeMonitor)
+            {
+                logMonitor.MonitorStart();
+            }
         }
 
         private void ListEvent_MouseClick(object sender, MouseEventArgs e)
@@ -318,7 +377,7 @@ namespace Observatory
         {
             if (!settingsOpen)
             {
-                settingsFrm = new SettingsFrm(this);
+                settingsFrm = new SettingsFrm(this, logMonitor.IsMonitoring());
                 settingsFrm.Show();
                 settingsOpen = true;
             }
@@ -443,10 +502,31 @@ namespace Observatory
             }
         }
 
-        public void SetIGAUText(string text)
+        public void SetStatusText(string text)
         {
-            lblIGAUTransmit.Visible = text.Length > 0;
-            lblIGAUTransmit.Text = text;
+            lblStatus.Visible = text.Length > 0;
+            lblStatus.Text = text;
         }
+
+        public void CheckCapi(CapiState capiState)
+        {
+            if (capiState == CapiState.Enabled)
+            {
+                btnToggleMonitor.Text = "Retrieve Logs";
+            }
+            else if (capiState == CapiState.Disabled)
+            {
+                btnToggleMonitor.Text = $"{(logMonitor.IsMonitoring() ? "Stop" : "Start")} Monitoring";
+            }
+            else if (capiState == CapiState.InProgress)
+            {
+                btnToggleMonitor.Text = "Cancel Retrieval";
+            }
+            this.capiState = capiState;
+        }
+
+        public enum CapiState
+        { Disabled, Enabled, InProgress }
+
     }
 }

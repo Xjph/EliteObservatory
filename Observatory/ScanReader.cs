@@ -11,14 +11,16 @@ namespace Observatory
         public List<(string BodyName, string Description, string Detail)> Interest { get; private set; }
         private readonly Properties.Observatory settings;
         private LogMonitor logMonitor;
+
         private readonly Materials PremiumBoostMaterials = 
             Materials.Carbon | Materials.Germanium | Materials.Arsenic | 
             Materials.Niobium | Materials.Yttrium | Materials.Polonium;
+
         private readonly Materials GoldSystemMaterials = 
             Materials.Antimony | Materials.Arsenic |  Materials.Cadmium | Materials.Carbon |
             Materials.Chromium | Materials.Germanium | Materials.Iron | Materials.Manganese |
             Materials.Mercury | Materials.Molybdenum | Materials.Nickel | Materials.Niobium |
-            Materials.Phosphorus | Materials.Polonium |  Materials.Ruthenium | Materials.Selenium | 
+            Materials.Phosphorus | Materials.Polonium | Materials.Ruthenium | Materials.Selenium | 
             Materials.Sulphur | Materials.Technetium | Materials.Tellurium | Materials.Tin | 
             Materials.Tungsten | Materials.Vanadium | Materials.Yttrium | Materials.Zinc | 
             Materials.Zirconium;
@@ -46,7 +48,7 @@ namespace Observatory
             if (!logMonitor.GoldSystemReported && (settings.AllJumpSystem || settings.AllMaterialSystem) && logMonitor.LastScan.Landable.GetValueOrDefault(false))
             {
                 Materials matsFound = Materials.None;
-                
+
                 foreach (var scan in logMonitor.SystemBody.Where(scan => scan.Key.System == logMonitor.CurrentSystem && scan.Value.Landable.GetValueOrDefault(false)))
                 {
                     foreach (MaterialComposition material in scan.Value.Materials)
@@ -196,7 +198,7 @@ namespace Observatory
             // High eccentricity
             if (settings.HighEccentric && scanEvent.Eccentricity > 0.9)
             {
-                Interest.Add((scanEvent.BodyName, "Highly eccentric orbit", $"Eccentricity: {Math.Round((decimal)scanEvent.Eccentricity, 2)}"));
+                Interest.Add((scanEvent.BodyName, "Highly eccentric orbit", $"Eccentricity: {Math.Round((decimal)scanEvent.Eccentricity, 4)}"));
             }
 
             // Ringed Landable

@@ -25,7 +25,7 @@ namespace Observatory
 
         public static HttpResponseMessage SendRequest(HttpRequestMessage request)
         {
-            return SendRequestAsync(request).Result;
+            return lazy.Value.SendAsync(request).Result;
         }
 
         public static System.Threading.Tasks.Task<HttpResponseMessage> SendRequestAsync(HttpRequestMessage request)

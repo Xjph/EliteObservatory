@@ -12,12 +12,13 @@ namespace Observatory
         private bool Loading;
         private bool BulkChangeInProgress;
 
-        public SettingsFrm(ObservatoryFrm mainForm)
+        public SettingsFrm(ObservatoryFrm mainForm, bool monitoring)
         {
             InitializeComponent();
             Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
             settings = Properties.Observatory.Default;
             this.mainForm = mainForm;
+            cbxCapi.Enabled = !monitoring;
         }
 
         private void SettingsFrm_FormClosed(object sender, FormClosedEventArgs e)
@@ -65,6 +66,7 @@ namespace Observatory
             cbxCodex.Checked = settings.IncludeCodex;
             cbxSendToIGAU.Checked = settings.SendToIGAU;
             cbxGold.Checked = settings.AllMaterialSystem;
+            cbxCapi.Checked = settings.UseCapi;
             Loading = false;
             BulkChangeInProgress = false;
         }
@@ -376,6 +378,39 @@ namespace Observatory
         {
             if (!BulkChangeInProgress)
                 settings.Save();
+        }
+
+        private void CbxCapi_CheckedChanged(object sender, EventArgs e)
+        {
+            CheckBox useCapi = ((CheckBox)sender);
+
+            if (useCapi.Checked & !Loading)
+            {
+                var result = MessageBox.Show("This will enable retrieving journals from Frontier's API into your currently selected journal folder location. For more information please check the documentation on github. Continue?", "Enable Companion API", MessageBoxButtons.OKCancel);
+
+                if (result == DialogResult.Cancel)
+                {
+                    useCapi.Checked = false;
+                    return;
+                }
+            }
+
+            settings.UseCapi = useCapi.Checked;
+            Save();
+
+            mainForm.CheckCapi(useCapi.Checked ? ObservatoryFrm.CapiState.Enabled : ObservatoryFrm.CapiState.Disabled);
+            
+        }
+
+        private void LinkDonate_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://www.paypal.me/eliteobservatory");
+        }
+
+        private void btnEditCustom_Click(object sender, EventArgs e)
+        {
+            var editForm = new frmCriteriaEdit();
+            editForm.Show();
         }
     }
 }

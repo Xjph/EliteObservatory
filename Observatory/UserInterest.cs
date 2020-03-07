@@ -14,7 +14,6 @@ namespace Observatory
         const string criteriaFile = "ObservatoryCriteria.xml";
         private Dictionary<(string System, long Body), ScanEvent> scanHistory;
         private string currentSystem;
-        private ScanEvent parent;
         private readonly string decimalSeparator = System.Threading.Thread.CurrentThread.CurrentCulture.NumberFormat.NumberDecimalSeparator;
 
         public UserInterest()
@@ -52,6 +51,17 @@ namespace Observatory
                     Properties.Observatory.Default.Save();
                 }
             }
+        }
+
+        public UserInterest(string testXml)
+        {
+            XmlDocument criteriaXml = new XmlDocument();
+            criteriaXml.LoadXml(testXml);
+            if (criteriaXml.DocumentElement.Name == "ObservatoryCriteria")
+            {
+                AllCriteria = criteriaXml.SelectNodes("ObservatoryCriteria/Criteria");
+            }
+            ProcessCriteria(new ScanEvent(), new List<(string BodyName, string Description, string Detail)>(), new Dictionary<(string System, long Body), ScanEvent>(), string.Empty);
         }
 
         private void LoadCriteria()
@@ -163,7 +173,15 @@ namespace Observatory
         {
             string detailText = string.Empty;
 
-            switch (detailType.Split(':')[0])
+            string eventDetail = string.Empty;
+
+            if (detailType.Split(':').Count() > 1)
+            {
+                eventDetail = string.Join(":", detailType.Split(':').Skip(1).ToArray()).ToLower();
+                detailType = detailType.Split(':')[0].ToLower();
+            }
+
+            switch (detailType)
             {
                 case "distancefromarrivalls":
                     detailText = $"Distance (LS): {scan.DistanceFromArrivalLs.ToString():N0} ";
@@ -237,20 +255,118 @@ namespace Observatory
                 case "planetclass":
                     detailText = scan.PlanetClass?.Length > 0 ? scan.PlanetClass?.ToLower() : string.Empty;
                     break;
+                case "reservelevel":
+                    detailText = scan.ReserveLevel?.Replace("Res", " Res") + " ";
+                    break;
                 case "rings":
                     detailText = $"{scan.Rings?.Count().ToString()} Ring{(scan.Rings?.Count() > 1 ? "s" : string.Empty)} ";
+                    break;
+                case "ring":
+                    if (scan.Rings?.Count() > 0)
+                    {
+                        string[] ringDetail = eventDetail.Split(':');
+
+                        if (ringDetail[0] == "count")
+                        {
+                            detailText = $"{scan.Rings?.Count().ToString()} Ring{(scan.Rings?.Count() > 1 ? "s" : string.Empty)} ";
+                        }
+                        else
+                        {
+                            int ringIndex = int.Parse(ringDetail[0]) - 1;
+
+                            if (scan.Rings.Count() > ringIndex)
+                            {
+                                switch (ringDetail[1])
+                                {
+                                    case "innerrad":
+                                        detailText = $"Inner Radius: {scan.Rings[ringIndex].InnerRad / 1000:N0}km ";
+                                        break;
+                                    case "outerrad":
+                                        detailText = $"Outer Radius: {scan.Rings[ringIndex].OuterRad / 1000:N0}km ";
+                                        break;
+                                    case "mass":
+                                        detailText = $"Mass: {scan.Rings[ringIndex].MassMT:N0}MT ";
+                                        break;
+                                    case "class":
+                                        switch (scan.Rings[ringIndex].RingClass.ToLower())
+                                        {
+                                            case "eringclass_icy":
+                                                detailText = "Icy ";
+                                                break;
+                                            case "eringclass_metalrich":
+                                                detailText = "Metal Rich ";
+                                                break;
+                                            case "eringclass_metalic":
+                                                detailText = "Metallic ";
+                                                break;
+                                            case "eringclass_rocky":
+                                                detailText = "Rocky ";
+                                                break;
+                                            default:
+                                                detailText = scan.Rings[ringIndex].RingClass;
+                                                break;
+                                        }
+                                            
+                                        break;
+                                }
+                            }
+                            else
+                            {
+                                detailText = string.Empty;
+                            }
+                        }
+                    }
                     break;
                 case "parent":
 
                     if (scan.Parent?.Count() > 0 && (scan.Parent?[0].ParentType == "Planet" || scan.Parent?[0].ParentType == "Star") && scanHistory.ContainsKey((currentSystem, scan.Parent[0].Body)))
                     {
-                        detailText = "Parent " + GetDetailText(string.Join(":", detailType.Split(':').Skip(1).ToArray()), scanHistory[(currentSystem, scan.Parent[0].Body)]);
+                        detailText = "Parent " + GetDetailText(eventDetail, scanHistory[(currentSystem, scan.Parent[0].Body)]);
                     }
                     else
                     {
                         detailText = "No Parent Body";
                     }
 
+                    break;
+                case "atmospheretype":
+                    detailText = scan.Atmosphere?.Length > 0 ? $"Atmosphere: {scan.AtmosphereType}" : "No Atmosphere ";
+                    break;
+                case "atmospherecomposition":
+                    detailText = "Atmosphere: ";
+                    bool first = true;
+                    foreach (var material in scan.AtmosphereComposition)
+                    {
+                        detailText += (first ? string.Empty : ", ") + material.Percent.ToString("##.#\\%") + " " + material.Name;
+                        first = false;
+                    }
+                    if (first)
+                    {
+                        detailText += "None";
+                    }
+                    break;
+                case "parenttype":
+                    detailText = "Parents: ";
+                    first = true;
+                    foreach (var parent in scan.Parent)
+                    {
+                        string parentType;
+                        if (parent.ParentType == "Null")
+                        {
+                            parentType = "Binary Barycenter";
+                        }
+                        else
+                        {
+                            parentType = parent.ParentType;
+                        }
+
+                        detailText += (first ? string.Empty : ", ") + parentType + $" ({parent.Body.ToString()})";
+                        first = false;
+                    }
+                    if (first)
+                    {
+                        detailText += "None";
+                    }
                     break;
             }
             return detailText;
@@ -306,8 +422,20 @@ namespace Observatory
         private double? GetEventValue(string eventName, ScanEvent scan)
         {
             double? result = 0;
+            string eventType = string.Empty;
+            string eventDetail = string.Empty;
 
-            switch (eventName.Split(':')[0].ToLower())
+            if (eventName.Split(':').Count() > 1)
+            {
+                eventType = eventName.Split(':')[0].ToLower();
+                eventDetail = string.Join(":", eventName.Split(':').Skip(1).ToArray()).ToLower();
+            }
+            else
+            {
+                eventType = eventName.ToLower();
+            }
+
+            switch (eventType)
             {
                 case "distancefromarrivalls":
                     result = scan.DistanceFromArrivalLs;
@@ -379,24 +507,121 @@ namespace Observatory
                     result = scan.WasMapped ? 1 : 0;
                     break;
                 case "planetclass":
-                    result = eventName.Split(':')[1].ToLower() == scan.PlanetClass?.ToLower() ? 1 : 0;
+                    result = eventDetail == scan.PlanetClass?.ToLower() ? 1 : 0;
+                    break;
+                case "reservelevel":
+                    switch (scan.ReserveLevel?.ToLower().Replace("resources", string.Empty))
+                    {
+                        case "depleted":
+                            result = 1;
+                            break;
+                        case "low":
+                            result = 2;
+                            break;
+                        case "common":
+                            result = 3;
+                            break;
+                        case "major":
+                            result = 4;
+                            break;
+                        case "pristine":
+                            result = 5;
+                            break;
+                    }
                     break;
                 case "rings":
                     result = scan.Rings?.Count();
                     break;
+                case "ring":
+                    if (scan.Rings?.Count() > 0)
+                    {
+                        string[] ringDetail = eventDetail.Split(':');
+
+                        if (ringDetail[0] == "count")
+                        {
+                            result = scan.Rings.Count();
+                        }
+                        else
+                        {
+                            int ringIndex = int.Parse(ringDetail[0]) - 1;
+
+                            if (scan.Rings.Count() > ringIndex)
+                            {
+                                switch (ringDetail[1])
+                                {
+                                    case "innerrad":
+                                        result = scan.Rings[ringIndex].InnerRad;
+                                        break;
+                                    case "outerrad":
+                                        result = scan.Rings[ringIndex].OuterRad;
+                                        break;
+                                    case "mass":
+                                        result = scan.Rings[ringIndex].MassMT;
+                                        break;
+                                    case "class":
+                                        switch (ringDetail[2])
+                                        {
+                                            case "icy":
+                                                result = scan.Rings[ringIndex].RingClass.ToLower() == "eringclass_icy" ? 1 : 0;
+                                                break;
+                                            case "metalrich":
+                                                result = scan.Rings[ringIndex].RingClass.ToLower() == "eringclass_metalrich" ? 1 : 0;
+                                                break;
+                                            case "metallic":
+                                                result = scan.Rings[ringIndex].RingClass.ToLower() == "eringclass_metalic" ? 1 : 0;
+                                                break;
+                                            case "rocky":
+                                                result = scan.Rings[ringIndex].RingClass.ToLower() == "eringclass_rocky" ? 1 : 0;
+                                                break;
+                                        }
+                                        break;
+                                }
+                            }
+                            else
+                            {
+                                result = null;
+                            }
+                        }
+                    }
+                    break;
                 case "parent":
                     if (scan.Parent?.Count() > 0 && (scan.Parent?[0].ParentType == "Planet" || scan.Parent?[0].ParentType == "Star") && scanHistory.ContainsKey((currentSystem, scan.Parent[0].Body)))
                     {
-                        result = GetEventValue(string.Join(":", eventName.Split(':').Skip(1).ToArray()), scanHistory[(currentSystem, scan.Parent[0].Body)]);
-                        parent = scanHistory[(currentSystem, scan.Parent[0].Body)];
+                        result = GetEventValue(eventDetail, scanHistory[(currentSystem, scan.Parent[0].Body)]);
                     }
                     else
                     {
                         result = null;
-                        parent = null;
                     }
-                        
-                        
+                    break;
+                case "atmospheretype":
+                    result = eventDetail == scan.AtmosphereType?.ToLower() ? 1 : 0;
+                    break;
+                case "atmospherecomposition":
+                    var atmosphereCompMatch = scan.AtmosphereComposition?.Where(atm => atm.Name.ToLower() == eventDetail);
+
+                    if (atmosphereCompMatch?.Count() > 0)
+                    {
+                        result = atmosphereCompMatch.First().Percent;
+                    }
+                    else
+                    {
+                        result = null;
+                    }
+                    break;
+                case "parenttype":
+                    if (scan.Parent?.Count() > 0 && int.TryParse(eventDetail.Split(':')[0], out int parentIndex) && scan.Parent.Count() >= parentIndex)
+                    {
+                   
+                        string parentType = eventDetail.Split(':')[1];
+
+                        result = scan.Parent[parentIndex - 1].ParentType.ToLower() == parentType ? 1 : 0;
+                   
+                    }
+                    else
+                    {
+                        result = null;
+                    }
                     break;
             }
 

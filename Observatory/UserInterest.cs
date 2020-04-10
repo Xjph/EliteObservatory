@@ -805,7 +805,7 @@ namespace Observatory
 			<Item>OrbitalPeriod</Item>
 		</Detail>
 	</Criteria>
-    <!-- -->
+    -->
 	
 	<!-- Example check for a body larger than half the size of its parent -->
 	<!-- Demonstrates use of parent event data -->
@@ -821,7 +821,7 @@ namespace Observatory
 			<Item>Parent:Radius</Item>
 		</Detail>
 	</Criteria>
-    <!-- -->
+    -->
 	
 	<!-- Example check for landable moon of an icy body with rings-->
 	<!-- Demonstrates logical criteria and ""none"" operation -->
@@ -843,7 +843,7 @@ namespace Observatory
 			<Item>Parent:Rings</Item>
 		</Detail>
 	</Criteria>
-    <!-- -->
+    -->
 	
 </ObservatoryCriteria>";
 

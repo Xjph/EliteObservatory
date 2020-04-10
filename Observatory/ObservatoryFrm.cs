@@ -21,10 +21,12 @@ namespace Observatory
         public bool settingsOpen = false;
         private CapiState capiState;
         private CompanionAPI cAPI;
+        private string lastSystem = string.Empty;
 
         public ObservatoryFrm()
         {
             InitializeComponent();
+            ExtendControl.DoubleBuffered(listEvent, true);
             Text = $"{Text} - v{Application.ProductVersion}";
             logMonitor = new LogMonitor();
             logMonitor.LogEntry += LogEvent;
@@ -129,6 +131,12 @@ namespace Observatory
                 }
                 else if (!logMonitor.ReadAllInProgress)
                 {
+
+                    if (Properties.Observatory.Default.AutoClearList && logMonitor.CurrentSystem != lastSystem)
+                    {
+                        listEvent.Items.Clear();
+                        lastSystem = logMonitor.CurrentSystem;
+                    }
 
                     ListViewItem newItem = new ListViewItem(new string[] { scan.Interest[0].BodyName, "Uninteresting", logMonitor.LastScan.Timestamp.ToString("yyyy-MM-dd HH:mm:ss"), string.Empty, string.Empty })
                     {
@@ -325,6 +333,20 @@ namespace Observatory
                 {
                     contextCopy.Show(Cursor.Position);
                     contextCopy.Items[0].Enabled = listEvent.SelectedItems.Count == 1;
+
+                    bool enableMark = false;
+                    foreach (ListViewItem item in listEvent.SelectedItems)
+                    {
+                        if (item.SubItems[1].Text == "Uninteresting")
+                        {
+                            enableMark = true;
+                            break;
+                        }
+                    }
+
+                    
+                    contextCopy.Items[3].Enabled = enableMark;
+                    
                 }
             }
         }
@@ -527,6 +549,23 @@ namespace Observatory
 
         public enum CapiState
         { Disabled, Enabled, InProgress }
+
+        private void MarkAsInterestingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach (ListViewItem item in listEvent.SelectedItems)
+            {
+
+                if (item.SubItems[1].Text == "Uninteresting")
+                {
+                    item.SubItems[1].Text = "Interesting";
+                    item.SubItems[3].Text = "Manually Marked As Interesting";
+                    item.SubItems[0].ForeColor = Color.Black;
+                    item.SubItems[1].ForeColor = Color.Black;
+                    item.SubItems[2].ForeColor = Color.Black;
+                }
+            }
+        }
+
 
     }
 }

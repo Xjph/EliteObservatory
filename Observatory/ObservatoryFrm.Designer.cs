@@ -44,6 +44,7 @@
             this.copyNameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyJournalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.markAsInterestingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.btnSettings = new System.Windows.Forms.Button();
             this.linkUpdate = new System.Windows.Forms.LinkLabel();
             this.btnClear = new System.Windows.Forms.Button();
@@ -144,30 +145,39 @@
             this.contextCopy.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.copyNameToolStripMenuItem,
             this.copyAllToolStripMenuItem,
-            this.copyJournalToolStripMenuItem});
+            this.copyJournalToolStripMenuItem,
+            this.markAsInterestingToolStripMenuItem});
             this.contextCopy.Name = "contextCopy";
-            this.contextCopy.Size = new System.Drawing.Size(144, 70);
+            this.contextCopy.Size = new System.Drawing.Size(175, 92);
             // 
             // copyNameToolStripMenuItem
             // 
             this.copyNameToolStripMenuItem.Name = "copyNameToolStripMenuItem";
-            this.copyNameToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.copyNameToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
             this.copyNameToolStripMenuItem.Text = "Copy Name";
             this.copyNameToolStripMenuItem.Click += new System.EventHandler(this.CopyNameToolStripMenuItem_Click);
             // 
             // copyAllToolStripMenuItem
             // 
             this.copyAllToolStripMenuItem.Name = "copyAllToolStripMenuItem";
-            this.copyAllToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.copyAllToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
             this.copyAllToolStripMenuItem.Text = "Copy All";
             this.copyAllToolStripMenuItem.Click += new System.EventHandler(this.CopyAllToolStripMenuItem_Click);
             // 
             // copyJournalToolStripMenuItem
             // 
             this.copyJournalToolStripMenuItem.Name = "copyJournalToolStripMenuItem";
-            this.copyJournalToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.copyJournalToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
             this.copyJournalToolStripMenuItem.Text = "Copy Journal";
             this.copyJournalToolStripMenuItem.Click += new System.EventHandler(this.CopyJournalToolStripMenuItem_Click);
+            // 
+            // markAsInterestingToolStripMenuItem
+            // 
+            this.markAsInterestingToolStripMenuItem.Enabled = false;
+            this.markAsInterestingToolStripMenuItem.Name = "markAsInterestingToolStripMenuItem";
+            this.markAsInterestingToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
+            this.markAsInterestingToolStripMenuItem.Text = "Mark as Interesting";
+            this.markAsInterestingToolStripMenuItem.Click += new System.EventHandler(this.MarkAsInterestingToolStripMenuItem_Click);
             // 
             // btnSettings
             // 
@@ -264,6 +274,7 @@
         private System.Windows.Forms.Button btnClear;
         private System.Windows.Forms.ToolStripMenuItem copyJournalToolStripMenuItem;
         private System.Windows.Forms.Label lblStatus;
+        private System.Windows.Forms.ToolStripMenuItem markAsInterestingToolStripMenuItem;
     }
 }
 

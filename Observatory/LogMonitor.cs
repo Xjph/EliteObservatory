@@ -65,6 +65,7 @@ namespace Observatory
             ReadAllComplete = false;
             CurrentSystem = string.Empty;
             JumponiumReported = false;
+            GoldSystemReported = false;
         }
 
         public void MonitorStart()
@@ -254,7 +255,7 @@ namespace Observatory
                                     LastScan.JournalEntry = logLine;
                                     if (!SystemBody.ContainsKey((CurrentSystem, LastScan.BodyId)))
                                     {
-                                        SystemBody[(CurrentSystem, LastScan.BodyId)] = LastScan;
+                                        AddBody(CurrentSystem, LastScan.BodyId, LastScan);
                                         LastScanValid = true;
                                     }
                                 }
@@ -331,9 +332,10 @@ namespace Observatory
                                 if (!scanEvent["BodyName"].ToString().Contains("Belt Cluster"))
                                 {
                                     ScanEvent scan = scanEvent.ToObject<ScanEvent>();
+                                    
                                     if (!SystemBody.ContainsKey((CurrentSystem, scan.BodyId)))
                                     {
-                                        SystemBody[(CurrentSystem, scan.BodyId)] = scan;
+                                        AddBody(CurrentSystem, scan.BodyId, scan);
                                     }
                                 }
                                 break;
@@ -345,6 +347,29 @@ namespace Observatory
                     }
                 }
             }
+        }
+
+        private void AddBody(string system, long bodyId, ScanEvent scan)
+        {
+
+            if (SystemBody.Count > 10000)
+            {
+                var entriesToRemove = new List<(string, long)>();
+
+                foreach (var entry in SystemBody.Where(entry => entry.Key.System != CurrentSystem))
+                {
+                    entriesToRemove.Add(entry.Key);
+                }
+
+                foreach (var entry in entriesToRemove)
+                {
+                    SystemBody.Remove(entry);
+                }
+
+            }
+
+            SystemBody[(system, bodyId)] = scan;
+            
         }
 
         //Frontier's codex name localisations are frequently lacking detail or otherwise unhelpful.

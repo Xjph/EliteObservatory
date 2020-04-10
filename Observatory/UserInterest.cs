@@ -88,8 +88,12 @@ namespace Observatory
                     {
                         if (CheckCriteria(criteria))
                         {
-                            interest.Add((scanEvent.BodyName, criteria.SelectSingleNode("Description").InnerText, BuildDetailString(criteria.SelectSingleNode("Detail"), scanEvent)));
-                            interestingBody = true;
+                            //I'm tired of people asking about the 50% size of parent sample
+                            if (criteria.SelectSingleNode("Description").InnerText != ">50% size of parent")
+                            {
+                                interest.Add((scanEvent.BodyName, criteria.SelectSingleNode("Description").InnerText, BuildDetailString(criteria.SelectSingleNode("Detail"), scanEvent)));
+                                interestingBody = true;
+                            }
                         }
                     }
                     catch (Exception ex)
@@ -211,7 +215,29 @@ namespace Observatory
                     detailText = $"Temperature: {scan.SurfaceTemperature.GetValueOrDefault(0):N0}K ";
                     break;
                 case "surfacepressure":
-                    detailText = $"Pressure: {scan.SurfacePressure.GetValueOrDefault(0) / 101325:N2}atm ";
+                    string prefix;
+                    double? pressure;
+                    if (scan.SurfacePressure >= 10000000000)
+                    {
+                        prefix = "G";
+                        pressure = scan.SurfacePressure / 1000000000;
+                    }
+                    else if (scan.SurfacePressure >= 10000000)
+                    {
+                        prefix = "M";
+                        pressure = scan.SurfacePressure / 1000000;
+                    }
+                    else if (scan.SurfacePressure >= 10000)
+                    {
+                        prefix = "k";
+                        pressure = scan.SurfacePressure / 1000;
+                    }
+                    else
+                    {
+                        prefix = string.Empty;
+                        pressure = scan.SurfacePressure;
+                    }
+                    detailText = $"Pressure: {pressure.GetValueOrDefault(0):N2}{prefix}Pa ";
                     break;
                 case "landable":
                     detailText = scan.Landable.GetValueOrDefault(false) ? "Landable " : "";
@@ -762,6 +788,7 @@ namespace Observatory
 
 	<!-- Example check for greater than 1 earth-mass and tidally locked -->
 	<!-- Demonstrates simple arithmetic on event values and use of detail items -->
+    <!--
 	<Criteria Comparator=""Greater"" Value=""0"">
 		<Operation Operator=""Multiply"">
 			<FirstValue Type=""Operation"">
@@ -778,23 +805,27 @@ namespace Observatory
 			<Item>OrbitalPeriod</Item>
 		</Detail>
 	</Criteria>
+    <!-- -->
 	
 	<!-- Example check for a body larger than half the size of its parent -->
 	<!-- Demonstrates use of parent event data -->
+    <!--
 	<Criteria Comparator=""Greater"" Value=""0.5"">
 		<Operation Operator=""Divide"">
 			<FirstValue Type=""EventData"">Radius</FirstValue>
 			<SecondValue Type=""EventData"">Parent:Radius</SecondValue>
 		</Operation>
-		<Description>>50% size of parent</Description>
+		<Description>Greater than 50% size of parent</Description>
 		<Detail>
 			<Item>Radius</Item>
 			<Item>Parent:Radius</Item>
 		</Detail>
 	</Criteria>
+    <!-- -->
 	
 	<!-- Example check for landable moon of an icy body with rings-->
 	<!-- Demonstrates logical criteria and ""none"" operation -->
+    <!--
 	<Criteria Comparator=""And"">
 		<Criteria Comparator=""Greater"" Value=""0"">
 			<Operation Operator=""Multiply"">
@@ -812,6 +843,7 @@ namespace Observatory
 			<Item>Parent:Rings</Item>
 		</Detail>
 	</Criteria>
+    <!-- -->
 	
 </ObservatoryCriteria>";
 

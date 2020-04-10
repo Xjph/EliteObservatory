@@ -55,6 +55,7 @@
             this.cbx_LandWithAtmo = new System.Windows.Forms.CheckBox();
             this.cbx_LandWithTerra = new System.Windows.Forms.CheckBox();
             this.groupBox_misc = new System.Windows.Forms.GroupBox();
+            this.cbxAutoClear = new System.Windows.Forms.CheckBox();
             this.btnEditCustom = new System.Windows.Forms.Button();
             this.cbxCapi = new System.Windows.Forms.CheckBox();
             this.cbxSendToIGAU = new System.Windows.Forms.CheckBox();
@@ -79,6 +80,7 @@
             this.lblTelegramBot = new System.Windows.Forms.Label();
             this.cbxTelegram = new System.Windows.Forms.CheckBox();
             this.linkDonate = new System.Windows.Forms.LinkLabel();
+            this.cbxSecondaryStar = new System.Windows.Forms.CheckBox();
             this.groupBox_Interest.SuspendLayout();
             this.groupBox_misc.SuspendLayout();
             this.groupBox_TTS.SuspendLayout();
@@ -88,6 +90,7 @@
             // 
             // groupBox_Interest
             // 
+            this.groupBox_Interest.Controls.Add(this.cbxSecondaryStar);
             this.groupBox_Interest.Controls.Add(this.cbxGold);
             this.groupBox_Interest.Controls.Add(this.btnSelectAll);
             this.groupBox_Interest.Controls.Add(this.btnSelectNone);
@@ -383,6 +386,7 @@
             // 
             // groupBox_misc
             // 
+            this.groupBox_misc.Controls.Add(this.cbxAutoClear);
             this.groupBox_misc.Controls.Add(this.btnEditCustom);
             this.groupBox_misc.Controls.Add(this.cbxCapi);
             this.groupBox_misc.Controls.Add(this.cbxSendToIGAU);
@@ -401,6 +405,17 @@
             this.groupBox_misc.TabStop = false;
             this.groupBox_misc.Text = "Misc.";
             // 
+            // cbxAutoClear
+            // 
+            this.cbxAutoClear.AutoSize = true;
+            this.cbxAutoClear.Location = new System.Drawing.Point(238, 92);
+            this.cbxAutoClear.Name = "cbxAutoClear";
+            this.cbxAutoClear.Size = new System.Drawing.Size(148, 17);
+            this.cbxAutoClear.TabIndex = 24;
+            this.cbxAutoClear.Text = "Clear List On New System";
+            this.cbxAutoClear.UseVisualStyleBackColor = true;
+            this.cbxAutoClear.CheckedChanged += new System.EventHandler(this.CbxAutoClear_CheckedChanged);
+            // 
             // btnEditCustom
             // 
             this.btnEditCustom.Location = new System.Drawing.Point(352, 65);
@@ -409,7 +424,7 @@
             this.btnEditCustom.TabIndex = 23;
             this.btnEditCustom.Text = "Edit";
             this.btnEditCustom.UseVisualStyleBackColor = true;
-            this.btnEditCustom.Click += new System.EventHandler(this.btnEditCustom_Click);
+            this.btnEditCustom.Click += new System.EventHandler(this.BtnEditCustom_Click);
             // 
             // cbxCapi
             // 
@@ -427,9 +442,9 @@
             this.cbxSendToIGAU.AutoSize = true;
             this.cbxSendToIGAU.Location = new System.Drawing.Point(6, 92);
             this.cbxSendToIGAU.Name = "cbxSendToIGAU";
-            this.cbxSendToIGAU.Size = new System.Drawing.Size(284, 17);
+            this.cbxSendToIGAU.Size = new System.Drawing.Size(198, 17);
             this.cbxSendToIGAU.TabIndex = 21;
-            this.cbxSendToIGAU.Text = "Transmit Codex Discoveries to IGAU discovery catalog";
+            this.cbxSendToIGAU.Text = "Transmit Codex Discoveries to IGAU";
             this.tipCopy.SetToolTip(this.cbxSendToIGAU, "https://raw.githubusercontent.com/Elite-IGAU/publications/master/IGAU_Codex.csv");
             this.cbxSendToIGAU.UseVisualStyleBackColor = true;
             this.cbxSendToIGAU.CheckedChanged += new System.EventHandler(this.CbxSendToIGAU_CheckedChanged);
@@ -651,6 +666,17 @@
             this.linkDonate.Text = "Donate";
             this.linkDonate.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkDonate_LinkClicked);
             // 
+            // cbxSecondaryStar
+            // 
+            this.cbxSecondaryStar.AutoSize = true;
+            this.cbxSecondaryStar.Location = new System.Drawing.Point(6, 272);
+            this.cbxSecondaryStar.Name = "cbxSecondaryStar";
+            this.cbxSecondaryStar.Size = new System.Drawing.Size(156, 17);
+            this.cbxSecondaryStar.TabIndex = 24;
+            this.cbxSecondaryStar.Text = "Uncommon Secondary Star";
+            this.cbxSecondaryStar.UseVisualStyleBackColor = true;
+            this.cbxSecondaryStar.CheckedChanged += new System.EventHandler(this.CbxSecondaryStar_CheckedChanged);
+            // 
             // SettingsFrm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -735,5 +761,7 @@
         private System.Windows.Forms.CheckBox cbxCapi;
         private System.Windows.Forms.Button btnEditCustom;
         private System.Windows.Forms.LinkLabel linkDonate;
+        private System.Windows.Forms.CheckBox cbxAutoClear;
+        private System.Windows.Forms.CheckBox cbxSecondaryStar;
     }
 }

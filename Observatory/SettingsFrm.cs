@@ -67,6 +67,8 @@ namespace Observatory
             cbxSendToIGAU.Checked = settings.SendToIGAU;
             cbxGold.Checked = settings.AllMaterialSystem;
             cbxCapi.Checked = settings.UseCapi;
+            cbxAutoClear.Checked = settings.AutoClearList;
+            cbxSecondaryStar.Checked = settings.SecondaryStars;
             Loading = false;
             BulkChangeInProgress = false;
         }
@@ -407,10 +409,22 @@ namespace Observatory
             System.Diagnostics.Process.Start("https://www.paypal.me/eliteobservatory");
         }
 
-        private void btnEditCustom_Click(object sender, EventArgs e)
+        private void BtnEditCustom_Click(object sender, EventArgs e)
         {
             var editForm = new frmCriteriaEdit();
             editForm.Show();
+        }
+
+        private void CbxAutoClear_CheckedChanged(object sender, EventArgs e)
+        {
+            settings.AutoClearList = ((CheckBox)sender).Checked;
+            Save();
+        }
+
+        private void CbxSecondaryStar_CheckedChanged(object sender, EventArgs e)
+        {
+            settings.SecondaryStars = ((CheckBox)sender).Checked;
+            Save();
         }
     }
 }

@@ -20,4 +20,13 @@ namespace Observatory
             Application.Run(new ObservatoryFrm());
         }
     }
+
+    static class ExtendControl
+    {
+        public static void DoubleBuffered(this Control control, bool enable)
+        {
+            var doubleBufferPropertyInfo = control.GetType().GetProperty("DoubleBuffered", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
+            doubleBufferPropertyInfo.SetValue(control, enable, null);
+        }
+    }
 }

@@ -502,5 +502,29 @@ namespace Observatory.Properties {
                 this["UseCapi"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool AutoClearList {
+            get {
+                return ((bool)(this["AutoClearList"]));
+            }
+            set {
+                this["AutoClearList"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool SecondaryStars {
+            get {
+                return ((bool)(this["SecondaryStars"]));
+            }
+            set {
+                this["SecondaryStars"] = value;
+            }
+        }
     }
 }

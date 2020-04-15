@@ -87,8 +87,9 @@ namespace Observatory
             {
                 if (capiState == CapiState.Enabled)
                 {
+                    
                     cAPI = new CompanionAPI();
-                    var capiTask = cAPI.GetJournals(this);
+                    var capiTask = cAPI.GetJournals(this, ModifierKeys == Keys.Shift);
 
                 }
                 else if (capiState == CapiState.InProgress)

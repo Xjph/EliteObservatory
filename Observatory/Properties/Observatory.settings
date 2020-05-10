@@ -128,5 +128,23 @@
     <Setting Name="SecondaryStars" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
+    <Setting Name="UseEDOverlay" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="EDONotificationX" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">50</Value>
+    </Setting>
+    <Setting Name="EDONotificationY" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">500</Value>
+    </Setting>
+    <Setting Name="EDONotificationTimeout" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">5</Value>
+    </Setting>
+    <Setting Name="EDOHeaderColor" Type="System.String" Scope="User">
+      <Value Profile="(Default)">#dd5500</Value>
+    </Setting>
+    <Setting Name="EDOBodyColor" Type="System.String" Scope="User">
+      <Value Profile="(Default)">#ffffff</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

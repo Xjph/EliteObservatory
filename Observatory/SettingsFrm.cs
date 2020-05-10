@@ -60,15 +60,23 @@ namespace Observatory
             cbxAutoMonitor.Checked = settings.AutoMonitor;
             cbxAutoRead.Checked = settings.AutoRead;
             cbxTelegram.Checked = settings.EnableTelegram;
+            cbxEDOverlay.Checked = settings.UseEDOverlay;
             ShowHideTelegram();
             txtTelegramAPIKey.Text = settings.TelegramAPIKey;
             txtTelegramChatId.Text = settings.TelegramChatId;
+            numEDONotificationX.Value = settings.EDONotificationX;
+            numEDONotificationY.Value = settings.EDONotificationY;
+            numEDOTimeout.Value = settings.EDONotificationTimeout;
             cbxCodex.Checked = settings.IncludeCodex;
             cbxSendToIGAU.Checked = settings.SendToIGAU;
             cbxGold.Checked = settings.AllMaterialSystem;
             cbxCapi.Checked = settings.UseCapi;
             cbxAutoClear.Checked = settings.AutoClearList;
             cbxSecondaryStar.Checked = settings.SecondaryStars;
+            btnEDOHeaderColor.BackColor = System.Drawing.ColorTranslator.FromHtml(settings.EDOHeaderColor);
+            cdlgEDOHeader.Color = btnEDOHeaderColor.BackColor;
+            btnEDOBodyColor.BackColor = System.Drawing.ColorTranslator.FromHtml(settings.EDOBodyColor);
+            cdlgEDOBody.Color = btnEDOBodyColor.BackColor;
             Loading = false;
             BulkChangeInProgress = false;
         }
@@ -172,6 +180,7 @@ namespace Observatory
         private void CbxToast_CheckedChanged(object sender, EventArgs e)
         {
             settings.Notify = ((CheckBox)sender).Checked;
+            ShowHideTelegram();
             Save();
             if (!Loading && settings.Notify)
             {
@@ -292,13 +301,29 @@ namespace Observatory
         private void ShowHideTelegram()
         {
             bool show = cbxTelegram.Checked;
+            bool toastEnabled = cbxToast.Checked;
+            bool showEDO = cbxEDOverlay.Checked & toastEnabled;
+
             btn_TestTelegram.Enabled = show;
             txtTelegramAPIKey.Visible = show;
             txtTelegramChatId.Visible = show;
             lblTelegramBot.Visible = show;
             lblTelegramChat.Visible = show;
             groupBox_telegram.Height = 45 + (show ? 1 : 0) * 50;
-            Height = 549 + (show ? 1 : 0) * 50;
+
+
+            groupBox_edoverlay.Visible = toastEnabled;
+            cbxEDOverlay.Visible = toastEnabled;
+            numEDONotificationX.Visible = showEDO;
+            numEDONotificationY.Visible = showEDO;
+            numEDOTimeout.Visible = showEDO;
+            lblEDONotificationPosX.Visible = showEDO;
+            lblEDONotificationPosY.Visible = showEDO;
+            lblEDOTimeout.Visible = showEDO;
+
+            groupBox_edoverlay.Top = 504 + (show ? 1 : 0) * 50;
+            groupBox_edoverlay.Height = 45 + (showEDO ? 1 : 0) * 55;
+            Height = 545 + (show ? 1 : 0) * 50 + 50*(toastEnabled ? 1: 0) + (showEDO ? 1 : 0) * 55;
         }
 
         private void TxtTelegramAPIKey_TextChanged(object sender, EventArgs e)
@@ -424,6 +449,52 @@ namespace Observatory
         private void CbxSecondaryStar_CheckedChanged(object sender, EventArgs e)
         {
             settings.SecondaryStars = ((CheckBox)sender).Checked;
+            Save();
+        }
+
+        private void cbxEDOverlay_CheckedChanged(object sender, EventArgs e)
+        {
+            settings.UseEDOverlay = ((CheckBox)sender).Checked;
+            ShowHideTelegram();
+            Save();
+        }
+
+        private void numEDONotificationX_ValueChanged(object sender, EventArgs e)
+        {
+            settings.EDONotificationX = Decimal.ToInt32(((NumericUpDown)sender).Value);
+            Save();
+        }
+
+        private void numEDONotificationY_ValueChanged(object sender, EventArgs e)
+        {
+            settings.EDONotificationY = Decimal.ToInt32(((NumericUpDown)sender).Value);
+            Save();
+        }
+
+        private void numEDOTimeout_ValueChanged(object sender, EventArgs e)
+        {
+            settings.EDONotificationTimeout = Decimal.ToInt32(((NumericUpDown)sender).Value);
+            Save();
+        }
+
+
+        private void btnEDOHeaderColor_Click(object sender, EventArgs e)
+        {
+            if (cdlgEDOHeader.ShowDialog() == DialogResult.Cancel)
+                return;
+
+            btnEDOHeaderColor.BackColor = cdlgEDOHeader.Color;
+            settings.EDOHeaderColor = System.Drawing.ColorTranslator.ToHtml(cdlgEDOHeader.Color);
+            Save();
+        }
+
+        private void btnEDOBodyColor_Click(object sender, EventArgs e)
+        {
+            if (cdlgEDOBody.ShowDialog() == DialogResult.Cancel)
+                return;
+
+            btnEDOBodyColor.BackColor = cdlgEDOBody.Color;
+            settings.EDOBodyColor = System.Drawing.ColorTranslator.ToHtml(cdlgEDOBody.Color);
             Save();
         }
     }

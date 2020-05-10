@@ -134,9 +134,9 @@
             // 
             this.progressReadAll.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.progressReadAll.Location = new System.Drawing.Point(14, 496);
+            this.progressReadAll.Location = new System.Drawing.Point(12, 496);
             this.progressReadAll.Name = "progressReadAll";
-            this.progressReadAll.Size = new System.Drawing.Size(683, 23);
+            this.progressReadAll.Size = new System.Drawing.Size(685, 23);
             this.progressReadAll.TabIndex = 4;
             this.progressReadAll.Visible = false;
             // 

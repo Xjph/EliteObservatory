@@ -30,6 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             this.groupBox_Interest = new System.Windows.Forms.GroupBox();
+            this.cbxSecondaryStar = new System.Windows.Forms.CheckBox();
             this.cbxGold = new System.Windows.Forms.CheckBox();
             this.btnSelectAll = new System.Windows.Forms.Button();
             this.btnSelectNone = new System.Windows.Forms.Button();
@@ -80,12 +81,29 @@
             this.lblTelegramBot = new System.Windows.Forms.Label();
             this.cbxTelegram = new System.Windows.Forms.CheckBox();
             this.linkDonate = new System.Windows.Forms.LinkLabel();
-            this.cbxSecondaryStar = new System.Windows.Forms.CheckBox();
+            this.groupBox_edoverlay = new System.Windows.Forms.GroupBox();
+            this.lblEDOBody = new System.Windows.Forms.Label();
+            this.lblEDOHeader = new System.Windows.Forms.Label();
+            this.btnEDOBodyColor = new System.Windows.Forms.Button();
+            this.btnEDOHeaderColor = new System.Windows.Forms.Button();
+            this.numEDOTimeout = new System.Windows.Forms.NumericUpDown();
+            this.numEDONotificationY = new System.Windows.Forms.NumericUpDown();
+            this.numEDONotificationX = new System.Windows.Forms.NumericUpDown();
+            this.lblEDOTimeout = new System.Windows.Forms.Label();
+            this.lblEDONotificationPosY = new System.Windows.Forms.Label();
+            this.lblEDONotificationPosX = new System.Windows.Forms.Label();
+            this.cbxEDOverlay = new System.Windows.Forms.CheckBox();
+            this.cdlgEDOHeader = new System.Windows.Forms.ColorDialog();
+            this.cdlgEDOBody = new System.Windows.Forms.ColorDialog();
             this.groupBox_Interest.SuspendLayout();
             this.groupBox_misc.SuspendLayout();
             this.groupBox_TTS.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_Volume)).BeginInit();
             this.groupBox_telegram.SuspendLayout();
+            this.groupBox_edoverlay.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numEDOTimeout)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numEDONotificationY)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numEDONotificationX)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox_Interest
@@ -121,6 +139,17 @@
             this.groupBox_Interest.TabIndex = 0;
             this.groupBox_Interest.TabStop = false;
             this.groupBox_Interest.Text = "Interest Criteria";
+            // 
+            // cbxSecondaryStar
+            // 
+            this.cbxSecondaryStar.AutoSize = true;
+            this.cbxSecondaryStar.Location = new System.Drawing.Point(6, 272);
+            this.cbxSecondaryStar.Name = "cbxSecondaryStar";
+            this.cbxSecondaryStar.Size = new System.Drawing.Size(156, 17);
+            this.cbxSecondaryStar.TabIndex = 24;
+            this.cbxSecondaryStar.Text = "Uncommon Secondary Star";
+            this.cbxSecondaryStar.UseVisualStyleBackColor = true;
+            this.cbxSecondaryStar.CheckedChanged += new System.EventHandler(this.CbxSecondaryStar_CheckedChanged);
             // 
             // cbxGold
             // 
@@ -595,14 +624,14 @@
             this.groupBox_telegram.Controls.Add(this.cbxTelegram);
             this.groupBox_telegram.Location = new System.Drawing.Point(14, 453);
             this.groupBox_telegram.Name = "groupBox_telegram";
-            this.groupBox_telegram.Size = new System.Drawing.Size(339, 95);
+            this.groupBox_telegram.Size = new System.Drawing.Size(329, 95);
             this.groupBox_telegram.TabIndex = 4;
             this.groupBox_telegram.TabStop = false;
             this.groupBox_telegram.Text = "Telegram";
             // 
             // btn_TestTelegram
             // 
-            this.btn_TestTelegram.Location = new System.Drawing.Point(289, 15);
+            this.btn_TestTelegram.Location = new System.Drawing.Point(279, 15);
             this.btn_TestTelegram.Name = "btn_TestTelegram";
             this.btn_TestTelegram.Size = new System.Drawing.Size(41, 21);
             this.btn_TestTelegram.TabIndex = 5;
@@ -666,22 +695,148 @@
             this.linkDonate.Text = "Donate";
             this.linkDonate.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkDonate_LinkClicked);
             // 
-            // cbxSecondaryStar
+            // groupBox_edoverlay
             // 
-            this.cbxSecondaryStar.AutoSize = true;
-            this.cbxSecondaryStar.Location = new System.Drawing.Point(6, 272);
-            this.cbxSecondaryStar.Name = "cbxSecondaryStar";
-            this.cbxSecondaryStar.Size = new System.Drawing.Size(156, 17);
-            this.cbxSecondaryStar.TabIndex = 24;
-            this.cbxSecondaryStar.Text = "Uncommon Secondary Star";
-            this.cbxSecondaryStar.UseVisualStyleBackColor = true;
-            this.cbxSecondaryStar.CheckedChanged += new System.EventHandler(this.CbxSecondaryStar_CheckedChanged);
+            this.groupBox_edoverlay.Controls.Add(this.lblEDOBody);
+            this.groupBox_edoverlay.Controls.Add(this.lblEDOHeader);
+            this.groupBox_edoverlay.Controls.Add(this.btnEDOBodyColor);
+            this.groupBox_edoverlay.Controls.Add(this.btnEDOHeaderColor);
+            this.groupBox_edoverlay.Controls.Add(this.numEDOTimeout);
+            this.groupBox_edoverlay.Controls.Add(this.numEDONotificationY);
+            this.groupBox_edoverlay.Controls.Add(this.numEDONotificationX);
+            this.groupBox_edoverlay.Controls.Add(this.lblEDOTimeout);
+            this.groupBox_edoverlay.Controls.Add(this.lblEDONotificationPosY);
+            this.groupBox_edoverlay.Controls.Add(this.lblEDONotificationPosX);
+            this.groupBox_edoverlay.Controls.Add(this.cbxEDOverlay);
+            this.groupBox_edoverlay.Location = new System.Drawing.Point(14, 554);
+            this.groupBox_edoverlay.Name = "groupBox_edoverlay";
+            this.groupBox_edoverlay.Size = new System.Drawing.Size(330, 100);
+            this.groupBox_edoverlay.TabIndex = 6;
+            this.groupBox_edoverlay.TabStop = false;
+            this.groupBox_edoverlay.Text = "EDOverlay";
+            // 
+            // lblEDOBody
+            // 
+            this.lblEDOBody.AutoSize = true;
+            this.lblEDOBody.Location = new System.Drawing.Point(259, 74);
+            this.lblEDOBody.Name = "lblEDOBody";
+            this.lblEDOBody.Size = new System.Drawing.Size(34, 13);
+            this.lblEDOBody.TabIndex = 13;
+            this.lblEDOBody.Text = "Body:";
+            // 
+            // lblEDOHeader
+            // 
+            this.lblEDOHeader.AutoSize = true;
+            this.lblEDOHeader.Location = new System.Drawing.Point(174, 74);
+            this.lblEDOHeader.Name = "lblEDOHeader";
+            this.lblEDOHeader.Size = new System.Drawing.Size(45, 13);
+            this.lblEDOHeader.TabIndex = 12;
+            this.lblEDOHeader.Text = "Header:";
+            // 
+            // btnEDOBodyColor
+            // 
+            this.btnEDOBodyColor.Location = new System.Drawing.Point(299, 68);
+            this.btnEDOBodyColor.Name = "btnEDOBodyColor";
+            this.btnEDOBodyColor.Size = new System.Drawing.Size(25, 23);
+            this.btnEDOBodyColor.TabIndex = 11;
+            this.btnEDOBodyColor.UseVisualStyleBackColor = true;
+            this.btnEDOBodyColor.Click += new System.EventHandler(this.btnEDOBodyColor_Click);
+            // 
+            // btnEDOHeaderColor
+            // 
+            this.btnEDOHeaderColor.Location = new System.Drawing.Point(225, 68);
+            this.btnEDOHeaderColor.Name = "btnEDOHeaderColor";
+            this.btnEDOHeaderColor.Size = new System.Drawing.Size(25, 23);
+            this.btnEDOHeaderColor.TabIndex = 10;
+            this.btnEDOHeaderColor.UseVisualStyleBackColor = true;
+            this.btnEDOHeaderColor.Click += new System.EventHandler(this.btnEDOHeaderColor_Click);
+            // 
+            // numEDOTimeout
+            // 
+            this.numEDOTimeout.Location = new System.Drawing.Point(90, 72);
+            this.numEDOTimeout.Name = "numEDOTimeout";
+            this.numEDOTimeout.Size = new System.Drawing.Size(70, 20);
+            this.numEDOTimeout.TabIndex = 9;
+            this.numEDOTimeout.ValueChanged += new System.EventHandler(this.numEDOTimeout_ValueChanged);
+            // 
+            // numEDONotificationY
+            // 
+            this.numEDONotificationY.Location = new System.Drawing.Point(246, 42);
+            this.numEDONotificationY.Maximum = new decimal(new int[] {
+            1024,
+            0,
+            0,
+            0});
+            this.numEDONotificationY.Name = "numEDONotificationY";
+            this.numEDONotificationY.Size = new System.Drawing.Size(78, 20);
+            this.numEDONotificationY.TabIndex = 8;
+            this.numEDONotificationY.ValueChanged += new System.EventHandler(this.numEDONotificationY_ValueChanged);
+            // 
+            // numEDONotificationX
+            // 
+            this.numEDONotificationX.Location = new System.Drawing.Point(131, 42);
+            this.numEDONotificationX.Maximum = new decimal(new int[] {
+            1280,
+            0,
+            0,
+            0});
+            this.numEDONotificationX.Name = "numEDONotificationX";
+            this.numEDONotificationX.Size = new System.Drawing.Size(75, 20);
+            this.numEDONotificationX.TabIndex = 7;
+            this.numEDONotificationX.ValueChanged += new System.EventHandler(this.numEDONotificationX_ValueChanged);
+            // 
+            // lblEDOTimeout
+            // 
+            this.lblEDOTimeout.AutoSize = true;
+            this.lblEDOTimeout.Location = new System.Drawing.Point(10, 74);
+            this.lblEDOTimeout.Name = "lblEDOTimeout";
+            this.lblEDOTimeout.Size = new System.Drawing.Size(74, 13);
+            this.lblEDOTimeout.TabIndex = 5;
+            this.lblEDOTimeout.Text = "Timeout, sec.:";
+            // 
+            // lblEDONotificationPosY
+            // 
+            this.lblEDONotificationPosY.AutoSize = true;
+            this.lblEDONotificationPosY.Location = new System.Drawing.Point(223, 44);
+            this.lblEDONotificationPosY.Name = "lblEDONotificationPosY";
+            this.lblEDONotificationPosY.Size = new System.Drawing.Size(17, 13);
+            this.lblEDONotificationPosY.TabIndex = 3;
+            this.lblEDONotificationPosY.Text = "Y:";
+            // 
+            // lblEDONotificationPosX
+            // 
+            this.lblEDONotificationPosX.AutoSize = true;
+            this.lblEDONotificationPosX.Location = new System.Drawing.Point(10, 44);
+            this.lblEDONotificationPosX.Name = "lblEDONotificationPosX";
+            this.lblEDONotificationPosX.Size = new System.Drawing.Size(115, 13);
+            this.lblEDONotificationPosX.TabIndex = 1;
+            this.lblEDONotificationPosX.Text = "Notification position, X:";
+            // 
+            // cbxEDOverlay
+            // 
+            this.cbxEDOverlay.AutoSize = true;
+            this.cbxEDOverlay.Location = new System.Drawing.Point(7, 19);
+            this.cbxEDOverlay.Name = "cbxEDOverlay";
+            this.cbxEDOverlay.Size = new System.Drawing.Size(148, 17);
+            this.cbxEDOverlay.TabIndex = 0;
+            this.cbxEDOverlay.Text = "Use EDOverlay if possible";
+            this.cbxEDOverlay.UseVisualStyleBackColor = true;
+            this.cbxEDOverlay.CheckedChanged += new System.EventHandler(this.cbxEDOverlay_CheckedChanged);
+            // 
+            // cdlgEDOHeader
+            // 
+            this.cdlgEDOHeader.FullOpen = true;
+            // 
+            // cdlgEDOBody
+            // 
+            this.cdlgEDOBody.FullOpen = true;
             // 
             // SettingsFrm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(429, 560);
+            this.ClientSize = new System.Drawing.Size(429, 661);
+            this.Controls.Add(this.groupBox_edoverlay);
             this.Controls.Add(this.linkDonate);
             this.Controls.Add(this.groupBox_telegram);
             this.Controls.Add(this.linkGit);
@@ -704,6 +859,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_Volume)).EndInit();
             this.groupBox_telegram.ResumeLayout(false);
             this.groupBox_telegram.PerformLayout();
+            this.groupBox_edoverlay.ResumeLayout(false);
+            this.groupBox_edoverlay.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numEDOTimeout)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numEDONotificationY)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numEDONotificationX)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -763,5 +923,19 @@
         private System.Windows.Forms.LinkLabel linkDonate;
         private System.Windows.Forms.CheckBox cbxAutoClear;
         private System.Windows.Forms.CheckBox cbxSecondaryStar;
+        private System.Windows.Forms.GroupBox groupBox_edoverlay;
+        private System.Windows.Forms.Label lblEDOTimeout;
+        private System.Windows.Forms.Label lblEDONotificationPosY;
+        private System.Windows.Forms.Label lblEDONotificationPosX;
+        private System.Windows.Forms.CheckBox cbxEDOverlay;
+        private System.Windows.Forms.NumericUpDown numEDONotificationX;
+        private System.Windows.Forms.NumericUpDown numEDOTimeout;
+        private System.Windows.Forms.NumericUpDown numEDONotificationY;
+        private System.Windows.Forms.ColorDialog cdlgEDOHeader;
+        private System.Windows.Forms.Button btnEDOHeaderColor;
+        private System.Windows.Forms.Label lblEDOBody;
+        private System.Windows.Forms.Label lblEDOHeader;
+        private System.Windows.Forms.Button btnEDOBodyColor;
+        private System.Windows.Forms.ColorDialog cdlgEDOBody;
     }
 }

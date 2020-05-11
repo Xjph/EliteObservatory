@@ -91,6 +91,7 @@
     <Compile Include="EDOverlay.cs" />
     <Compile Include="HttpClient.cs" />
     <Compile Include="JournalPoker.cs" />
+    <Compile Include="ManagedIPHelper.cs" />
     <Compile Include="Materials.cs" />
     <Compile Include="NotifyFrm.cs">
       <SubType>Form</SubType>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
 using Newtonsoft.Json;
@@ -14,46 +15,65 @@ namespace Observatory
         private string headerId = "obsHeader";
         private string bodyId = "obsBody";
 
-        private bool ConnectOverlay()
+        private IPEndPoint GetOverlayEndPoint()
         {
-            bool result = true;
-            try
+            IPEndPoint result = null;
+            Process[] overlay = Process.GetProcessesByName("EDMCOverlay");
+            if (overlay.Length == 0 )
             {
-                sock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                try
+                return result;
+            }
+
+            foreach (TcpRow tcpRow in ManagedIpHelper.GetExtendedTcpTable(true))
+            {
+                foreach (Process overlayProc in overlay)
                 {
-                    TcpListener listener = new TcpListener(new IPAddress(new byte [] {127, 0, 0, 1}), 5010);
-                    listener.Start();
-                    listener.Stop();
-                    result = false;
-                }
-                catch (ArgumentNullException ane)
-                {
-                    Console.WriteLine("ArgumentNullException : {0}", ane.ToString());
-                }
-                catch (SocketException se)
-                {
-                    Console.WriteLine("SocketException : {0}", se.ToString());
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("Unexpected exception : {0}", e.ToString());
-                }
-                finally
-                {
-                    if (result)
+                    if (overlayProc.Id == tcpRow.ProcessId)
                     {
-                        sock.Connect("localhost", 5010);
-                        sock.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.NoDelay, true);
-                        Console.WriteLine("Socket connected to {0}",
-                            sock.RemoteEndPoint.ToString());
+                        result = tcpRow.LocalEndPoint;
+                        break;
                     }
                 }
 
+                if (result != null)
+                {
+                    break;
+                }
+            }
+
+            return result;
+        }
+
+        private bool ConnectOverlay()
+        {
+            bool result = false;
+            IPEndPoint overlayEndPoint = GetOverlayEndPoint();
+            if (overlayEndPoint == null)
+            {
+                return false;
+            }
+
+            sock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            try
+            {
+                sock.Connect(overlayEndPoint);
+                sock.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.NoDelay, true);
+                Console.WriteLine("Socket connected to {0}",
+                    overlayEndPoint.ToString());
+
+                result = true;
+            }
+            catch (ArgumentNullException ane)
+            {
+                Console.WriteLine("ArgumentNullException : {0}", ane.ToString());
+            }
+            catch (SocketException se)
+            {
+                Console.WriteLine("SocketException : {0}", se.ToString());
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.ToString());
+                Console.WriteLine("Unexpected exception : {0}", e.ToString());
             }
 
             return result;

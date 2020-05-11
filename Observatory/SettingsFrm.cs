@@ -457,6 +457,11 @@ namespace Observatory
             settings.UseEDOverlay = ((CheckBox)sender).Checked;
             ShowHideTelegram();
             Save();
+            if (!Loading && settings.UseEDOverlay)
+            {
+                EDOverlay overlay = new EDOverlay();
+                overlay.Send("Observatory notifications", "Notifications enabled!");
+            }
         }
 
         private void numEDONotificationX_ValueChanged(object sender, EventArgs e)

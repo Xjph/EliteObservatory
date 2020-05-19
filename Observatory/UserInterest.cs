@@ -746,6 +746,9 @@ namespace Observatory
 			Rings
 			PlanetClass:{Class Name}
 			Parent:{Parent Body Event Data}
+            AtmosphereType:{Type}
+		    AtmosphereComposition:{Element}
+		    ParentType:{n}:{Type}
 			
 		TerraformState, Atmosphere, and Volcanism return a simple 1 or 0 if they
 		are populated, there is not currently a means to check for specific atmosphere
@@ -765,8 +768,21 @@ namespace Observatory
 		NOTE: Parent data is only available if the parent is scanned before the child
 		body. Checks that rely on parent data will fail to trigger if child bodies
 		are scanned first.
-		
-	Element: Description
+
+        AtmosphereType returns 1 if the type scanned matches the type provided, otherwise
+	    returns 0, e.g., ""AtmosphereType: CarbonDioxide"".
+
+
+        AtmosphereComposition gets the percentage amount of the specified element, e.g.,
+	    ""AtmosphereCompsotion:Argon"".
+
+
+        ParentType checks the nth parent body type against the type specificed(options
+
+        ""Planet"", ""Star"", and ""Null"") and returns 1 for a match, or 0 otherwise, e.g.,
+        ""ParentType:1:Planet"".
+
+    Element: Description
 		Contains simple text which is displayed in Observatory's description column.
 		
 	Element: Detail

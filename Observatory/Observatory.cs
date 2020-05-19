@@ -19,6 +19,11 @@ namespace Observatory
             System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
             Application.Run(new ObservatoryFrm());
         }
+
+        public static void Log(string text)
+        {
+            System.IO.File.AppendAllText($"{Application.ExecutablePath}.log", text + "\r\n");
+        }
     }
 
     static class ExtendControl

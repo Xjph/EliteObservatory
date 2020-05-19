@@ -50,6 +50,7 @@ namespace Observatory
             IPEndPoint overlayEndPoint = GetOverlayEndPoint();
             if (overlayEndPoint == null)
             {
+                Log("EDOverlay plugin not listening. Aborting.");
                 return false;
             }
 
@@ -58,22 +59,21 @@ namespace Observatory
             {
                 sock.Connect(overlayEndPoint);
                 sock.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.NoDelay, true);
-                Console.WriteLine("Socket connected to {0}",
-                    overlayEndPoint.ToString());
+                Log($"Socket connected to {overlayEndPoint}");
 
                 result = true;
             }
             catch (ArgumentNullException ane)
             {
-                Console.WriteLine("ArgumentNullException : {0}", ane.ToString());
+                Log($"ArgumentNullException : {ane}");
             }
             catch (SocketException se)
             {
-                Console.WriteLine("SocketException : {0}", se.ToString());
+                Log($"SocketException : {se}");
             }
             catch (Exception e)
             {
-                Console.WriteLine("Unexpected exception : {0}", e.ToString());
+                Log($"Unexpected exception : {e}");
             }
 
             return result;
@@ -88,7 +88,7 @@ namespace Observatory
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e.ToString());
+                    Log(e.ToString());
                 }
                 sock = null;
             }
@@ -128,21 +128,29 @@ namespace Observatory
                     });
                 try
                 {
-                    Console.WriteLine(headerData.ToString(Formatting.None));
-                    Console.WriteLine(bodyData.ToString(Formatting.None));
+                    Log(headerData.ToString(Formatting.None));
+                    Log(bodyData.ToString(Formatting.None));
                     int i = sock.Send(System.Text.Encoding.UTF8.GetBytes(headerData.ToString(Formatting.None) + '\n'));
-                    Console.WriteLine("Sent {0} bytes.", i);
+                    Log($"Sent {i} bytes.");
                     i = sock.Send(System.Text.Encoding.UTF8.GetBytes(bodyData.ToString(Formatting.None)+ '\n'));
-                    Console.WriteLine("Sent {0} bytes.", i);
+                    Log($"Sent {i} bytes.");
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e.ToString());
+                    Log(e.ToString());
                     socketReady = false;
                 }
             }
 
             return socketReady;
+        }
+
+        private void Log(string text)
+        {
+            if (settings.EDODebug)
+            {
+                Observatory.Log("Overlay> " + text);
+            }
         }
     }
 }

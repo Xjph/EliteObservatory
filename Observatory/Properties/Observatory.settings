@@ -146,5 +146,8 @@
     <Setting Name="EDOBodyColor" Type="System.String" Scope="User">
       <Value Profile="(Default)">#ffffff</Value>
     </Setting>
+    <Setting Name="EDODebug" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

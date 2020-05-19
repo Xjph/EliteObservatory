@@ -77,6 +77,7 @@ namespace Observatory
             cdlgEDOHeader.Color = btnEDOHeaderColor.BackColor;
             btnEDOBodyColor.BackColor = System.Drawing.ColorTranslator.FromHtml(settings.EDOBodyColor);
             cdlgEDOBody.Color = btnEDOBodyColor.BackColor;
+            cbxEDODebug.Checked = settings.EDODebug;
             Loading = false;
             BulkChangeInProgress = false;
         }
@@ -500,6 +501,12 @@ namespace Observatory
 
             btnEDOBodyColor.BackColor = cdlgEDOBody.Color;
             settings.EDOBodyColor = System.Drawing.ColorTranslator.ToHtml(cdlgEDOBody.Color);
+            Save();
+        }
+
+        private void cbxEDODebug_CheckedChanged(object sender, EventArgs e)
+        {
+            settings.EDODebug = ((CheckBox)sender).Checked;
             Save();
         }
     }

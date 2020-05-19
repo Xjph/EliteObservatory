@@ -82,6 +82,7 @@
             this.cbxTelegram = new System.Windows.Forms.CheckBox();
             this.linkDonate = new System.Windows.Forms.LinkLabel();
             this.groupBox_edoverlay = new System.Windows.Forms.GroupBox();
+            this.cbxEDODebug = new System.Windows.Forms.CheckBox();
             this.lblEDOBody = new System.Windows.Forms.Label();
             this.lblEDOHeader = new System.Windows.Forms.Label();
             this.btnEDOBodyColor = new System.Windows.Forms.Button();
@@ -697,6 +698,7 @@
             // 
             // groupBox_edoverlay
             // 
+            this.groupBox_edoverlay.Controls.Add(this.cbxEDODebug);
             this.groupBox_edoverlay.Controls.Add(this.lblEDOBody);
             this.groupBox_edoverlay.Controls.Add(this.lblEDOHeader);
             this.groupBox_edoverlay.Controls.Add(this.btnEDOBodyColor);
@@ -714,6 +716,17 @@
             this.groupBox_edoverlay.TabIndex = 6;
             this.groupBox_edoverlay.TabStop = false;
             this.groupBox_edoverlay.Text = "EDOverlay";
+            // 
+            // cbxEDODebug
+            // 
+            this.cbxEDODebug.AutoSize = true;
+            this.cbxEDODebug.Location = new System.Drawing.Point(164, 19);
+            this.cbxEDODebug.Name = "cbxEDODebug";
+            this.cbxEDODebug.Size = new System.Drawing.Size(99, 17);
+            this.cbxEDODebug.TabIndex = 14;
+            this.cbxEDODebug.Text = "Debug Logging";
+            this.cbxEDODebug.UseVisualStyleBackColor = true;
+            this.cbxEDODebug.CheckedChanged += new System.EventHandler(this.cbxEDODebug_CheckedChanged);
             // 
             // lblEDOBody
             // 
@@ -937,5 +950,6 @@
         private System.Windows.Forms.Label lblEDOHeader;
         private System.Windows.Forms.Button btnEDOBodyColor;
         private System.Windows.Forms.ColorDialog cdlgEDOBody;
+        private System.Windows.Forms.CheckBox cbxEDODebug;
     }
 }

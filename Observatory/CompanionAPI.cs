@@ -162,7 +162,7 @@ namespace Observatory
         {
             if (logging)
             {
-                File.AppendAllText($"{path}\\Observatory-cAPI.log", text + "\r\n");
+                Observatory.Log("cAPI> " + text);
             }
         }
     }

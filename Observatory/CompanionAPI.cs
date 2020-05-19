@@ -22,6 +22,7 @@ namespace Observatory
             const string apiEndpoint = "https://companion.orerve.net/";
             retrieve = true;
             uint gap = 0;
+            uint failCount = 0;
             bool firstFile = true;
             bool checkContinue = true;
             var journalItems = new List<JObject>();
@@ -33,7 +34,7 @@ namespace Observatory
             Log("Beginning journal retrieval.");
             Log("Journal path: " + path);
             Log($"Current Frontier authentication token (partial): {auth.GetToken().Substring(0, 8)}...{auth.GetToken().Substring(auth.GetToken().Length - 8, 8)}");
-            while (retrieve)
+            while (retrieve && failCount < 3)
             {
                 mainForm.SetStatusText("Requesting journal for: " + date.ToString("yyyy-MM-dd"));
                 mainForm.CheckCapi(ObservatoryFrm.CapiState.InProgress);
@@ -95,8 +96,9 @@ namespace Observatory
                         gap = 0;
                         Log("Journal write complete.");
                     }
-                    else if (response.StatusCode == HttpStatusCode.Unauthorized)
+                    else if (response.StatusCode == HttpStatusCode.Unauthorized || response.StatusCode == HttpStatusCode.InternalServerError)
                     {
+                        failCount++;
                         Log("Frontier authentication expired or invalid, reauthenticating.");
                         string newToken = auth.GetNewToken();
                         Properties.Observatory.Default.FrontierToken = newToken;

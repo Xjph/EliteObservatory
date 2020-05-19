@@ -22,6 +22,7 @@ namespace Observatory
         private CapiState capiState;
         private CompanionAPI cAPI;
         private string lastSystem = string.Empty;
+        private EDOverlay overlay;
 
         public ObservatoryFrm()
         {
@@ -35,6 +36,7 @@ namespace Observatory
             listEvent.ListViewItemSorter = columnSorter;
             capiState = Properties.Observatory.Default.UseCapi ? CapiState.Enabled : CapiState.Disabled;
             CheckCapi(capiState);
+            overlay = new EDOverlay();
 
             if (Properties.Observatory.Default.TTS)
             {
@@ -209,8 +211,11 @@ namespace Observatory
 
                 if (Properties.Observatory.Default.Notify)
                 {
-                    NotifyFrm notifyFrm = new NotifyFrm(fullBodyName + "\r\n" + announceText.ToString());
-                    notifyFrm.Show(5000);
+                    if (!Properties.Observatory.Default.UseEDOverlay || !overlay.Send(fullBodyName, announceText.ToString()))
+                    {
+                        NotifyFrm notifyFrm = new NotifyFrm(fullBodyName + "\r\n" + announceText.ToString());
+                        notifyFrm.Show(5000);
+                    }
                 }
 
                 if (Properties.Observatory.Default.TTS)
@@ -445,6 +450,7 @@ namespace Observatory
             Properties.Observatory.Default.WindowLocation = Location;
             Properties.Observatory.Default.Save();
             speech?.Dispose();
+            overlay?.Close();
         }
 
         private void ListEvent_ColumnClick(object sender, ColumnClickEventArgs e)

@@ -29,6 +29,7 @@
     <ApplicationVersion>0.1.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -87,8 +88,10 @@
     <Compile Include="CriteriaEdit.Designer.cs">
       <DependentUpon>CriteriaEdit.cs</DependentUpon>
     </Compile>
+    <Compile Include="EDOverlay.cs" />
     <Compile Include="HttpClient.cs" />
     <Compile Include="JournalPoker.cs" />
+    <Compile Include="ManagedIPHelper.cs" />
     <Compile Include="Materials.cs" />
     <Compile Include="NotifyFrm.cs">
       <SubType>Form</SubType>
@@ -152,6 +155,7 @@
     </Compile>
     <EmbeddedResource Include="SettingsFrm.resx">
       <DependentUpon>SettingsFrm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="ILMergeConfig.json" />
     <None Include="Observatory License.rtf" />

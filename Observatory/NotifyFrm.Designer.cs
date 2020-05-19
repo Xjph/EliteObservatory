@@ -44,11 +44,10 @@
             // 
             // lblText
             // 
-            this.lblText.AutoSize = true;
             this.lblText.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblText.Location = new System.Drawing.Point(60, 5);
             this.lblText.Name = "lblText";
-            this.lblText.Size = new System.Drawing.Size(102, 17);
+            this.lblText.Size = new System.Drawing.Size(235, 52);
             this.lblText.TabIndex = 1;
             this.lblText.Text = "Notification Text";
             // 
@@ -68,7 +67,6 @@
             this.Text = "NotifyFrm";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Observatory)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 

@@ -26,6 +26,14 @@ namespace Observatory
         public NotifyFrm(string text)
         {
             InitializeComponent();
+
+            int textHeight = GetTextHeight(text, lblText);
+            if (textHeight > lblText.Height)
+            {
+                int heightChange = textHeight - lblText.Height;
+                Height += heightChange;
+                lblText.Height = textHeight;
+            }
             lblText.Text = text;
             pictureBox_Observatory.Image = Icon.ExtractAssociatedIcon(Application.ExecutablePath).ToBitmap();
             StartPosition = FormStartPosition.Manual;
@@ -40,6 +48,19 @@ namespace Observatory
             timer.Interval = timeout;
             timer.Start();
             Show();
+        }
+
+        private int GetTextHeight(string text, Label lbl)
+        {
+            int textHeight;
+
+            using (Graphics g = CreateGraphics())
+            {
+                SizeF size = g.MeasureString(text, lbl.Font, lbl.Width);
+                textHeight = (int)System.Math.Ceiling(size.Height);
+            }
+
+            return textHeight;
         }
     }
 }

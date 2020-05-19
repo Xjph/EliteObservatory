@@ -446,9 +446,6 @@ namespace Observatory
 
         private void ObservatoryFrm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Properties.Observatory.Default.WindowSize = Size;
-            Properties.Observatory.Default.WindowLocation = Location;
-            Properties.Observatory.Default.Save();
             speech?.Dispose();
             overlay?.Close();
         }
@@ -573,6 +570,11 @@ namespace Observatory
             }
         }
 
-
+        private void ObservatoryFrm_ResizeEnd(object sender, EventArgs e)
+        {
+            Properties.Observatory.Default.WindowSize = Size;
+            Properties.Observatory.Default.WindowLocation = Location;
+            Properties.Observatory.Default.Save();
+        }
     }
 }

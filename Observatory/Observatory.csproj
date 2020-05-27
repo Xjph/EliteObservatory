@@ -57,6 +57,12 @@
     <ApplicationIcon>EOIcon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AODL, Version=1.2.0.1, Culture=neutral">
+      <HintPath>..\packages\AODL.1.2.0.1\lib\AODL.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.84.0.0, Culture=neutral, PublicKeyToken=1b03e6acf1164f73">
+      <HintPath>..\packages\AODL.1.2.0.1\lib\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -159,7 +165,9 @@
     </EmbeddedResource>
     <None Include="ILMergeConfig.json" />
     <None Include="Observatory License.rtf" />
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\Observatory.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Observatory.Designer.cs</LastGenOutput>

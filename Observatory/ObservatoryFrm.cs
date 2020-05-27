@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Net;
 using System.Net.Http;
 using System.Windows.Forms;
 using System.Speech.Synthesis;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using AODL.Document.SpreadsheetDocuments;
+using AODL.Document.Content.Text;
 
 namespace Observatory
 {
@@ -575,6 +576,89 @@ namespace Observatory
             Properties.Observatory.Default.WindowSize = Size;
             Properties.Observatory.Default.WindowLocation = Location;
             Properties.Observatory.Default.Save();
+        }
+
+        private void ExportToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ExportLinesToSpreadsheet(listEvent.SelectedItems.OfType<ListViewItem>());
+        }
+
+        private void ExportAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ExportLinesToSpreadsheet(listEvent.Items.OfType<ListViewItem>());
+        }
+
+        private void ExportLinesToSpreadsheet(IEnumerable<ListViewItem> items)
+        {
+            var document = new SpreadsheetDocument();
+            document.New();
+            var table = new AODL.Document.Content.Tables.Table(document, "Observatory", "tablefirst");
+            
+            foreach (ListViewItem item in items)
+            {
+                if (item.SubItems.Count == 5)
+                {
+                    var timeCell = table.CreateCell();
+                    timeCell.OfficeValueType = "string";
+                    var timeCellContent = new Paragraph(document);
+                    timeCellContent.TextContent.Add(new SimpleText(document, item.SubItems[2].Text));
+                    timeCell.Content.Add(timeCellContent);
+
+                    var bodyCell = table.CreateCell();
+                    bodyCell.OfficeValueType = "string";
+                    var bodyCellContent = new Paragraph(document);
+                    bodyCellContent.TextContent.Add(new SimpleText(document, item.SubItems[0].Text));
+                    bodyCell.Content.Add(bodyCellContent);
+
+                    var landCell = table.CreateCell();
+                    landCell.OfficeValueType = "string";
+                    var landCellContent = new Paragraph(document);
+                    landCellContent.TextContent.Add(new SimpleText(document, item.SubItems[4].Text.Length > 0 ? "Landable" : string.Empty));
+                    landCell.Content.Add(landCellContent);
+
+                    var infoCell = table.CreateCell();
+                    infoCell.OfficeValueType = "string";
+                    var infoCellContent = new Paragraph(document);
+                    infoCellContent.TextContent.Add(new SimpleText(document, item.SubItems[1].Text));
+                    infoCell.Content.Add(infoCellContent);
+
+                    var detailCell = table.CreateCell();
+                    detailCell.OfficeValueType = "string";
+                    var detailCellContent = new Paragraph(document);
+                    detailCellContent.TextContent.Add(new SimpleText(document, item.SubItems[3].Text));
+                    detailCell.Content.Add(detailCellContent);
+
+                    var row = new AODL.Document.Content.Tables.Row(table);
+                    row.CellCollection.Add(timeCell);
+                    row.CellCollection.Add(bodyCell);
+                    row.CellCollection.Add(landCell);
+                    row.CellCollection.Add(infoCell);
+                    row.CellCollection.Add(detailCell);
+
+                    table.RowCollection.Add(row);
+                }
+            }
+
+            if (table.RowCollection.Count > 0)
+            {
+                table.ColumnCollection[0].ColumnStyle.ColumnProperties.Width = "3.5cm";
+                table.ColumnCollection[1].ColumnStyle.ColumnProperties.Width = "6.0cm";
+                table.ColumnCollection[2].ColumnStyle.ColumnProperties.Width = "1.7cm";
+                table.ColumnCollection[3].ColumnStyle.ColumnProperties.Width = "6.5cm";
+                table.ColumnCollection[4].ColumnStyle.ColumnProperties.Width = "12.0cm";
+
+                document.TableCollection.Add(table);
+
+                var saveFile = new SaveFileDialog();
+                saveFile.Title = "Choose Export Location";
+                saveFile.Filter = "OpenDocument Spreadsheet (*.ods)|*.ods";
+                saveFile.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                
+                if (saveFile.ShowDialog() == DialogResult.OK)
+                {
+                    document.SaveTo(saveFile.FileName);
+                }
+            }
         }
     }
 }

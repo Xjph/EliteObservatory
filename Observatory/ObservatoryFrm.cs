@@ -593,42 +593,59 @@ namespace Observatory
             {
                 var saveFile = new SaveFileDialog();
                 saveFile.Title = "Choose Export Location";
-                saveFile.Filter = "OpenXML Spreadsheet (*.xlsx)|*.xlsx";
+                saveFile.Filter = "Office Open XML Spreadsheet (*.xlsx)|*.xlsx|Semicolon Delimited Text (*.csv)|*.csv";
                 saveFile.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
                 if (saveFile.ShowDialog() == DialogResult.OK)
                 {
-                    var exportSheet = new Workbook(saveFile.FileName, "Observatory Export");
-                    int exportRow = 0;
-
-                    foreach (ListViewItem item in items)
+                    if (saveFile.FilterIndex == 1)
                     {
-                        exportRow++;
-                        exportSheet.WS.Value(
-                            DateTime.Parse(item.SubItems[2].Text),
-                            new Style()
-                            {
-                                CurrentNumberFormat = new Style.NumberFormat()
+                        var exportSheet = new Workbook(saveFile.FileName, "Observatory Export");
+                        int exportRow = 0;
+
+                        foreach (ListViewItem item in items)
+                        {
+                            exportRow++;
+                            exportSheet.WS.Value(
+                                DateTime.Parse(item.SubItems[2].Text),
+                                new Style()
                                 {
-                                    Number = Style.NumberFormat.FormatNumber.custom,
-                                    CustomFormatID = 165,
-                                    CustomFormatCode = @"yyyy/mm/dd\ hh:mm:ss"
-                                }
-                            });
+                                    CurrentNumberFormat = new Style.NumberFormat()
+                                    {
+                                        Number = Style.NumberFormat.FormatNumber.custom,
+                                        CustomFormatID = 165,
+                                        CustomFormatCode = @"yyyy/mm/dd\ hh:mm:ss"
+                                    }
+                                });
 
-                        exportSheet.WS.Value(item.SubItems[0].Text);
-                        exportSheet.WS.Value(item.SubItems[4].Text.Length > 0 ? "Landable" : string.Empty);
-                        exportSheet.WS.Value(item.SubItems[1].Text);
-                        exportSheet.WS.Value(item.SubItems[3].Text);
-                        exportSheet.WS.Down();
+                            exportSheet.WS.Value(item.SubItems[0].Text);
+                            exportSheet.WS.Value(item.SubItems[4].Text.Length > 0 ? "Landable" : string.Empty);
+                            exportSheet.WS.Value(item.SubItems[1].Text);
+                            exportSheet.WS.Value(item.SubItems[3].Text);
+                            exportSheet.WS.Down();
+                        }
+
+                        exportSheet.Worksheets[0].Columns.Add(0, new Worksheet.Column() { Width = 20.0f });
+                        exportSheet.Worksheets[0].Columns.Add(1, new Worksheet.Column() { Width = 30.0f });
+                        exportSheet.Worksheets[0].Columns.Add(2, new Worksheet.Column() { Width = 10.0f });
+                        exportSheet.Worksheets[0].Columns.Add(3, new Worksheet.Column() { Width = 35.0f });
+                        exportSheet.Worksheets[0].Columns.Add(4, new Worksheet.Column() { Width = 60.0f });
+                        exportSheet.Save();
                     }
+                    else
+                    {
+                        StringBuilder csvBuilder = new StringBuilder();
 
-                    exportSheet.Worksheets[0].Columns.Add(0, new Worksheet.Column() { Width = 20.0f });
-                    exportSheet.Worksheets[0].Columns.Add(1, new Worksheet.Column() { Width = 30.0f });
-                    exportSheet.Worksheets[0].Columns.Add(2, new Worksheet.Column() { Width = 10.0f });
-                    exportSheet.Worksheets[0].Columns.Add(3, new Worksheet.Column() { Width = 35.0f });
-                    exportSheet.Worksheets[0].Columns.Add(4, new Worksheet.Column() { Width = 60.0f });
-                    exportSheet.Save();
+                        foreach (ListViewItem item in items)
+                        {
+                            csvBuilder.Append(item.SubItems[0].Text + ";");
+                            csvBuilder.Append((item.SubItems[4].Text.Length > 0 ? "Landable" : string.Empty) + ";");
+                            csvBuilder.Append(item.SubItems[1].Text + ";");
+                            csvBuilder.AppendLine(item.SubItems[3].Text);
+                        }
+
+                        System.IO.File.WriteAllText(saveFile.FileName, csvBuilder.ToString());
+                    }
                 }
             }
         }

@@ -638,6 +638,7 @@ namespace Observatory
 
                         foreach (ListViewItem item in items)
                         {
+                            csvBuilder.Append(item.SubItems[2].Text + ";");
                             csvBuilder.Append(item.SubItems[0].Text + ";");
                             csvBuilder.Append((item.SubItems[4].Text.Length > 0 ? "Landable" : string.Empty) + ";");
                             csvBuilder.Append(item.SubItems[1].Text + ";");

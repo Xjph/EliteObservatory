@@ -263,6 +263,9 @@ namespace Observatory
                 case "axialtilt":
                     detailText = $"Axial Tilt: {scan.AxialTilt.GetValueOrDefault(0) * 57.2958:N1}° ";
                     break;
+                case "startype":
+                    detailText = scan.StarType?.Length > 0 ? scan.GetStarTypeFullName() : string.Empty;
+                    break;
                 case "stellarmass":
                     detailText = $"Stellar Mass: {scan.StellarMass.GetValueOrDefault(0):N2}SM ";
                     break;
@@ -516,6 +519,9 @@ namespace Observatory
                     break;
                 case "axialtilt":
                     result = scan.AxialTilt;
+                    break;
+                case "startype":
+                    result = eventDetail == scan.StarType?.ToLower() ? 1 : 0;
                     break;
                 case "stellarmass":
                     result = scan.StellarMass;

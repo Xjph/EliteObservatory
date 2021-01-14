@@ -239,102 +239,11 @@ namespace Observatory
                 var excludeTypes = new List<string>() { "O", "B", "A", "F", "G", "K", "M", "L", "T", "Y", "TTS" };
                 if (!excludeTypes.Contains(scanEvent.StarType.ToUpper()))
                 {
-                    Interest.Add((scanEvent.BodyName, "Uncommon Secondary Star Type", $"{StarName(scanEvent.StarType)}, Distance: {scanEvent.DistanceFromArrivalLs:N0}Ls"));
+                    Interest.Add((scanEvent.BodyName, "Uncommon Secondary Star Type", $"{scanEvent.GetStarTypeFullName()}, Distance: {scanEvent.DistanceFromArrivalLs:N0}Ls"));
                 }
             }
 
             return Interest.Count > 0;
-        }
-
-        private string StarName(string starType)
-        {
-            string name;
-
-            switch (starType.ToLower())
-            {
-                case "b_bluewhitesupergiant":
-                    name = "B Blue-White Supergiant";
-                    break;
-                case "a_bluewhitesupergiant":
-                    name = "A Blue-White Supergiant";
-                    break;
-                case "f_whitesupergiant":
-                    name = "F White Supergiant";
-                    break;
-                case "g_whitesupergiant":
-                    name = "G White Supergiant";
-                    break;
-                case "k_orangegiant":
-                    name = "K Orange Giant";
-                    break;
-                case "m_redgiant":
-                    name = "M Red Giant";
-                    break;
-                case "m_redsupergiant":
-                    name = "M Red Supergiant";
-                    break;
-                case "aebe":
-                    name = "Herbig Ae/Be";
-                    break;
-                case "w":
-                case "wn":
-                case "wnc":
-                case "wc":
-                case "wo":
-                    name = "Wolf-Rayet";
-                    break;
-                case "c":
-                case "cs":
-                case "cn":
-                case "cj":
-                case "ch":
-                case "chd":
-                    name = "Carbon Star";
-                    break;
-                case "s":
-                    name = "S-Type Star";
-                    break;
-                case "ms":
-                    name = "MS-Type Star";
-                    break;
-                case "d":
-                case "da":
-                case "dab":
-                case "dao":
-                case "daz":
-                case "dav":
-                case "db":
-                case "dbz":
-                case "dbv":
-                case "do":
-                case "dov":
-                case "dq":
-                case "dc":
-                case "dcv":
-                case "dx":
-                    name = "White Dwarf";
-                    break;
-                case "n":
-                    name = "Neutron Star";
-                    break;
-                case "h":
-                    name = "Black Hole";
-                    break;
-                case "supermassiveblackhole":
-                    name = "Supermassive Black Hole";
-                    break;
-                case "x":
-                    name = "Exotic Star";
-                    break;
-                case "rogueplanet":
-                    name = "Rogue Planet";
-                    break;
-                default:
-                    name = "Unknown Star Type";
-                    break;
-            }
-
-            return name;
         }
 
         private bool CustomInterest()

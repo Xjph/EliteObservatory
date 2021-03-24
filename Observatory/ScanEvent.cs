@@ -237,8 +237,12 @@ namespace Observatory
                 case "rogueplanet":
                     name = "Rogue Planet";
                     break;
+                case "tts":
+                case "t":
+                    name = "T Tauri Type";
+                    break;
                 default:
-                    name = "Unknown Star Type";
+                    name = StarType + "-Type Star";
                     break;
             }
 

@@ -430,6 +430,12 @@ namespace Observatory
                 {
                     Rectangle formRectangle = new Rectangle(Properties.Observatory.Default.WindowLocation, Properties.Observatory.Default.WindowSize);
 
+                    //Shrink rectangle used for position check slightly to allow some wiggle room if positioned slightly off-screen
+                    formRectangle.X += 10;
+                    formRectangle.Y += 10;
+                    formRectangle.Height -= 20;
+                    formRectangle.Width -= 20;
+
                     if (screen.WorkingArea.Contains(formRectangle))
                     {
                         offScreen = false;

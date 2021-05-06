@@ -238,7 +238,16 @@ namespace Observatory
 
             if (logLine != null)
             {
-                JObject lastEvent = (JObject)JsonConvert.DeserializeObject(logLine, new JsonSerializerSettings() { DateParseHandling = DateParseHandling.None });
+                JObject lastEvent;
+                try
+                {
+                    lastEvent = (JObject)JsonConvert.DeserializeObject(logLine, new JsonSerializerSettings() { DateParseHandling = DateParseHandling.None });
+                }
+                catch
+                {
+                    //if we have invalid json, just skip it.
+                    return;
+                }
                 LastScanValid = false;
                 LastCodexValid = false;
                 //Journals prior to Elite Dangerous 2.3 "The Commanders" had differently formatted scan events which I can't be bothered to support.

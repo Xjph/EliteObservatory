@@ -10,7 +10,7 @@ namespace Observatory
         private readonly bool isRing;
         public List<(string BodyName, string Description, string Detail)> Interest { get; private set; }
         private readonly Properties.Observatory settings;
-        private LogMonitor logMonitor;
+        private readonly LogMonitor logMonitor;
 
         private readonly Materials PremiumBoostMaterials = 
             Materials.Carbon | Materials.Germanium | Materials.Arsenic | 
@@ -88,22 +88,22 @@ namespace Observatory
                 Interest.Add((scanEvent.BodyName, $"Landable and {scanEvent.TerraformState}", string.Empty));
             }
 
-            // Landable with atmosphere. Futureproofing!
+            // Landable with atmosphere. The future is now!
             if (settings.LandWithAtmo && scanEvent.Landable.GetValueOrDefault(false) && scanEvent.Atmosphere.Length > 0)
             {
-                Interest.Add((scanEvent.BodyName, "Landable with Atmosphere?!", string.Empty));
+                Interest.Add((scanEvent.BodyName, "Landable with Atmosphere", string.Empty));
             }
 
             // Landable high-g
             if (settings.LandHighG && scanEvent.Landable.GetValueOrDefault(false) && scanEvent.SurfaceGravity > 29.4)
             {
-                Interest.Add((scanEvent.BodyName, "Landable with High Gravity", $"Surface gravity: {((double)scanEvent.SurfaceGravity / 9.81).ToString("0.00")}g"));
+                Interest.Add((scanEvent.BodyName, "Landable with High Gravity", $"Surface gravity: {(double)scanEvent.SurfaceGravity / 9.81:0.00}g"));
             }
 
             // Landable large planet
             if (settings.LandLarge && scanEvent.Landable.GetValueOrDefault(false) && scanEvent.Radius > 18000000)
             {
-                Interest.Add((scanEvent.BodyName, "Landable Large Planet", $"Radius: {((double)scanEvent.Radius / 1000).ToString("0")}km"));
+                Interest.Add((scanEvent.BodyName, "Landable Large Planet", $"Radius: {(double)scanEvent.Radius / 1000:0}km"));
             }
 
             // Rings wider than 5x body radius
@@ -145,7 +145,7 @@ namespace Observatory
                         double separation = Math.Min(Math.Abs(scanEvent.SemiMajorAxis.GetValueOrDefault(0) - ring.OuterRad.GetValueOrDefault(0)), Math.Abs(ring.InnerRad.GetValueOrDefault(0) - scanEvent.SemiMajorAxis.GetValueOrDefault(0)));
                         if (separation < scanEvent.Radius * 10)
                         {
-                            Interest.Add((scanEvent.BodyName, "Close ring proximity", $"Orbit: {Math.Truncate((double)scanEvent.SemiMajorAxis / 1000):N0}km, Radius: {((double)scanEvent.Radius / 1000).ToString("0")}km, Distance from ring: {separation / 1000:N0}km"));
+                            Interest.Add((scanEvent.BodyName, "Close ring proximity", $"Orbit: {Math.Truncate((double)scanEvent.SemiMajorAxis / 1000):N0}km, Radius: {(double)scanEvent.Radius / 1000:0}km, Distance from ring: {separation / 1000:N0}km"));
                         }
                     }
                 }
@@ -242,6 +242,8 @@ namespace Observatory
                     Interest.Add((scanEvent.BodyName, "Uncommon Secondary Star Type", $"{scanEvent.GetStarTypeFullName()}, Distance: {scanEvent.DistanceFromArrivalLs:N0}Ls"));
                 }
             }
+
+
 
             return Interest.Count > 0;
         }

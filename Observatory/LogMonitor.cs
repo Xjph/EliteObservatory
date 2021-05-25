@@ -215,7 +215,7 @@ namespace Observatory
                                 checkLine.Contains("\"event\":\"Location\"") ||
                                 checkLine.Contains("\"event\":\"FSDJump\"") ||
                                 checkLine.Contains("\"event\":\"CodexEntry\"") ||
-                                checkLine.Contains("\"evnet\":\"ScanOrganic\"") ||
+                                checkLine.Contains("\"event\":\"ScanOrganic\"") ||
                                 checkLine.Contains("\"event\":\"SupercruiseExit\""))
                             {
                                 CurrentLogLine = checkLine;

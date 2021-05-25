@@ -160,7 +160,7 @@ namespace Observatory
             }
             else if (logMonitor.LastCodexValid)
             {
-                CodexReader.ProcessCodex(logMonitor.LastCodex);
+                IGAUReader.ProcessCodex(logMonitor.LastCodex);
 
                 if (Properties.Observatory.Default.IncludeCodex)
                 {
@@ -179,6 +179,10 @@ namespace Observatory
                         listEvent.EndUpdate();
                     });
                 }
+            }
+            else if (logMonitor.LastOrganicValid)
+            {
+                IGAUReader.ProcessOrganic(logMonitor.LastOrganic);
             }
         }
 

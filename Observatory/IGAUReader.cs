@@ -8,8 +8,7 @@ using System.Windows.Forms;
 
 namespace Observatory
 {
-    static class CodexReader
-
+    static class IGAUReader
     {
         public static void ProcessCodex(CodexEntry codexEntry)
         {
@@ -29,6 +28,39 @@ namespace Observatory
                         Name_Localised = codexEntry.NameLocalised,
                         codexEntry.System,
                         SystemAddress = codexEntry.SystemAddress.ToString(),
+                        App_Name = "Elite_Observatory",
+                        App_Version = Application.ProductVersion
+                    });
+
+                var request = new HttpRequestMessage
+                {
+                    Method = HttpMethod.Post,
+                    RequestUri = new Uri($"https://ddss70885k.execute-api.us-west-1.amazonaws.com/Prod"),
+                    Content = new StringContent(POST_content.ToString(Formatting.None))
+                };
+
+                QueueRequest(request);
+
+            }
+        }
+
+        public static void ProcessOrganic(ScanOrganicEvent scanOrganicEvent)
+        {
+            if (Properties.Observatory.Default.SendToIGAU)
+            {
+                JObject POST_content = JObject.FromObject(
+                    new
+                    {
+                        timestamp = scanOrganicEvent.Timestamp.ToString("yyyy-MM-ddTHH:mm:ssZ"),
+                        EntryID = "-",
+                        Name = scanOrganicEvent.Species
+                            .Replace("$", string.Empty)
+                            .Replace(";", string.Empty)
+                            .Replace("_Name", string.Empty)
+                            .ToLower(),
+                        Name_Localised = scanOrganicEvent.Species_Localised,
+                        System = scanOrganicEvent.CurrentSystem,
+                        SystemAddress = scanOrganicEvent.SystemAddress.ToString(),
                         App_Name = "Elite_Observatory",
                         App_Version = Application.ProductVersion
                     });

@@ -22,10 +22,12 @@ namespace Observatory
         private string LogDirectory;
         public bool LastScanValid { get; private set; }
         public bool LastCodexValid { get; private set; }
+        public bool LastOrganicValid { get; private set; }
         public bool ReadAllInProgress { get; private set; }
         public bool ReadAllComplete { get; private set; }
         public ScanEvent LastScan { get; private set; }
         public CodexEntry LastCodex { get; private set; }
+        public ScanOrganicEvent LastOrganic { get; private set; }
         public Dictionary<(string System, long Body), ScanEvent> SystemBody { get; private set; }
         public UserInterest UserInterest { get; private set; }
         private JournalPoker Poker;
@@ -115,6 +117,7 @@ namespace Observatory
                                 CurrentLogLine.Contains("\"event\":\"Location\"") ||
                                 CurrentLogLine.Contains("\"event\":\"FSDJump\"") ||
                                 CurrentLogLine.Contains("\"event\":\"CodexEntry\"") ||
+                                CurrentLogLine.Contains("\"event\":\"ScanOrganic\"") ||
                                 CurrentLogLine.Contains("\"event\":\"SupercruiseExit\""))
                             {
                                 ProcessLine(CurrentLogLine);
@@ -212,6 +215,7 @@ namespace Observatory
                                 checkLine.Contains("\"event\":\"Location\"") ||
                                 checkLine.Contains("\"event\":\"FSDJump\"") ||
                                 checkLine.Contains("\"event\":\"CodexEntry\"") ||
+                                checkLine.Contains("\"evnet\":\"ScanOrganic\"") ||
                                 checkLine.Contains("\"event\":\"SupercruiseExit\""))
                             {
                                 CurrentLogLine = checkLine;
@@ -250,6 +254,7 @@ namespace Observatory
                 }
                 LastScanValid = false;
                 LastCodexValid = false;
+                LastOrganicValid = false;
                 //Journals prior to Elite Dangerous 2.3 "The Commanders" had differently formatted scan events which I can't be bothered to support.
                 if (DateTime.TryParseExact(lastEvent["timestamp"].ToString(), "yyyy-MM-ddTHH:mm:ssZ", null, System.Globalization.DateTimeStyles.RoundtripKind, out DateTime eventTime))
                 {
@@ -287,6 +292,14 @@ namespace Observatory
                                     LastCodex.Body = currentBody;
                                     LocaliseLastCodex();
                                     LastCodexValid = true;
+                                }
+                                break;
+                            case "ScanOrganic":
+                                if (LastOrganic?.Timestamp != lastEvent.ToObject<ScanOrganicEvent>().Timestamp)
+                                {
+                                    LastOrganic = lastEvent.ToObject<ScanOrganicEvent>();
+                                    LastOrganic.CurrentSystem = currentSystem;
+                                    LastOrganicValid = true;
                                 }
                                 break;
                             case "SupercruiseExit":

@@ -295,7 +295,7 @@ namespace Observatory
         public string RingClass { get; set; }
 
         [JsonProperty("MassMT", NullValueHandling = NullValueHandling.Ignore)]
-        public long? MassMT { get; set; }
+        public ulong? MassMT { get; set; }
 
         [JsonProperty("InnerRad", NullValueHandling = NullValueHandling.Ignore)]
         public long? InnerRad { get; set; }

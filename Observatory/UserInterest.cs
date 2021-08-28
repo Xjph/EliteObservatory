@@ -776,7 +776,7 @@ namespace Observatory
 		are scanned first.
 
         AtmosphereType returns 1 if the type scanned matches the type provided, otherwise
-	    returns 0, e.g., ""AtmosphereType: CarbonDioxide"".
+	    returns 0, e.g., ""AtmosphereType:CarbonDioxide"".
 
 
         AtmosphereComposition gets the percentage amount of the specified element, e.g.,

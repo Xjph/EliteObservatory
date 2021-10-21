@@ -78,6 +78,7 @@ namespace Observatory
             btnEDOBodyColor.BackColor = System.Drawing.ColorTranslator.FromHtml(settings.EDOBodyColor);
             cdlgEDOBody.Color = btnEDOBodyColor.BackColor;
             cbxEDODebug.Checked = settings.EDODebug;
+            cbxCore.Checked = settings.CoreLink;
             Loading = false;
             BulkChangeInProgress = false;
         }
@@ -322,9 +323,9 @@ namespace Observatory
             lblEDONotificationPosY.Visible = showEDO;
             lblEDOTimeout.Visible = showEDO;
 
-            groupBox_edoverlay.Top = 504 + (show ? 1 : 0) * 50;
+            groupBox_edoverlay.Top = 534 + (show ? 1 : 0) * 50;
             groupBox_edoverlay.Height = 45 + (showEDO ? 1 : 0) * 55;
-            Height = 545 + (show ? 1 : 0) * 50 + 50*(toastEnabled ? 1: 0) + (showEDO ? 1 : 0) * 55;
+            Height = 575 + (show ? 1 : 0) * 50 + 50*(toastEnabled ? 1: 0) + (showEDO ? 1 : 0) * 55;
         }
 
         private void TxtTelegramAPIKey_TextChanged(object sender, EventArgs e)
@@ -507,6 +508,12 @@ namespace Observatory
         private void cbxEDODebug_CheckedChanged(object sender, EventArgs e)
         {
             settings.EDODebug = ((CheckBox)sender).Checked;
+            Save();
+        }
+
+        private void cbxCore_CheckedChanged(object sender, EventArgs e)
+        {
+            settings.CoreLink = ((CheckBox)sender).Checked;
             Save();
         }
     }

@@ -31,6 +31,7 @@ namespace Observatory
         public Dictionary<(string System, long Body), ScanEvent> SystemBody { get; private set; }
         public UserInterest UserInterest { get; private set; }
         private JournalPoker Poker;
+        private KeyValuePair<(long, long), string> LastBarycentre;
 
         public string CurrentSystem
         {
@@ -118,7 +119,8 @@ namespace Observatory
                                 CurrentLogLine.Contains("\"event\":\"FSDJump\"") ||
                                 CurrentLogLine.Contains("\"event\":\"CodexEntry\"") ||
                                 CurrentLogLine.Contains("\"event\":\"ScanOrganic\"") ||
-                                CurrentLogLine.Contains("\"event\":\"SupercruiseExit\""))
+                                CurrentLogLine.Contains("\"event\":\"SupercruiseExit\"") ||
+                                CurrentLogLine.Contains("\"event\":\"ScanBaryCentre\""))
                             {
                                 ProcessLine(CurrentLogLine);
                             }
@@ -216,7 +218,8 @@ namespace Observatory
                                 checkLine.Contains("\"event\":\"FSDJump\"") ||
                                 checkLine.Contains("\"event\":\"CodexEntry\"") ||
                                 checkLine.Contains("\"event\":\"ScanOrganic\"") ||
-                                checkLine.Contains("\"event\":\"SupercruiseExit\""))
+                                checkLine.Contains("\"event\":\"SupercruiseExit\"") ||
+                                checkLine.Contains("\"event\":\"ScanBaryCentre\""))
                             {
                                 CurrentLogLine = checkLine;
                             }
@@ -265,6 +268,24 @@ namespace Observatory
                             case "Scan":
                                 if (!lastEvent["BodyName"].ToString().Contains("Belt Cluster"))
                                 {
+                                    if (lastEvent.ContainsKey("SystemAddress") && lastEvent.ContainsKey("Parents"))
+                                    {
+                                        long sys = lastEvent["SystemAddress"].Value<long>();
+                                        long bod = (long)((JValue)((JProperty)lastEvent["Parents"][0].First).Value).Value;
+                                        if (LastBarycentre.Key == (sys, bod))
+                                        {
+                                            
+                                            var baryScan = (JObject)JsonConvert.DeserializeObject(LastBarycentre.Value.Replace("ScanBaryCentre", "Scan"), new JsonSerializerSettings() { DateParseHandling = DateParseHandling.None });
+                                            var parents = lastEvent["Parents"].DeepClone();
+                                            parents[0].Remove();
+                                            baryScan.Add("Parents", parents);
+                                            baryScan.Add("PlanetClass", new JValue("BaryCentre"));
+                                            baryScan.Add("BodyName", new JValue(lastEvent["BodyName"].ToString() + " Barycentre"));
+                                            ProcessLine(baryScan.ToString(Formatting.None));
+                                        }
+                                        
+                                    }
+
                                     LastScan = lastEvent.ToObject<ScanEvent>();
                                     LastScan.JournalEntry = logLine;
                                     if (!SystemBody.ContainsKey((CurrentSystem, LastScan.BodyId)))
@@ -273,6 +294,9 @@ namespace Observatory
                                         LastScanValid = true;
                                     }
                                 }
+                                break;
+                            case "ScanBaryCentre":
+                                LastBarycentre = new KeyValuePair<(long, long), string>((lastEvent["SystemAddress"].Value<long>(), lastEvent["BodyID"].Value<int>()), logLine);
                                 break;
                             case "FSDJump":
                             case "Location":

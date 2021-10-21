@@ -12,7 +12,7 @@ namespace Observatory.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.9.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.8.1.0")]
     internal sealed partial class Observatory : global::System.Configuration.ApplicationSettingsBase {
         
         private static Observatory defaultInstance = ((Observatory)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Observatory())));
@@ -608,6 +608,18 @@ namespace Observatory.Properties {
             }
             set {
                 this["EDODebug"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool CoreLink {
+            get {
+                return ((bool)(this["CoreLink"]));
+            }
+            set {
+                this["CoreLink"] = value;
             }
         }
     }

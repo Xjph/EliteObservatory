@@ -96,6 +96,7 @@
             this.cbxEDOverlay = new System.Windows.Forms.CheckBox();
             this.cdlgEDOHeader = new System.Windows.Forms.ColorDialog();
             this.cdlgEDOBody = new System.Windows.Forms.ColorDialog();
+            this.cbxCore = new System.Windows.Forms.CheckBox();
             this.groupBox_Interest.SuspendLayout();
             this.groupBox_misc.SuspendLayout();
             this.groupBox_TTS.SuspendLayout();
@@ -416,6 +417,7 @@
             // 
             // groupBox_misc
             // 
+            this.groupBox_misc.Controls.Add(this.cbxCore);
             this.groupBox_misc.Controls.Add(this.cbxAutoClear);
             this.groupBox_misc.Controls.Add(this.btnEditCustom);
             this.groupBox_misc.Controls.Add(this.cbxCapi);
@@ -430,7 +432,7 @@
             this.groupBox_misc.Controls.Add(this.cbxToast);
             this.groupBox_misc.Location = new System.Drawing.Point(13, 324);
             this.groupBox_misc.Name = "groupBox_misc";
-            this.groupBox_misc.Size = new System.Drawing.Size(404, 123);
+            this.groupBox_misc.Size = new System.Drawing.Size(404, 138);
             this.groupBox_misc.TabIndex = 1;
             this.groupBox_misc.TabStop = false;
             this.groupBox_misc.Text = "Misc.";
@@ -606,7 +608,7 @@
             // linkGit
             // 
             this.linkGit.AutoSize = true;
-            this.linkGit.Location = new System.Drawing.Point(381, 453);
+            this.linkGit.Location = new System.Drawing.Point(381, 478);
             this.linkGit.Name = "linkGit";
             this.linkGit.Size = new System.Drawing.Size(36, 13);
             this.linkGit.TabIndex = 3;
@@ -623,7 +625,7 @@
             this.groupBox_telegram.Controls.Add(this.txtTelegramAPIKey);
             this.groupBox_telegram.Controls.Add(this.lblTelegramBot);
             this.groupBox_telegram.Controls.Add(this.cbxTelegram);
-            this.groupBox_telegram.Location = new System.Drawing.Point(14, 453);
+            this.groupBox_telegram.Location = new System.Drawing.Point(14, 469);
             this.groupBox_telegram.Name = "groupBox_telegram";
             this.groupBox_telegram.Size = new System.Drawing.Size(329, 95);
             this.groupBox_telegram.TabIndex = 4;
@@ -688,7 +690,7 @@
             // linkDonate
             // 
             this.linkDonate.AutoSize = true;
-            this.linkDonate.Location = new System.Drawing.Point(375, 476);
+            this.linkDonate.Location = new System.Drawing.Point(375, 502);
             this.linkDonate.Name = "linkDonate";
             this.linkDonate.Size = new System.Drawing.Size(42, 13);
             this.linkDonate.TabIndex = 5;
@@ -710,7 +712,7 @@
             this.groupBox_edoverlay.Controls.Add(this.lblEDONotificationPosY);
             this.groupBox_edoverlay.Controls.Add(this.lblEDONotificationPosX);
             this.groupBox_edoverlay.Controls.Add(this.cbxEDOverlay);
-            this.groupBox_edoverlay.Location = new System.Drawing.Point(14, 554);
+            this.groupBox_edoverlay.Location = new System.Drawing.Point(14, 570);
             this.groupBox_edoverlay.Name = "groupBox_edoverlay";
             this.groupBox_edoverlay.Size = new System.Drawing.Size(330, 100);
             this.groupBox_edoverlay.TabIndex = 6;
@@ -844,11 +846,22 @@
             // 
             this.cdlgEDOBody.FullOpen = true;
             // 
+            // cbxCore
+            // 
+            this.cbxCore.AutoSize = true;
+            this.cbxCore.Location = new System.Drawing.Point(6, 116);
+            this.cbxCore.Name = "cbxCore";
+            this.cbxCore.Size = new System.Drawing.Size(262, 17);
+            this.cbxCore.TabIndex = 25;
+            this.cbxCore.Text = "Show Observatory Core hyperlink on main window";
+            this.cbxCore.UseVisualStyleBackColor = true;
+            this.cbxCore.CheckedChanged += new System.EventHandler(this.cbxCore_CheckedChanged);
+            // 
             // SettingsFrm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(429, 661);
+            this.ClientSize = new System.Drawing.Size(429, 682);
             this.Controls.Add(this.groupBox_edoverlay);
             this.Controls.Add(this.linkDonate);
             this.Controls.Add(this.groupBox_telegram);
@@ -951,5 +964,6 @@
         private System.Windows.Forms.Button btnEDOBodyColor;
         private System.Windows.Forms.ColorDialog cdlgEDOBody;
         private System.Windows.Forms.CheckBox cbxEDODebug;
+        private System.Windows.Forms.CheckBox cbxCore;
     }
 }

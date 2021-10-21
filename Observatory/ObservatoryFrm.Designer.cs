@@ -45,12 +45,13 @@
             this.copyAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyJournalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.markAsInterestingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.btnSettings = new System.Windows.Forms.Button();
             this.linkUpdate = new System.Windows.Forms.LinkLabel();
             this.btnClear = new System.Windows.Forms.Button();
             this.lblStatus = new System.Windows.Forms.Label();
-            this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exportAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.linkCore = new System.Windows.Forms.LinkLabel();
             this.contextCopy.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -152,26 +153,26 @@
             this.exportToolStripMenuItem,
             this.exportAllToolStripMenuItem});
             this.contextCopy.Name = "contextCopy";
-            this.contextCopy.Size = new System.Drawing.Size(181, 158);
+            this.contextCopy.Size = new System.Drawing.Size(175, 136);
             // 
             // copyNameToolStripMenuItem
             // 
             this.copyNameToolStripMenuItem.Name = "copyNameToolStripMenuItem";
-            this.copyNameToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.copyNameToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
             this.copyNameToolStripMenuItem.Text = "Copy Name";
             this.copyNameToolStripMenuItem.Click += new System.EventHandler(this.CopyNameToolStripMenuItem_Click);
             // 
             // copyAllToolStripMenuItem
             // 
             this.copyAllToolStripMenuItem.Name = "copyAllToolStripMenuItem";
-            this.copyAllToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.copyAllToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
             this.copyAllToolStripMenuItem.Text = "Copy All";
             this.copyAllToolStripMenuItem.Click += new System.EventHandler(this.CopyAllToolStripMenuItem_Click);
             // 
             // copyJournalToolStripMenuItem
             // 
             this.copyJournalToolStripMenuItem.Name = "copyJournalToolStripMenuItem";
-            this.copyJournalToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.copyJournalToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
             this.copyJournalToolStripMenuItem.Text = "Copy Journal";
             this.copyJournalToolStripMenuItem.Click += new System.EventHandler(this.CopyJournalToolStripMenuItem_Click);
             // 
@@ -179,9 +180,23 @@
             // 
             this.markAsInterestingToolStripMenuItem.Enabled = false;
             this.markAsInterestingToolStripMenuItem.Name = "markAsInterestingToolStripMenuItem";
-            this.markAsInterestingToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.markAsInterestingToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
             this.markAsInterestingToolStripMenuItem.Text = "Mark as Interesting";
             this.markAsInterestingToolStripMenuItem.Click += new System.EventHandler(this.MarkAsInterestingToolStripMenuItem_Click);
+            // 
+            // exportToolStripMenuItem
+            // 
+            this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
+            this.exportToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
+            this.exportToolStripMenuItem.Text = "Export Selection";
+            this.exportToolStripMenuItem.Click += new System.EventHandler(this.ExportToolStripMenuItem_Click);
+            // 
+            // exportAllToolStripMenuItem
+            // 
+            this.exportAllToolStripMenuItem.Name = "exportAllToolStripMenuItem";
+            this.exportAllToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
+            this.exportAllToolStripMenuItem.Text = "Export All";
+            this.exportAllToolStripMenuItem.Click += new System.EventHandler(this.ExportAllToolStripMenuItem_Click);
             // 
             // btnSettings
             // 
@@ -234,19 +249,18 @@
             this.lblStatus.TextAlign = System.Drawing.ContentAlignment.TopRight;
             this.lblStatus.Visible = false;
             // 
-            // exportToolStripMenuItem
+            // linkCore
             // 
-            this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
-            this.exportToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.exportToolStripMenuItem.Text = "Export Selection";
-            this.exportToolStripMenuItem.Click += new System.EventHandler(this.ExportToolStripMenuItem_Click);
-            // 
-            // exportAllToolStripMenuItem
-            // 
-            this.exportAllToolStripMenuItem.Name = "exportAllToolStripMenuItem";
-            this.exportAllToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.exportAllToolStripMenuItem.Text = "Export All";
-            this.exportAllToolStripMenuItem.Click += new System.EventHandler(this.ExportAllToolStripMenuItem_Click);
+            this.linkCore.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.linkCore.AutoSize = true;
+            this.linkCore.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.linkCore.Location = new System.Drawing.Point(12, 501);
+            this.linkCore.Name = "linkCore";
+            this.linkCore.Size = new System.Drawing.Size(145, 13);
+            this.linkCore.TabIndex = 12;
+            this.linkCore.TabStop = true;
+            this.linkCore.Text = "Observatory Core Available";
+            this.linkCore.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkCore_LinkClicked);
             // 
             // ObservatoryFrm
             // 
@@ -254,6 +268,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(710, 530);
             this.Controls.Add(this.progressReadAll);
+            this.Controls.Add(this.linkCore);
             this.Controls.Add(this.lblStatus);
             this.Controls.Add(this.btnClear);
             this.Controls.Add(this.linkUpdate);
@@ -296,6 +311,7 @@
         private System.Windows.Forms.ToolStripMenuItem markAsInterestingToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exportAllToolStripMenuItem;
+        private System.Windows.Forms.LinkLabel linkCore;
     }
 }
 

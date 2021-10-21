@@ -31,7 +31,16 @@ namespace Observatory
             Text = $"{Text} - v{Application.ProductVersion}";
             logMonitor = new LogMonitor();
             logMonitor.LogEntry += LogEvent;
-            Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
+
+            try
+            {
+                Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
+            }
+            catch
+            {
+                Icon = SystemIcons.Application;
+            }
+
             columnSorter = new ListViewColumnSorter();
             listEvent.ListViewItemSorter = columnSorter;
             capiState = Properties.Observatory.Default.UseCapi ? CapiState.Enabled : CapiState.Disabled;
@@ -66,6 +75,7 @@ namespace Observatory
                         {
                             linkUpdate.Enabled = true;
                             linkUpdate.Visible = true;
+                            linkCore.Location = new Point(linkCore.Location.X + linkUpdate.Width, linkCore.Location.Y);
                             break;
                         }
                     }
@@ -424,6 +434,11 @@ namespace Observatory
             System.Diagnostics.Process.Start("https://github.com/Xjph/EliteObservatory/releases");
         }
 
+        private void LinkCore_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://github.com/Xjph/ObservatoryCore/releases");
+        }
+
         private void ObservatoryFrm_Load(object sender, EventArgs e)
         {
             if (Properties.Observatory.Default.WindowSize.Height != 0)
@@ -452,6 +467,8 @@ namespace Observatory
                     Size = Properties.Observatory.Default.WindowSize;
                 }
             }
+
+            linkCore.Visible = Properties.Observatory.Default.CoreLink;
         }
 
         private void ObservatoryFrm_FormClosing(object sender, FormClosingEventArgs e)

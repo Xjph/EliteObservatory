@@ -178,7 +178,7 @@ namespace Observatory
             }
 
             // Tiny object
-            if (settings.TinyObject && scanEvent.StarType == null && scanEvent.Radius < 300000 && !isRing)
+            if (settings.TinyObject && scanEvent.StarType == null && scanEvent.Radius < 300000 && !isRing && scanEvent.PlanetClass != "BaryCentre")
             {
                 Interest.Add((scanEvent.BodyName, "Small Body", $"Radius: {Math.Truncate((double)scanEvent.Radius / 1000)}km"));
             }

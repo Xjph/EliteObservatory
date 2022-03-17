@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using System.Linq;
 using System.IO;
 
 namespace Observatory
@@ -29,13 +30,7 @@ namespace Observatory
                     FileStream stream;
                     FileInfo fileToPoke = null;
 
-                    foreach (var file in directoryInfo.GetFiles("Journal.????????????.??.log"))
-                    {
-                        if (fileToPoke == null || string.Compare(file.Name, fileToPoke.Name) > 0)
-                        {
-                            fileToPoke = file;
-                        }
-                    }
+                    fileToPoke = directoryInfo.GetFiles("Journal.*.??.log").OrderBy(f => f.LastWriteTime).Last();
 
                     stream = fileToPoke.Open(FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
                     stream.Close();

@@ -57,7 +57,7 @@ namespace Observatory
             Properties.Observatory.Default.JournalPath = LogDirectory;
             Properties.Observatory.Default.Save();
 
-            logWatcher = new FileSystemWatcher(LogDirectory, "Journal.????????????.??.log")
+            logWatcher = new FileSystemWatcher(LogDirectory, "Journal.*.??.log")
             {
                 NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.Size | NotifyFilters.FileName
             };
@@ -101,7 +101,7 @@ namespace Observatory
             progressBar.Visible = true;
             SystemBody.Clear();
             DirectoryInfo logDir = new DirectoryInfo(CheckLogPath());
-            FileInfo[] allJournals = logDir.GetFiles("Journal.????????????.??.log");
+            var allJournals = logDir.GetFiles("Journal.*.??.log").OrderBy(f => f.LastWriteTime);
             int progress = 0;
             try
             {
@@ -151,7 +151,7 @@ namespace Observatory
         private string CheckLogPath()
         {
             LogDirectory = string.IsNullOrEmpty(LogDirectory) ? GetSavedGamesPath() + "\\Frontier Developments\\Elite Dangerous" : LogDirectory;
-            if (!Directory.Exists(LogDirectory) || new DirectoryInfo(LogDirectory).GetFiles("Journal.????????????.??.log").Count() == 0)
+            if (!Directory.Exists(LogDirectory) || new DirectoryInfo(LogDirectory).GetFiles("Journal.*.??.log").Count() == 0)
             {
 
                 //var useCapi = MessageBox.Show("Journal Folder not found or empty, use Frontier Companion API?\r\n\r\nConsole players should choose 'Yes', PC users should choose 'No' unless you're very sure you need to pull of copy of your recent journals from Frontier's servers.", "Journal Files Not Found", MessageBoxButtons.YesNo);
@@ -352,7 +352,7 @@ namespace Observatory
         {
             FileInfo fileToRead = null;
 
-            foreach (var file in new DirectoryInfo(LogDirectory).GetFiles("Journal.????????????.??.log"))
+            foreach (var file in new DirectoryInfo(LogDirectory).GetFiles("Journal.*.??.log").OrderBy(f => f.LastWriteTime))
             {
                 if (fileToRead == null || string.Compare(file.Name, fileToRead.Name) > 0)
                 {

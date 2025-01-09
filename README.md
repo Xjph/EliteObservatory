@@ -1,3 +1,7 @@
+> # Deprecation Notice
+> This version of Elite Observatory is ***deprecated*** and no longer supported.
+> For information about the latest version please go to the [Observatory documentation site](https://observatory.xjph.net/), or the [Observatory Core repo](https://github.com/Xjph/ObservatoryCore).
+ 
 # Elite Observatory
 Tool for reading/monitoring Elite Dangerous journals for interesting objects.
 
@@ -17,8 +21,8 @@ This is now documented in the sample criteria file that is created when custom c
 ## Prerequisites for building
 C# 7.0, Newtonsoft.Json, System.ValueTuple
 
-An application specific client ID and shared key from Frontier Developments is required for cAPI functionality, you can obtain one from the "Developer Zone" in the Frontier user portal.  
-A successful build requires ClientID and ClientSecret values stored in a resource file named OAuthIDs.resx, it may be necessary to create this file yourself to build.  
+An application specific client ID and shared key from Frontier Developments is required for cAPI functionality, you can obtain one from the "Developer Zone" in the Frontier user portal.
+A successful build requires ClientID and ClientSecret values stored in a resource file named OAuthIDs.resx, it may be necessary to create this file yourself to build.
 If you're not interested in cAPI functionality they can be arbitrary strings instead of your actual client ID and shared key from Frontier.
 
 Optional: ILMerge
